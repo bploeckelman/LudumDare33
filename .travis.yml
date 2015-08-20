@@ -1,0 +1,16 @@
+language: java
+jdk: oraclejdk7
+notifications:
+  email: false
+install:
+- "./travis/install-prerequisites.sh"
+script:
+- "./travis/build.sh"
+#after_success:
+#- "./travis/deploy.sh"
+cache:
+  directories:
+  - $HOME/.gradle
+  - travis/android-sdk-linux
+before_cache:
+  - rm -f $HOME/.gradle/daemon/**/registry.bin.lock
