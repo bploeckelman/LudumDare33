@@ -17,7 +17,7 @@ public class PlayerGoomba extends EntityBase {
     @Override
     public void update(float dt){
         super.update(dt);
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && grounded) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && grounded) {
             velocity.y += jumpVelocity;
             state = State.Jumping;
             grounded = false;

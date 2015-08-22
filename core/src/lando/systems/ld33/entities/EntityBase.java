@@ -19,9 +19,9 @@ public class EntityBase {
     protected boolean grounded;
     protected State state;
     protected float maxVelocity = 10;
-    protected float jumpVelocity = 40;
-    protected float damping = .87f;
-    protected float gravity = -2.5f;
+    protected float jumpVelocity = 35;
+    protected float damping = .8f;
+    protected float gravity = -2f;
     protected World world;
     protected Array<Rectangle> tiles;
 

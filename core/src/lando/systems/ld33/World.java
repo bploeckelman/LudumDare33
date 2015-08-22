@@ -63,7 +63,13 @@ public class World {
         for (EntityBase entity: gameEntities){
             entity.update(dt);
         }
-        camera.position.x = Math.min(cameraRightEdge, Math.max(cameraLeftEdge, player.getBounds().x));
+
+        float playerX = player.getBounds().x;
+        if (playerX < camera.position.x - 3) camera.position.x = playerX + 3;
+        if (playerX > camera.position.x + 2) camera.position.x = playerX - 2;
+
+        // keep the map in view always
+        camera.position.x = Math.min(cameraRightEdge, Math.max(cameraLeftEdge, camera.position.x));
         camera.update();
     }
 
