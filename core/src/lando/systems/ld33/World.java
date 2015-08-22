@@ -29,7 +29,8 @@ public class World {
     public enum Phase {
         First
     }
-
+    TiledMapTileLayer          foregroundLayer;
+    TiledMapTileLayer           backgroundLayer;
     TiledMap                   mapLevel1;
     OrthogonalTiledMapRenderer mapRenderer;
     Array<Rectangle>            tileRects;
@@ -42,28 +43,29 @@ public class World {
     public float                gameWidth;
     Phase                       phase;
 
-    public World(OrthographicCamera cam, Phase p){
+    public World(OrthographicCamera cam, Phase p, SpriteBatch batch){
         phase = p;
         gameEntities = new ArrayList<EntityBase>();
         camera = cam;
 
-        final TmxMapLoader mapLoader = new TmxMapLoader();
 
-        //TODO pass this in?
-//        testMap = mapLoader.load("maps/mario-test.tmx");
-        mapLevel1 = mapLoader.load("maps/level1.tmx");
+        initPhase();
+
+
 //        mapRenderer = new OrthogonalTiledMapRenderer(testMap, MAP_UNIT_SCALE);
-        mapRenderer = new OrthogonalTiledMapRenderer(mapLevel1, MAP_UNIT_SCALE);
+        mapRenderer = new OrthogonalTiledMapRenderer(mapLevel1, MAP_UNIT_SCALE, batch);
 
-        TiledMapTileLayer mapLayer = (TiledMapTileLayer) mapLevel1.getLayers().get("foreground");
-        gameWidth = mapLayer.getWidth();
+        foregroundLayer = (TiledMapTileLayer) mapLevel1.getLayers().get("foreground");
+        backgroundLayer = (TiledMapTileLayer) mapLevel1.getLayers().get("background");
+
+        gameWidth = backgroundLayer.getWidth();
         cameraLeftEdge = SCREEN_TILES_WIDE / 2;
         cameraRightEdge = gameWidth - cameraLeftEdge;
 
         tileRects = new Array<Rectangle>();
         rectPool = Pools.get(Rectangle.class);
 
-        initPhase();
+
 
         ItemEntity item = new ItemEntity(this, new Vector2(27, 10));
 
@@ -73,8 +75,12 @@ public class World {
     }
 
     private void initPhase(){
+        final TmxMapLoader mapLoader = new TmxMapLoader();
+
         switch (phase){
             case First:
+                mapLevel1 = mapLoader.load("maps/level1.tmx");
+
                 player = new PlayerGoomba(this, new Vector2(33.5f,4));
                 player.canRight = false;
                 player.canJump = false;
@@ -115,14 +121,20 @@ public class World {
     public void render(SpriteBatch batch){
 
         mapRenderer.setView(camera);
-        mapRenderer.render();
 
         batch.begin();
         batch.setProjectionMatrix(camera.combined);
+
+        mapRenderer.renderTileLayer(backgroundLayer);
+
         for (EntityBase entity : gameEntities){
             entity.render(batch);
         }
+
+        mapRenderer.renderTileLayer(foregroundLayer);
+
         batch.end();
+
     }
 
 

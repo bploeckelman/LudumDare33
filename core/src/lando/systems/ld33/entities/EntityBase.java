@@ -12,6 +12,7 @@ import lando.systems.ld33.utils.Assets;
  * Created by dsgraham on 8/22/15.
  */
 public class EntityBase {
+    protected static final float PIPEDELAY = 2f;
 
     protected Texture texture;
     protected Rectangle bounds;
