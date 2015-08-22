@@ -185,7 +185,9 @@ public class World {
 
             // Instantiate based on type
             if (type.equals("qblock")) {
-                mapObjects.add(new QuestionBlock(new Rectangle(x / w, y / h, 1, 1)));
+                String dropTypeName = (String) props.get("drops");
+                ItemEntity.ItemType dropType = ItemEntity.ItemType.getType(dropTypeName);
+                mapObjects.add(new QuestionBlock(new Rectangle(x / w, y / h, 1, 1), dropType));
             }
 //            else if (type.equals("...")) {
 //

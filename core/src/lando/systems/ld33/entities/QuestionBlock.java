@@ -11,13 +11,15 @@ public class QuestionBlock extends ObjectBase {
 
     public static final float FRAME_DURATION = 0.105f;
 
-    Animation animation;
-    float     stateTime;
+    Animation           animation;
+    float               stateTime;
+    ItemEntity.ItemType spawnType;
 
-    public QuestionBlock(Rectangle bounds) {
+    public QuestionBlock(Rectangle bounds, ItemEntity.ItemType spawnType) {
         super(bounds);
         animation = Assets.questionBlockAnimation;
         stateTime = 0f;
+        this.spawnType = spawnType;
     }
 
     @Override
