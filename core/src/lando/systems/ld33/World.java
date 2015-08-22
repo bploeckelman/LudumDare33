@@ -89,6 +89,9 @@ public class World {
         for (EntityBase entity: gameEntities){
             entity.update(dt);
         }
+        for (ObjectBase object : mapObjects) {
+            object.update(dt);
+        }
 
         float playerX = player.getBounds().x;
         if (playerX < camera.position.x - 3) camera.position.x = playerX + 3;
@@ -150,15 +153,15 @@ public class World {
         MapLayer objectLayer = mapLevel1.getLayers().get("objects");
         for (MapObject object : objectLayer.getObjects()) {
             props = object.getProperties();
-            float x = (Float) props.get("x");
-            float y = (Float) props.get("y");
             float w = (Float) props.get("width");
             float h = (Float) props.get("height");
+            float x = (Float) props.get("x");
+            float y =((Float) props.get("y")) + h; // NOTE: god dammit... off by 1
             String type = (String) props.get("type");
 
             // Instantiate based on type
             if (type.equals("qblock")) {
-                mapObjects.add(new QuestionBlock(new Rectangle(x, y, w, h)));
+                mapObjects.add(new QuestionBlock(new Rectangle(x / w, y / h, 1, 1)));
             }
 //            else if (type.equals("...")) {
 //

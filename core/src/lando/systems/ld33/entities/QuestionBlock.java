@@ -9,7 +9,7 @@ import lando.systems.ld33.utils.Assets;
  */
 public class QuestionBlock extends ObjectBase {
 
-    public static final float FRAME_DURATION = 0.1f;
+    public static final float FRAME_DURATION = 0.105f;
 
     Animation animation;
     float     stateTime;

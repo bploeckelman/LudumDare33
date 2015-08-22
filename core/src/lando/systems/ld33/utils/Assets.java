@@ -48,9 +48,12 @@ public class Assets {
         TextureRegion[][] tilesetRegions = TextureRegion.split(marioTilesetTexture, 16, 16);
 
         questionBlockAnimation = new Animation(QuestionBlock.FRAME_DURATION,
-                                               tilesetRegions[23][0],
-                                               tilesetRegions[24][0],
-                                               tilesetRegions[25][0]);
+                                               tilesetRegions[0][24],
+                                               tilesetRegions[0][24],
+                                               tilesetRegions[0][24],
+                                               tilesetRegions[0][25],
+                                               tilesetRegions[0][26]);
+        questionBlockAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
     }
 
     public static void dispose() {
