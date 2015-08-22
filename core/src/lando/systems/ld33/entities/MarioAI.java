@@ -31,7 +31,7 @@ public class MarioAI extends EntityBase {
         velocity.x = 8 * dir;
         switch(segment) {
             case 0:
-                if (bounds.x > 24 && bounds.x < 25) {
+                if (bounds.x > 25) {
                     jump();
                     segment++;
                 }

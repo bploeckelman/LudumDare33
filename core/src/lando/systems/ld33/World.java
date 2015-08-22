@@ -154,8 +154,8 @@ public class World {
             case First:
                 switch (segment){
                     case 0:
-                        if (player.getBounds().x < 26){
-                            player.getBounds().x = 26;
+                        if (player.getBounds().x < 27){
+                            player.getBounds().x = 27;
                             segment++;
                             player.moveDelay = 6;
                             MarioAI mario = new MarioAI(this, new Vector2(10, 2));
