@@ -38,7 +38,7 @@ public class PrototypeScreen extends LDScreen {
     public PrototypeScreen(LudumDare33 game) {
         super(game);
 
-        world = new World(camera);
+        world = new World(camera, World.Phase.First);
 
         uiCamera = new OrthographicCamera();
         uiCamera.setToOrtho(false, Config.width, Config.height);

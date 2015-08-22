@@ -7,12 +7,13 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Pools;
 import lando.systems.ld33.entities.EntityBase;
+import lando.systems.ld33.entities.ItemEntity;
 import lando.systems.ld33.entities.PlayerGoomba;
-import lando.systems.ld33.utils.Assets;
 
 import java.util.ArrayList;
 
@@ -25,17 +26,24 @@ public class World {
     public static final int   SCREEN_TILES_WIDE = 20;
     public static final int   SCREEN_TILES_HIGH = 15;
 
+    public enum Phase {
+        First
+    }
+
     TiledMap                   mapLevel1;
     OrthogonalTiledMapRenderer mapRenderer;
     Array<Rectangle>            tileRects;
     public Pool<Rectangle>             rectPool;
     OrthographicCamera          camera;
     ArrayList<EntityBase>       gameEntities;
-    EntityBase                  player;
-    float cameraLeftEdge;
-    float cameraRightEdge;
+    PlayerGoomba                  player;
+    float                       cameraLeftEdge;
+    float                       cameraRightEdge;
+    public float                gameWidth;
+    Phase                       phase;
 
-    public World(OrthographicCamera cam){
+    public World(OrthographicCamera cam, Phase p){
+        phase = p;
         gameEntities = new ArrayList<EntityBase>();
         camera = cam;
 
@@ -48,15 +56,30 @@ public class World {
         mapRenderer = new OrthogonalTiledMapRenderer(mapLevel1, MAP_UNIT_SCALE);
 
         TiledMapTileLayer mapLayer = (TiledMapTileLayer) mapLevel1.getLayers().get("foreground");
+        gameWidth = mapLayer.getWidth();
         cameraLeftEdge = SCREEN_TILES_WIDE / 2;
-        cameraRightEdge = mapLayer.getWidth() - cameraLeftEdge;
+        cameraRightEdge = gameWidth - cameraLeftEdge;
 
         tileRects = new Array<Rectangle>();
         rectPool = Pools.get(Rectangle.class);
 
-        player = new PlayerGoomba(this, Assets.testTexture, new Rectangle(5, 2, 1,1 ));
-        gameEntities.add(player);
+        initPhase();
 
+        ItemEntity item = new ItemEntity(this, new Vector2(27, 10));
+
+        gameEntities.add(player);
+        gameEntities.add(item);
+
+    }
+
+    private void initPhase(){
+        switch (phase){
+            case First:
+                player = new PlayerGoomba(this, new Vector2(33.5f,4));
+                player.canRight = false;
+                player.canJump = false;
+                break;
+        }
     }
 
     public void update(float dt){

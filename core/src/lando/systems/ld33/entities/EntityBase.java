@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.ld33.World;
+import lando.systems.ld33.utils.Assets;
 
 /**
  * Created by dsgraham on 8/22/15.
@@ -30,12 +31,12 @@ public class EntityBase {
     }
 
 
-    public EntityBase (World w, Texture tex, Rectangle r){
+    public EntityBase (World w){
         tiles = new Array<Rectangle>();
         world = w;
         state = State.Standing;
-        texture = tex;
-        bounds = r;
+        texture = Assets.testTexture;
+        bounds = new Rectangle(3,0,1,1);
         velocity = new Vector2();
     }
 
@@ -67,8 +68,8 @@ public class EntityBase {
         // perform collision detection & response, on each axis, separately
         // if the koala is moving right, check the tiles to the right of it's
         // right bounding box edge, otherwise check the ones to the left
-        Rectangle koalaRect = world.rectPool.obtain();
-        koalaRect.set(bounds);
+        Rectangle entityRect = world.rectPool.obtain();
+        entityRect.set(bounds);
         int startX, startY, endX, endY;
         if (velocity.x > 0) {
             startX = endX = (int)(bounds.x + bounds.width + velocity.x);
@@ -78,14 +79,15 @@ public class EntityBase {
         startY = (int)(bounds.y);
         endY = (int)(bounds.y + bounds.height);
         world.getTiles(startX, startY, endX, endY, tiles);
-        koalaRect.x += velocity.x;
+        entityRect.x += velocity.x;
         for (Rectangle tile : tiles) {
-            if (koalaRect.overlaps(tile)) {
-                velocity.x = 0;
+            if (entityRect.overlaps(tile)) {
+
+                hitHorizontal();
                 break;
             }
         }
-        koalaRect.x = bounds.x;
+        entityRect.x = bounds.x;
 
         // if the koala is moving upwards, check the tiles to the top of it's
         // top bounding box edge, otherwise check the ones to the bottom
@@ -98,9 +100,9 @@ public class EntityBase {
         startX = (int)(bounds.x);
         endX = (int)(bounds.x + bounds.width);
         world.getTiles(startX, startY, endX, endY, tiles);
-        koalaRect.y += velocity.y;
+        entityRect.y += velocity.y;
         for (Rectangle tile : tiles) {
-            if (koalaRect.overlaps(tile)) {
+            if (entityRect.overlaps(tile)) {
                 // we actually reset the koala y-position here
                 // so it is just below/above the tile we collided with
                 // this removes bouncing :)
@@ -119,7 +121,7 @@ public class EntityBase {
             }
         }
 
-        world.rectPool.free(koalaRect);
+        world.rectPool.free(entityRect);
 
 
         bounds.x += velocity.x;
@@ -127,22 +129,20 @@ public class EntityBase {
 
         velocity.scl(1 / dt);
 
-        // TODO collide World and shift if you hit world
 
 
-        velocity.x *= damping;
     }
 
 
-    /**
-     *
-     * Called when the entitiy collides with the world
-     *
-     * @param rect Rectangle of intersection
-     */
-    protected void collisionHandler(Rectangle rect){
+   protected void hitHorizontal(){
+       velocity.x = 0;
+   }
+
+    protected void hitBlockFromBelow(){
 
     }
+
+
 
     public void render(SpriteBatch batch){
 
