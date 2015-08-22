@@ -31,6 +31,9 @@ public class World {
     public Pool<Rectangle>             rectPool;
     OrthographicCamera          camera;
     ArrayList<EntityBase>       gameEntities;
+    EntityBase                  player;
+    float cameraLeftEdge;
+    float cameraRightEdge;
 
     public World(OrthographicCamera cam){
         gameEntities = new ArrayList<EntityBase>();
@@ -44,11 +47,15 @@ public class World {
 //        mapRenderer = new OrthogonalTiledMapRenderer(testMap, MAP_UNIT_SCALE);
         mapRenderer = new OrthogonalTiledMapRenderer(mapLevel1, MAP_UNIT_SCALE);
 
+        TiledMapTileLayer mapLayer = (TiledMapTileLayer) mapLevel1.getLayers().get("foreground");
+        cameraLeftEdge = SCREEN_TILES_WIDE / 2;
+        cameraRightEdge = mapLayer.getWidth() - cameraLeftEdge;
+
         tileRects = new Array<Rectangle>();
         rectPool = Pools.get(Rectangle.class);
 
-        PlayerGoomba goomba = new PlayerGoomba(this, Assets.testTexture, new Rectangle(5, 2, 1,1 ));
-        gameEntities.add(goomba);
+        player = new PlayerGoomba(this, Assets.testTexture, new Rectangle(5, 2, 1,1 ));
+        gameEntities.add(player);
 
     }
 
@@ -56,7 +63,8 @@ public class World {
         for (EntityBase entity: gameEntities){
             entity.update(dt);
         }
-
+        camera.position.x = Math.min(cameraRightEdge, Math.max(cameraLeftEdge, player.getBounds().x));
+        camera.update();
     }
 
     public void getTiles (int startX, int startY, int endX, int endY, Array<Rectangle> tiles) {
