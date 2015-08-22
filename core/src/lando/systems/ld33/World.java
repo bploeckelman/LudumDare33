@@ -2,6 +2,9 @@ package lando.systems.ld33;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -11,9 +14,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Pools;
-import lando.systems.ld33.entities.EntityBase;
-import lando.systems.ld33.entities.ItemEntity;
-import lando.systems.ld33.entities.PlayerGoomba;
+import lando.systems.ld33.entities.*;
 
 import java.util.ArrayList;
 
@@ -29,30 +30,28 @@ public class World {
     public enum Phase {
         First
     }
-    TiledMapTileLayer          foregroundLayer;
-    TiledMapTileLayer           backgroundLayer;
-    TiledMap                   mapLevel1;
-    OrthogonalTiledMapRenderer mapRenderer;
-    Array<Rectangle>            tileRects;
-    public Pool<Rectangle>             rectPool;
-    OrthographicCamera          camera;
-    ArrayList<EntityBase>       gameEntities;
-    PlayerGoomba                  player;
-    float                       cameraLeftEdge;
-    float                       cameraRightEdge;
-    public float                gameWidth;
-    Phase                       phase;
+
+    public TiledMapTileLayer          foregroundLayer;
+    public TiledMapTileLayer          backgroundLayer;
+    public TiledMap                   mapLevel1;
+    public OrthogonalTiledMapRenderer mapRenderer;
+    public Array<Rectangle>           tileRects;
+    public Pool<Rectangle>            rectPool;
+    public Array<ObjectBase>          mapObjects;
+    public OrthographicCamera         camera;
+    public ArrayList<EntityBase>      gameEntities;
+    public PlayerGoomba               player;
+    public float                      cameraLeftEdge;
+    public float                      cameraRightEdge;
+    public float                      gameWidth;
+    public Phase                      phase;
 
     public World(OrthographicCamera cam, Phase p, SpriteBatch batch){
         phase = p;
         gameEntities = new ArrayList<EntityBase>();
         camera = cam;
 
-
         initPhase();
-
-
-//        mapRenderer = new OrthogonalTiledMapRenderer(testMap, MAP_UNIT_SCALE);
         mapRenderer = new OrthogonalTiledMapRenderer(mapLevel1, MAP_UNIT_SCALE, batch);
 
         foregroundLayer = (TiledMapTileLayer) mapLevel1.getLayers().get("foreground");
@@ -65,13 +64,9 @@ public class World {
         tileRects = new Array<Rectangle>();
         rectPool = Pools.get(Rectangle.class);
 
-
-
         ItemEntity item = new ItemEntity(this, new Vector2(27, 10));
-
         gameEntities.add(player);
         gameEntities.add(item);
-
     }
 
     private void initPhase(){
@@ -79,7 +74,9 @@ public class World {
 
         switch (phase){
             case First:
+                // TODO: encapsulate map loading so that loadObjects is always called right after map load
                 mapLevel1 = mapLoader.load("maps/level1.tmx");
+                loadObjects();
 
                 player = new PlayerGoomba(this, new Vector2(33.5f,4));
                 player.canRight = false;
@@ -130,6 +127,9 @@ public class World {
         for (EntityBase entity : gameEntities){
             entity.render(batch);
         }
+        for (ObjectBase object : mapObjects) {
+            object.render(batch);
+        }
 
         mapRenderer.renderTileLayer(foregroundLayer);
 
@@ -137,5 +137,33 @@ public class World {
 
     }
 
+    // ------------------------------------------------------------------------
+    // Private Implementation
+    // ------------------------------------------------------------------------
+
+    private void loadObjects() {
+        if (mapLevel1 == null) return;
+
+        mapObjects = new Array<ObjectBase>();
+
+        MapProperties props;
+        MapLayer objectLayer = mapLevel1.getLayers().get("objects");
+        for (MapObject object : objectLayer.getObjects()) {
+            props = object.getProperties();
+            float x = (Float) props.get("x");
+            float y = (Float) props.get("y");
+            float w = (Float) props.get("width");
+            float h = (Float) props.get("height");
+            String type = (String) props.get("type");
+
+            // Instantiate based on type
+            if (type.equals("qblock")) {
+                mapObjects.add(new QuestionBlock(new Rectangle(x, y, w, h)));
+            }
+//            else if (type.equals("...")) {
+//
+//            }
+        }
+    }
 
 }
