@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="34" height="15" tilewidth="16" tileheight="16" nextobjectid="1">
- <tileset firstgid="1" name="Mario Tileset" tilewidth="16" tileheight="16" tilecount="228">
-  <image source="mario-tileset.png" trans="6b8cff" width="304" height="192"/>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="35" height="15" tilewidth="16" tileheight="16" nextobjectid="1">
+ <tileset firstgid="1" name="Mario Tileset" tilewidth="16" tileheight="16" tilecount="924">
+  <image source="mario-tileset.png" width="528" height="448"/>
+  <tile id="24">
+   <animation>
+    <frame tileid="24" duration="400"/>
+    <frame tileid="25" duration="150"/>
+    <frame tileid="26" duration="150"/>
+    <frame tileid="25" duration="150"/>
+   </animation>
+  </tile>
  </tileset>
- <layer name="background" width="34" height="15">
+ <layer name="background" width="35" height="15">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC2NgGAX0AupArAHEmgPsDisgtgZiGzxqYG4daABz6ygYBUMdSA+0A4BAF4j1gFifTP3U8IM9EDsAsSMQOwGxMwH1IkAsCsViUP16OPSJQNWMAvwAACwsIf/4BwAA
+   H4sIAAAAAAAAA2NgGAUDAaYyMTBMA+LpTAPtEgaGbUA3bAfiHTjcAnPrtEHk1u2DwC2jYBTQAggxDrQLIEAQ6A4jIBYm0z3U8gfMHcZAbELAPaZAOTMkbM6I3x+mSOpGAXEAAL4l62U0CAAA
   </data>
  </layer>
- <layer name="foreground" width="34" height="15">
+ <layer name="foreground" width="35" height="15">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC2NgGAWjYBQgA8OBdsAoGBQAPR0YYsHYgBYQa9PQXcQCWyD2BWI/IPYfAPu1kNyRAMSJQJw0AO4A2c84ilEwADCY8TT4BwAA
+   H4sIAAAAAAAAA2NgGAWjYBQQApID7YBRQFdAbHyjq2OCiiHTuAAnIwMDFyMZjqMB0AK6QxmIVYBYdQDchBwWILe4ALErELsNgFtA9msDMcjqUYyJAQ+Bg/Q0CAAA
   </data>
  </layer>
 </map>
