@@ -72,9 +72,11 @@ public class PrototypeScreen extends LDScreen {
 
             world.render(batch);
 
+            // Draw user interface stuff
             batch.begin();
-            batch.setProjectionMatrix(camera.combined);
-            batch.draw(Assets.testTexture, 0, 0, 1, 1);
+            batch.setProjectionMatrix(uiCamera.combined);
+            // NOTE: we can fit 41 characters across the screen using the default 16pt font
+            Assets.font.draw(batch, "This... is... GOOMBA!", 0, uiCamera.viewportHeight);
             batch.end();
         }
         sceneFrameBuffer.end();

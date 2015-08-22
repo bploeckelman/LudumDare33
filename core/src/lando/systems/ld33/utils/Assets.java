@@ -15,25 +15,35 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 public class Assets {
 
     public static SpriteBatch batch;
-    public static ModelBatch  modelBatch;
+
     public static BitmapFont  font;
+    public static BitmapFont  font8pt;
+    public static BitmapFont  font16pt;
+    public static BitmapFont  font32pt;
 
     public static Texture testTexture;
 
     public static void load() {
         batch = new SpriteBatch();
-        modelBatch = new ModelBatch();
 
-        font = new BitmapFont();
-        font.getData().markupEnabled = true;
+        font8pt = new BitmapFont(Gdx.files.internal("fonts/emulogic-8pt.fnt"));
+        font16pt = new BitmapFont(Gdx.files.internal("fonts/emulogic-16pt.fnt"));
+        font32pt = new BitmapFont(Gdx.files.internal("fonts/emulogic-32pt.fnt"));
+        font8pt.getData().markupEnabled = true;
+        font16pt.getData().markupEnabled = true;
+        font32pt.getData().markupEnabled = true;
+
+        // Set the default font
+        font = font16pt;
 
         testTexture = new Texture("badlogic.jpg");
     }
 
     public static void dispose() {
         batch.dispose();
-        modelBatch.dispose();
-        font.dispose();
+        font8pt.dispose();
+        font16pt.dispose();
+        font32pt.dispose();
         testTexture.dispose();
     }
 
