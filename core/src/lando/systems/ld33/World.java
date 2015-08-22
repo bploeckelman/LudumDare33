@@ -45,6 +45,7 @@ public class World {
     public float                      cameraRightEdge;
     public float                      gameWidth;
     public Phase                      phase;
+    public int                        segment;
 
     public World(OrthographicCamera cam, Phase p, SpriteBatch batch){
         phase = p;
@@ -70,6 +71,7 @@ public class World {
     }
 
     private void initPhase(){
+        segment = 0;
         final TmxMapLoader mapLoader = new TmxMapLoader();
 
         switch (phase){
@@ -93,6 +95,8 @@ public class World {
             object.update(dt);
         }
 
+        handlePhaseUpdate(dt);
+
         float playerX = player.getBounds().x;
         if (playerX < camera.position.x - 3) camera.position.x = playerX + 3;
         if (playerX > camera.position.x + 2) camera.position.x = playerX - 2;
@@ -102,13 +106,13 @@ public class World {
         camera.update();
     }
 
+
     public void getTiles (int startX, int startY, int endX, int endY, Array<Rectangle> tiles) {
-        TiledMapTileLayer layer = (TiledMapTileLayer)mapLevel1.getLayers().get("foreground");
         rectPool.freeAll(tiles);
         tiles.clear();
         for (int y = startY; y <= endY; y++) {
             for (int x = startX; x <= endX; x++) {
-                TiledMapTileLayer.Cell cell = layer.getCell(x, y);
+                TiledMapTileLayer.Cell cell = foregroundLayer.getCell(x, y);
                 if (cell != null) {
                     Rectangle rect = rectPool.obtain();
                     rect.set(x, y, 1, 1);
@@ -143,6 +147,26 @@ public class World {
     // ------------------------------------------------------------------------
     // Private Implementation
     // ------------------------------------------------------------------------
+
+
+    private void handlePhaseUpdate(float dt){
+        switch (phase){
+            case First:
+                switch (segment){
+                    case 0:
+                        if (player.getBounds().x < 26){
+                            player.getBounds().x = 26;
+                            segment++;
+                            player.moveDelay = 6;
+                            MarioAI mario = new MarioAI(this, new Vector2(10, 2));
+                            gameEntities.add(mario);
+                        }
+                        break;
+
+                }
+                break;
+        }
+    }
 
     private void loadObjects() {
         if (mapLevel1 == null) return;

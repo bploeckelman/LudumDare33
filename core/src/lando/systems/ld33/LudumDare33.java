@@ -37,6 +37,7 @@ public class LudumDare33 extends Game {
 	@Override
 	public void render() {
 		float delta = Gdx.graphics.getDeltaTime();
+		delta = Math.min(delta, 1/30f);
 		tween.update(delta);
 		super.render();
 	}
