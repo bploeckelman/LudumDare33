@@ -3,10 +3,7 @@ package lando.systems.ld33.utils;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.GdxRuntimeException;
@@ -18,6 +15,7 @@ import lando.systems.ld33.entities.QuestionBlock;
 public class Assets {
 
     public static SpriteBatch batch;
+    public static TextureAtlas atlas;
 
     public static BitmapFont  font;
     public static BitmapFont  font8pt;
@@ -31,6 +29,7 @@ public class Assets {
 
     public static void load() {
         batch = new SpriteBatch();
+        atlas = new TextureAtlas(Gdx.files.internal("sprites.atlas"));
 
         font8pt = new BitmapFont(Gdx.files.internal("fonts/emulogic-8pt.fnt"));
         font16pt = new BitmapFont(Gdx.files.internal("fonts/emulogic-16pt.fnt"));
