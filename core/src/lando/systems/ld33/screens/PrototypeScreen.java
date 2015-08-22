@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Pools;
 import lando.systems.ld33.Config;
 import lando.systems.ld33.LudumDare33;
+import lando.systems.ld33.World;
 import lando.systems.ld33.utils.Assets;
 
 /**
@@ -26,21 +27,18 @@ public class PrototypeScreen extends LDScreen {
     private static final float BLUE_SKY_R        = 107f / 255f;
     private static final float BLUE_SKY_G        = 140f / 255f;
     private static final float BLUE_SKY_B        = 255f / 255f;
-    private static final float MAP_UNIT_SCALE    = 1f / 16f;
-    private static final int   SCREEN_TILES_WIDE = 20;
-    private static final int   SCREEN_TILES_HIGH = 15;
+
 
     OrthographicCamera         uiCamera;
     FrameBuffer                sceneFrameBuffer;
     TextureRegion              sceneRegion;
-    TiledMap                   testMap;
-    TiledMap                   mapLevel1;
-    OrthogonalTiledMapRenderer mapRenderer;
-    Array<Rectangle>           tileRects;
-    Pool<Rectangle>            rectPool;
+    World                      world;
+
 
     public PrototypeScreen(LudumDare33 game) {
         super(game);
+
+        world = new World(camera);
 
         uiCamera = new OrthographicCamera();
         uiCamera.setToOrtho(false, Config.width, Config.height);
@@ -48,24 +46,19 @@ public class PrototypeScreen extends LDScreen {
         sceneRegion = new TextureRegion(sceneFrameBuffer.getColorBufferTexture());
         sceneRegion.flip(false, true);
 
-        final TmxMapLoader mapLoader = new TmxMapLoader();
-        testMap = mapLoader.load("maps/mario-test.tmx");
-        mapLevel1 = mapLoader.load("maps/level1.tmx");
-        mapRenderer = new OrthogonalTiledMapRenderer(testMap, MAP_UNIT_SCALE);
-//        mapRenderer = new OrthogonalTiledMapRenderer(mapLevel1, MAP_UNIT_SCALE);
 
         // Show a tile portion of the map
-        camera.setToOrtho(false, SCREEN_TILES_WIDE, SCREEN_TILES_HIGH);
+        camera.setToOrtho(false, world.SCREEN_TILES_WIDE, world.SCREEN_TILES_HIGH);
         camera.update();
 
-        tileRects = new Array<Rectangle>();
-        rectPool = Pools.get(Rectangle.class);
 
         Gdx.gl.glClearColor(BLUE_SKY_R, BLUE_SKY_G, BLUE_SKY_B, 1f);
     }
 
     @Override
     public void update(float delta) {
+
+        world.update(delta);
         super.update(delta);
     }
 
@@ -77,8 +70,7 @@ public class PrototypeScreen extends LDScreen {
         {
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-            mapRenderer.setView(camera);
-            mapRenderer.render();
+            world.render(batch);
 
             batch.begin();
             batch.setProjectionMatrix(camera.combined);
