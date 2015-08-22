@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="15" tilewidth="16" tileheight="16" nextobjectid="1">
+ <tileset firstgid="1" name="mario-tileset" tilewidth="16" tileheight="16" tilecount="228">
+  <image source="mario-tileset.png" trans="6b8cff" width="304" height="192"/>
+ </tileset>
+ <layer name="background" width="20" height="15">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgGNpAHYg1gFiTSuqtgNgaiG2INI9U9cS4gVRAjhtGOpCmkjk6QKwLxHpArA/EBiToFQFiUSAWQxKzB2IHIHYEYicgdqaKK4cPAAB8fXdhsAQAAA==
+  </data>
+ </layer>
+ <layer name="foreground" width="20" height="15">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgoB5gpqJZo+YNHfMMcbAJmYXPPGRMrFnU8C8zGtYCYm0qmQXCtkBsRyWzQJhxhGEAYLV/c7AEAAA=
+  </data>
+ </layer>
+</map>

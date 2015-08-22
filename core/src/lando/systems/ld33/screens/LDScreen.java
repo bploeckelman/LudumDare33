@@ -47,9 +47,9 @@ public class LDScreen extends ScreenAdapter {
 
     @Override
     public void resize(int width, int height) {
-        camera.viewportWidth  = width;
-        camera.viewportHeight = height;
-        camera.update();
+//        camera.viewportWidth  = width;
+//        camera.viewportHeight = height;
+//        camera.update();
     }
 
     @Override
