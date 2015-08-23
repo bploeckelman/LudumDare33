@@ -32,7 +32,7 @@ public class PlayerGoomba extends EntityBase {
         obj.hit();
     }
 
-    protected void setNormalMode() {
+    public void setNormalMode() {
         walkingAnimation = Assets.goombaNormalWalkAnimation;
         smashedAnimation = Assets.goombaSmashedAnimation;
         standingAnimation = Assets.goombaNormalStandingAnimation;

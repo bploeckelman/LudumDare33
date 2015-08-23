@@ -5,6 +5,7 @@ import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.equations.Linear;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapLayer;
@@ -19,6 +20,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Pools;
+import lando.systems.ld33.accessors.ColorAccessor;
 import lando.systems.ld33.accessors.RectangleAccessor;
 import lando.systems.ld33.dialogue.Dialogue;
 import lando.systems.ld33.entities.EntityBase;
@@ -64,11 +66,13 @@ public class World {
     public int                        segment;
     public boolean                    done;
     public Dialogue                   dialogue;
+    public Color transitionColor;
 
     public World(OrthographicCamera cam, Phase p, SpriteBatch batch) {
         phase = p;
         done = false;
         dialogue = new Dialogue();
+        transitionColor = new Color(1,1,1,1);
 
         gameEntities = new Array<EntityBase>();
         camera = cam;
@@ -119,6 +123,7 @@ public class World {
         mapRenderer.setView(camera);
 
         batch.begin();
+        batch.setColor(transitionColor);
         batch.setProjectionMatrix(camera.combined);
         {
             mapRenderer.renderTileLayer(backgroundLayer);
@@ -375,13 +380,44 @@ public class World {
                             Tween.to(player.getBounds(), RectangleAccessor.Y, 1f)
                                  .target(player.getBounds().y + 1f)
                                  .ease(Linear.INOUT)
-                                 .setCallback(new TweenCallback() {
-                                     @Override
-                                     public void onEvent(int i, BaseTween<?> baseTween) {
-                                         World.this.done = true;
-                                     }
-                                 })
                                  .start(LudumDare33.tween);
+                        }
+                        break;
+                    case 3:
+                        if (player.moveDelay <= 0){
+                            player.moveDelay = 2f;
+                            segment++;
+                            Tween.to(transitionColor, ColorAccessor.A, 1f)
+                                    .target(0)
+                                    .ease(Linear.INOUT)
+                                    .repeatYoyo(1, 0)
+                                    .setCallback(new TweenCallback() {
+                                        @Override
+                                        public void onEvent(int i, BaseTween<?> baseTween) {
+                                            World.this.player.setNormalMode();
+                                        }
+                                    })
+                                    .start(LudumDare33.tween);
+                        }
+                        break;
+                    case 4:
+                        if (player.getBounds().x < 1) {
+                            player.moveDelay = EntityBase.PIPEDELAY;
+                            segment++;
+                            Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
+                                    .target(-1f)
+                                    .ease(Linear.INOUT)
+                                    .setCallback(new TweenCallback() {
+                                        @Override
+                                        public void onEvent(int i, BaseTween<?> baseTween) {
+                                            World.this.done = true;
+                                        }
+                                    })
+                                    .start(LudumDare33.tween);
+                            Tween.to(transitionColor, ColorAccessor.A, EntityBase.PIPEDELAY)
+                                    .target(0)
+                                    .ease(Linear.INOUT)
+                                    .start(LudumDare33.tween);
                         }
                         break;
                 }
