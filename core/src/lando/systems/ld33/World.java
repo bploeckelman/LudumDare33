@@ -762,10 +762,18 @@ public class World {
                             segment++;
                             player.moveDelay = 3f;
                             cameraLock = false;
+                            player.smashedAnimation = Assets.goombaGrowAnimation;
+                            player.stateTime = 0f;
                             Tween.to(camera, CameraAccessor.XYZ, 1.5f)
                                     .target(player.getBounds().x + .5f, player.getBounds().y+ .5f, .1f)
                                     .ease(Quad.INOUT)
                                     .repeatYoyo(1, 0)
+                                    .setCallback(new TweenCallback() {
+                                        @Override
+                                        public void onEvent(int type, BaseTween<?> source) {
+                                            player.smashedAnimation = Assets.goombaSmashedAnimation;
+                                        }
+                                    })
                                     .start(LudumDare33.tween);
                         }
                         break;

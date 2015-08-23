@@ -53,6 +53,7 @@ public class Assets {
     public static Animation goombaWalkAnimation;
     public static Animation goombaStandingAnimation;
     public static Animation goombaSmashedAnimation;
+    public static Animation goombaGrowAnimation;
     public static Animation goombaWifeAnimation;
     public static Animation goombaKidsAnimation;
     public static Animation goombaHurtAnimation;
@@ -175,6 +176,11 @@ public class Assets {
 
         goombaSmashedAnimation  = new Animation(.15f,
                 atlas.findRegion("goomba-squished"));
+        goombaGrowAnimation = new Animation(.65f,
+            atlas.findRegion("goomba-sad-straight-on"),
+            atlas.findRegion("goomba-straight-high"),
+            atlas.findRegion("goomba-straight-rage"));
+        goombaGrowAnimation.setPlayMode(Animation.PlayMode.NORMAL);
         goombaWifeAnimation = new Animation(.15f,
             atlas.findRegion("goomba-wife").split(16, 16)[0]);
         goombaWifeAnimation.setPlayMode(Animation.PlayMode.LOOP);
