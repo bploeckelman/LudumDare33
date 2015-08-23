@@ -30,6 +30,7 @@ public class Assets {
     public static TextureRegion     deadQuestionBlockRegion;
     public static TextureRegion[][] mushrooms;
     public static TextureRegion     bigMushroom;
+    public static TextureRegion     tubeBg;
 
     public static Animation questionBlockAnimation;
     public static Animation spikesDownAnimation;
@@ -40,7 +41,10 @@ public class Assets {
     public static Animation marioBigWalkAnimation;
     public static Animation marioBigStandingAnimation;
     public static Animation marioBigJumpingAnimation;
-    public static Animation marioTubeAnimation;
+    public static Animation tubeEmptyAnimation;
+    public static Animation tubeMarioSmallAnimation;
+    public static Animation tubeMarioEmbryoAnimation;
+    public static Animation tubeMarioLargeAnimation;
     public static Animation goombaNormalWalkAnimation;
     public static Animation goombaNormalStandingAnimation;
     public static Animation goombaSadWalkAnimation;
@@ -130,9 +134,20 @@ public class Assets {
         marioBigStandingAnimation = new Animation(.15f, atlas.findRegion("mario-big-straight-on"));
         marioBigJumpingAnimation = new Animation(.15f, atlas.findRegion("mario-big-jump"));
 
-        marioTubeAnimation = new Animation(.15f,
-            atlas.findRegion("mario-tube").split(16, 32)[0]);
-        marioTubeAnimation.setPlayMode(Animation.PlayMode.LOOP);
+        tubeEmptyAnimation = new Animation(.15f,
+            atlas.findRegion("tube-empty").split(16, 32)[0]);
+        tubeEmptyAnimation.setPlayMode(Animation.PlayMode.LOOP);
+        tubeMarioSmallAnimation = new Animation(.15f,
+            atlas.findRegion("tube-mario-small").split(16, 32)[0]);
+        tubeMarioSmallAnimation.setPlayMode(Animation.PlayMode.LOOP);
+        tubeMarioEmbryoAnimation = new Animation(.15f,
+            atlas.findRegion("tube-mario-embryo").split(16, 32)[0]);
+        tubeMarioEmbryoAnimation.setPlayMode(Animation.PlayMode.LOOP);
+        tubeMarioLargeAnimation = new Animation(.15f,
+            atlas.findRegion("tube-mario-large").split(16, 32)[0]);
+        tubeMarioLargeAnimation.setPlayMode(Animation.PlayMode.LOOP);
+
+        tubeBg = atlas.findRegion("tube-bg");
 
         goombaNormalWalkAnimation = new Animation(.15f,
             atlas.findRegion("goomba-normal-walk1"),

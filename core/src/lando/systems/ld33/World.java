@@ -31,6 +31,7 @@ import lando.systems.ld33.entities.items.ItemEntity;
 import lando.systems.ld33.entities.mapobjects.ObjectBase;
 import lando.systems.ld33.entities.mapobjects.QuestionBlock;
 import lando.systems.ld33.entities.mapobjects.SpikeObject;
+import lando.systems.ld33.entities.mapobjects.TubeObject;
 import lando.systems.ld33.utils.Assets;
 import lando.systems.ld33.utils.GameText;
 
@@ -813,17 +814,22 @@ public class World {
             float w = (Float) props.get("width");
             float h = (Float) props.get("height");
             float x = (Float) props.get("x");
-            float y =((Float) props.get("y")) + h; // NOTE: god dammit... off by 1
+            float y = (Float) props.get("y"); // NOTE: god dammit... off by 1
             String type = (String) props.get("type");
 
             // Instantiate based on type
             if (type.equals("qblock")) {
                 String dropTypeName = (String) props.get("drops");
                 ItemEntity.ItemType dropType = ItemEntity.ItemType.getType(dropTypeName);
-                mapObjects.add(new QuestionBlock(this, new Rectangle(x / w, y / h, 1, 1), dropType));
+                mapObjects.add(new QuestionBlock(this, new Rectangle(x / w, (y / h) + 1, 1, 1), dropType));
             }
             else if (type.equals("spike")) {
-                mapObjects.add(new SpikeObject(this, new Rectangle(x / w, y / h, 1, 1)));
+                mapObjects.add(new SpikeObject(this, new Rectangle(x / w, (y / h) + 1, 1, 1)));
+            }
+            else if(type.equals("tube")) {
+                mapObjects.add(new TubeObject(
+                    this, new Rectangle(x / w, (y / 16) + 2, 1, 2),
+                    TubeObject.TubeContents.valueOf((String) props.get("contains"))));
             }
 //            else if (type.equals("...")) {
 //
