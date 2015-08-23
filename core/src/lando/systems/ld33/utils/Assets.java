@@ -38,6 +38,8 @@ public class Assets {
     public static Animation goombaNormalWalkAnimation;
     public static Animation goombaWalkAnimation;
     public static Animation goombaSmashedAnimation;
+    public static Animation goombaWifeAnimation;
+    public static Animation goombaKidsAnimation;
     public static Animation coinAnimation;
     public static Animation fireFlowerAnimation;
     public static Animation starAnimation;
@@ -95,9 +97,14 @@ public class Assets {
             atlas.findRegion("goomba-walk1"),
             atlas.findRegion("goomba-walk2"));
         goombaWalkAnimation.setPlayMode(Animation.PlayMode.LOOP);
-
         goombaSmashedAnimation  = new Animation(.15f,
                 atlas.findRegion("goomba-squished"));
+        goombaWifeAnimation = new Animation(.15f,
+            atlas.findRegion("goomba-wife").split(16, 16)[0]);
+        goombaWifeAnimation.setPlayMode(Animation.PlayMode.LOOP);
+        goombaKidsAnimation = new Animation(.15f,
+            atlas.findRegion("goomba-kids").split(32, 32)[0]);
+        goombaKidsAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
         coinAnimation = new Animation(.03f,
             Arrays.copyOfRange(atlas.findRegion("coin").split(16, 16)[0], 1, 4));
