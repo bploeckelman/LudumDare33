@@ -57,8 +57,8 @@ public class PlayerGoomba extends EntityBase {
         canJump = true;
         canRight = true;
         walkingAnimation = Assets.goombaWalkAnimation;
-        standingAnimation = Assets.goombaWalkAnimation;
-        smashedAnimation = Assets.goombaWalkAnimation;
+        standingAnimation = Assets.goombaStandingAnimation;
+        smashedAnimation = Assets.goombaSmashedAnimation;
         jumpingAnimation = Assets.goombaWalkAnimation;
     }
 
