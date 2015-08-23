@@ -12,12 +12,14 @@ import lando.systems.ld33.accessors.ColorAccessor;
 import lando.systems.ld33.accessors.RectangleAccessor;
 import lando.systems.ld33.accessors.Vector2Accessor;
 import lando.systems.ld33.accessors.Vector3Accessor;
-import lando.systems.ld33.screens.PrototypeScreen;
 import lando.systems.ld33.utils.Assets;
+import lando.systems.ld33.utils.StoryManager;
 
 public class LudumDare33 extends Game {
 
 	public static TweenManager tween;
+
+	StoryManager storyManager;
 
 	@Override
 	public void create () {
@@ -29,14 +31,14 @@ public class LudumDare33 extends Game {
 			Tween.registerAccessor(Vector3.class, new Vector3Accessor());
 		}
 		Assets.load();
-		setScreen(new PrototypeScreen(this));
-//		setScreen(new ChapterScreen(this, 1));
+		storyManager = new StoryManager(this);
 	}
 
 	@Override
 	public void render() {
 		float delta = Gdx.graphics.getDeltaTime();
 		delta = Math.min(delta, 1/30f);
+		storyManager.update(delta);
 		tween.update(delta);
 		super.render();
 	}
