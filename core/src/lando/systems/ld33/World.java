@@ -567,6 +567,46 @@ public class World {
                 }
                 break;
             case BACK_TO_WORK:
+                switch (segment){
+                    case 0:
+                        // Get in position, release a mario
+                        if (player.getBounds().x < 27){
+                            player.getBounds().x = 27;
+                            segment++;
+                            player.moveDelay = 6;
+
+                            Array<String> messages = new Array<String>();
+                            messages.add(GameText.getText("hereComesMario"));
+                            dialogue.show(1,10,18,4,messages);
+
+                            MarioAI mario = new MarioAI(this, new Vector2(10, 2));
+                        }
+                        break;
+                    case 1:
+                        // Just a bump on the head, released to go home for the day
+                        if (player.moveDelay <= 0){
+                            segment++;
+                            Array<String> messages = new Array<String>();
+                            messages.add(GameText.getText("headHome"));
+                            dialogue.show(1, 10, 18, 4, messages);
+                            player.setWounded();
+                        }
+                        break;
+                    case 2:
+                        // Enter home pipe
+                        if (player.getBounds().x <= 5.5){
+                            Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
+                                    .target(3.5f)
+                                    .ease(Linear.INOUT)
+                                    .setCallback(new TweenCallback() {
+                                        @Override
+                                        public void onEvent(int i, BaseTween<?> baseTween) {
+                                            World.this.done = true;
+                                        }
+                                    })
+                                    .start(LudumDare33.tween);
+                        }
+                }
                 break;
             case EMPTY_HOUSE:
                 switch (segment) {
