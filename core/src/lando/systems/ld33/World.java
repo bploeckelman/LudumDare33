@@ -309,7 +309,7 @@ public class World {
             case EMPTY_HOUSE:
                 Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
 
-                map = mapLoader.load("maps/inhome-bedroom.tmx");
+                map = mapLoader.load("maps/inhome-bedroom-sad.tmx");
                 loadMapObjects();
 
                 player = new PlayerGoomba(this, new Vector2(20, 2));
