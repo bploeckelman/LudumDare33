@@ -55,6 +55,12 @@ public class Assets {
     public static Animation fireFlowerAnimation;
     public static Animation starAnimation;
     public static Animation mushroomAnimation;
+    public static Animation motherBrainAnimation;
+    public static Animation kingHippoAnimation;
+    public static Animation ganonAnimation;
+    public static Animation draculaAnimation;
+    public static Animation luigiAnimation;
+    public static Animation drWilyAnimation;
 
     public static final float BLUE_SKY_R = 107f / 255f;
     public static final float BLUE_SKY_G = 140f / 255f;
@@ -174,6 +180,22 @@ public class Assets {
             atlas.findRegion("star").split(16, 16)[0]);
         starAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
+        TextureRegion motherBrainRegion = atlas.findRegion("mother-brain");
+        TextureRegion kingHippoRegion   = atlas.findRegion("king-hippo");
+        TextureRegion ganonRegion       = atlas.findRegion("ganon");
+        TextureRegion draculaRegion     = atlas.findRegion("dracula");
+        TextureRegion luigiRegion       = atlas.findRegion("luigi");
+        TextureRegion drWilyRegion      = atlas.findRegion("dr-wily");
+        draculaRegion.flip(true, false);
+        luigiRegion.flip(true, false);
+        drWilyRegion.flip(true, false);
+
+        motherBrainAnimation = new Animation(0.15f, motherBrainRegion);
+        kingHippoAnimation   = new Animation(0.15f, kingHippoRegion);
+        ganonAnimation       = new Animation(0.15f, ganonRegion);
+        draculaAnimation     = new Animation(0.15f, draculaRegion);
+        luigiAnimation       = new Animation(0.15f, luigiRegion);
+        drWilyAnimation      = new Animation(0.15f, drWilyRegion);
     }
 
     public static void dispose() {

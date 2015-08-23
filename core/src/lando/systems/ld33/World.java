@@ -377,20 +377,27 @@ public class World {
 
                 loadMap("maps/cadreroom.tmx");
 
-                player = new PlayerGoomba(this, new Vector2(18.5f, 3));
-                player.setRageMode();
+                // Spawn cultist members
+                new Ganon(this, new Vector2(0.5f, 2));
+                new KingHippo(this, new Vector2(2.5f, 2));
+                new MotherBrain(this, new Vector2(6, 2));
+                new Dracula(this, new Vector2(13, 2));
+                new Luigi(this, new Vector2(16, 2));
+                new DrWily(this, new Vector2(18, 2));
+
+                player = new PlayerGoomba(this, new Vector2(17.5f, 13f));
+                player.canRight = true;
+                player.canJump = true;
+                player.setNormalMode();
                 player.moveDelay = EntityBase.PIPEDELAY;
                 Tween.to(player.getBounds(), RectangleAccessor.Y, EntityBase.PIPEDELAY)
-                     .target(player.getBounds().y + 1f)
+                     .target(player.getBounds().y - 1f)
                      .ease(Linear.INOUT)
                      .start(LudumDare33.tween);
 
-                // TODO: spawn cultist members
-
                 messages = new Array<String>();
-                messages.add(GameText.getText("cultEnter"));
                 messages.add(GameText.getText("cultChant"));
-                // TODO: chanting
+                messages.add(GameText.getText("cultEnter"));
                 dialogue.show(1, 10, 18, 4, messages);
                 break;
         }
