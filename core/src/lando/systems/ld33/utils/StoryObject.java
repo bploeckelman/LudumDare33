@@ -25,14 +25,12 @@ public class StoryObject {
 
     public void doTransition() {
         if (chapterNumber != null) {
-            // TODO: do chapter transition
             System.out.println("launching chapter " + chapterNumber);
             storyManager.currentChapter = chapterNumber;
             storyManager.currentScreen = new ChapterScreen(game, chapterNumber);
             game.setScreen(storyManager.currentScreen);
         }
         else if (worldPhase != null) {
-            // TODO: do world phase transition
             System.out.println("launching game phase " + worldPhase.name());
             storyManager.currentPhase = worldPhase;
             storyManager.currentScreen = new PrototypeScreen(game, worldPhase);

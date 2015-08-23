@@ -31,11 +31,16 @@ public class StoryManager {
         storySequence.add(new StoryObject(this, null, World.Phase.DAY_ONE));
         storySequence.add(new StoryObject(this, null, World.Phase.HEADING_HOME));
         storySequence.add(new StoryObject(this, null, World.Phase.MEET_THE_WIFE));
+        storySequence.add(new StoryObject(this, null, World.Phase.LEAVING_HOME));
+        storySequence.add(new StoryObject(this, null, World.Phase.DAY_ONE));
+        storySequence.add(new StoryObject(this, null, World.Phase.HEADING_HOME));
+        storySequence.add(new StoryObject(this, null, World.Phase.EMPTY_HOUSE));
+        storySequence.add(new StoryObject(this, null, World.Phase.LEAVING_HOME));
         storySequence.add(new StoryObject(this, 2, null));
         storySequence.add(new StoryObject(this, null, World.Phase.DAY_ONE));
         storySequence.add(new StoryObject(this, null, World.Phase.HEADING_HOME));
 
-        storyIndex = 3;
+        storyIndex = 0;
         storySequence.get(storyIndex).doTransition();
     }
 

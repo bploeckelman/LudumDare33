@@ -42,7 +42,7 @@ public class World {
     public static final int   PIXELS_PER_TILE   = Config.width / SCREEN_TILES_WIDE;
 
     public enum Phase {
-        DAY_ONE, HEADING_HOME, MEET_THE_WIFE
+        DAY_ONE, HEADING_HOME, MEET_THE_WIFE, LEAVING_HOME, BACK_TO_WORK, EMPTY_HOUSE
     }
 
     public TiledMapTileLayer          foregroundLayer;
@@ -199,7 +199,7 @@ public class World {
                 gameEntities.add(player);
 
                 Array<String> messages = new Array<String>();
-                messages.add("\"You're late! Move left and get into position!\"");
+                messages.add("\"You're late again! Move left and get into position!\"");
                 dialogue.show(1, 10, 18, 4, messages);
                 break;
             case HEADING_HOME:
@@ -257,17 +257,74 @@ public class World {
                         .start(LudumDare33.tween);
                 gameEntities.add(kids);
 
-
-
                 messages = new Array<String>();
                 messages.add(Assets.wifeName
                              + ":\"What the hell, injured on the job again?! "
                              + "That's it, I'm taking the kids and going to my mother's house!\"");
-                messages.add(Assets.playerName + "\"... wait, but... I ... don't go!\"");
+                messages.add(Assets.playerName + ":\"... wait, but... I ... don't go!\"");
                 dialogue.show(1, 10, 18, 4, messages);
-
                 break;
+            case LEAVING_HOME:
+                Gdx.gl.glClearColor(Assets.BLUE_SKY_R, Assets.BLUE_SKY_G, Assets.BLUE_SKY_B, 1f);
 
+                map = mapLoader.load("maps/exithome.tmx");
+                loadMapObjects();
+
+                player = new PlayerGoomba(this, new Vector2(11, 2));
+                player.canJump = false;
+                player.canRight = false;
+                player.moveDelay = EntityBase.PIPEDELAY;
+                Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
+                     .target(player.getBounds().x - 1f)
+                     .ease(Linear.INOUT)
+                     .start(LudumDare33.tween);
+                gameEntities.add(player);
+
+                messages = new Array<String>();
+                messages.add(Assets.playerName
+                             + ":\"6 am already?! God dammit... I'm getting to old for this shit.\"");
+                dialogue.show(1, 10, 18, 4, messages);
+                break;
+            case BACK_TO_WORK:
+                Gdx.gl.glClearColor(Assets.BLUE_SKY_R, Assets.BLUE_SKY_G, Assets.BLUE_SKY_B, 1f);
+
+                map = mapLoader.load("maps/level1.tmx");
+                loadMapObjects();
+
+                player = new PlayerGoomba(this, new Vector2(33.5f, 3f));
+                player.canJump = false;
+                player.canRight = false;
+                player.moveDelay = EntityBase.PIPEDELAY;
+                Tween.to(player.getBounds(), RectangleAccessor.Y, EntityBase.PIPEDELAY)
+                     .target(player.getBounds().y + 1f)
+                     .ease(Linear.INOUT)
+                     .start(LudumDare33.tween);
+
+                messages = new Array<String>();
+                messages.add(Assets.playerName + ":\"Here we go again. Maybe I can impress the boss today!\"");
+                dialogue.show(1, 10, 18, 4, messages);
+                break;
+            case EMPTY_HOUSE:
+                Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
+
+                map = mapLoader.load("maps/inhome-bedroom.tmx");
+                loadMapObjects();
+
+                player = new PlayerGoomba(this, new Vector2(20, 2));
+                player.canJump = false;
+                player.canRight = false;
+                player.setWounded();
+                player.moveDelay = EntityBase.PIPEDELAY;
+                Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
+                     .target(player.getBounds().x - 1f)
+                     .ease(Linear.INOUT)
+                     .start(LudumDare33.tween);
+                gameEntities.add(player);
+
+                messages = new Array<String>();
+                messages.add(Assets.playerName + ":\"... ... I guess she's really not coming back. *sigh*\"");
+                dialogue.show(1, 10, 18, 4, messages);
+                break;
         }
     }
 
@@ -287,7 +344,7 @@ public class World {
                             player.moveDelay = 6;
 
                             Array<String> messages = new Array<String>();
-                            messages.add("\"All right everyone! Here we go!\"");
+                            messages.add("\"All right everyone! Here he comes, look sharp;!\"");
                             dialogue.show(1,10,18,4,messages);
 
                             MarioAI mario = new MarioAI(this, new Vector2(10, 2));
@@ -359,12 +416,11 @@ public class World {
                             Tween.to(kids.getBounds(), RectangleAccessor.X, 2f)
                                     .target(wife.getBounds().x)
                                     .ease(Linear.INOUT)
-
                                     .start(LudumDare33.tween);
                         }
                         break;
                     case 1:
-                        // Wife storms out, TODO: takes the kids
+                        // Wife storms out, takes the kids
                         if (player.getBounds().x < 19){
                             player.getBounds().x = 19;
                             segment++;
@@ -452,6 +508,93 @@ public class World {
                         }
                         break;
                 }
+                break;
+            case LEAVING_HOME:
+                switch (segment) {
+                    case 0:
+                        // Enter, stage right
+                        if (player.getBounds().x < 10){
+                            player.getBounds().x = 10;
+                            segment++;
+                        }
+                        break;
+                    case 1:
+                        // Walking into the pipe
+                        if (player.getBounds().x < 3.5f) {
+                            player.getBounds().x = 3;
+                            segment++;
+                            player.moveDelay = EntityBase.PIPEDELAY;
+                            Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
+                                 .target(player.getBounds().x - 1f)
+                                 .ease(Linear.INOUT)
+                                 .setCallback(new TweenCallback() {
+                                     @Override
+                                     public void onEvent(int i, BaseTween<?> baseTween) {
+                                         World.this.done = true;
+                                     }
+                                 })
+                                 .start(LudumDare33.tween);
+                        }
+                        break;
+                }
+                break;
+            case BACK_TO_WORK:
+                break;
+            case EMPTY_HOUSE:
+                switch (segment) {
+                    case 0:
+                        // Get into bed
+                        if (player.getBounds().x < 9) {
+                            player.getBounds().x = 9;
+                            segment++;
+                            player.moveDelay = 1f;
+                            Tween.to(player.getBounds(), RectangleAccessor.Y, 1f)
+                                 .target(player.getBounds().y + 1f)
+                                 .ease(Linear.INOUT)
+                                 .start(LudumDare33.tween);
+                        }
+                        break;
+                    case 1:
+                        // Sleep... beautiful sleep
+                        if (player.moveDelay <= 0) {
+                            player.moveDelay = 2f;
+                            segment++;
+                            Tween.to(transitionColor, ColorAccessor.A, 1f)
+                                 .target(0)
+                                 .ease(Linear.INOUT)
+                                 .repeatYoyo(1, 0)
+                                 .setCallback(new TweenCallback() {
+                                     @Override
+                                     public void onEvent(int i, BaseTween<?> baseTween) {
+                                         World.this.player.setNormalMode();
+                                     }
+                                 })
+                                 .start(LudumDare33.tween);
+                        }
+                        break;
+                    case 2:
+                        // Up and at-them
+                        if (player.getBounds().x < 1) {
+                            player.moveDelay = EntityBase.PIPEDELAY;
+                            segment++;
+                            Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
+                                 .target(-1f)
+                                 .ease(Linear.INOUT)
+                                 .setCallback(new TweenCallback() {
+                                     @Override
+                                     public void onEvent(int i, BaseTween<?> baseTween) {
+                                         World.this.done = true;
+                                     }
+                                 })
+                                 .start(LudumDare33.tween);
+                            Tween.to(transitionColor, ColorAccessor.A, EntityBase.PIPEDELAY)
+                                 .target(0)
+                                 .ease(Linear.INOUT)
+                                 .start(LudumDare33.tween);
+                        }
+                        break;
+                }
+                break;
         }
     }
 
