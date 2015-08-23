@@ -59,13 +59,6 @@ public class Dialogue extends InputAdapter {
     private float updateTime = 0f;
     private float keyDeBounce;
 
-    /**
-     *
-     * @param startTileX Starting tile x
-     * @param startTileY Starting tile y
-     * @param widthInTiles Width in tiles
-     * @param heightInTiles Height in tiles
-     */
     public Dialogue() {}
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -182,12 +175,15 @@ public class Dialogue extends InputAdapter {
             return processedLines;
         } else {
             // It doesn't fit.
-            int wrapIndex = givenLine.length() - 1;
+            // Move backwards to the spaces.
+            int wrapIndex = givenLine.lastIndexOf(SPACE, givenLine.length());
             String wrappedString = givenLine.substring(0, wrapIndex);
             this.measuringLayout.setText(Assets.font, wrappedString);
             while (this.measuringLayout.width > this.fontDrawWidth) {
                 // It still didn't fit.  Shorten it.
                 wrapIndex--;
+                wrapIndex = givenLine.lastIndexOf(SPACE, wrapIndex);
+                // Catch the unexpected.
                 if (wrapIndex <= 2) {
                     Gdx.app.log("ERROR",
                             "Wrapping has gone horribly horribly wrong.  GivenLine='" +
@@ -198,32 +194,13 @@ public class Dialogue extends InputAdapter {
                 this.measuringLayout.setText(Assets.font, wrappedString);
             }
 
-            // We have a string that'll fit now.  Let's make some decisions on how to split up the lines though.
-            char lastChar = wrappedString.charAt(wrappedString.length() - 1);
-            char secondToLastChar = wrappedString.charAt(wrappedString.length() - 2);
-            char firstChar = givenLine.charAt(wrapIndex);
-            String newLine;
-            if (lastChar != SPACE && secondToLastChar != SPACE && firstChar != SPACE) {
+            // Add the line that fits.
+            processedLines.add(givenLine.substring(0, wrapIndex));
 
-                // We're splitting up a word.  Use the '-'
-                processedLines.add(wrappedString.substring(0, wrappedString.length() - 1) + "-");
-                newLine = lastChar + givenLine.substring(wrapIndex, givenLine.length());
+            // Get the rest (skipping over that space)
+            String newLine = givenLine.substring(wrapIndex + 1);
 
-            } else if (secondToLastChar == SPACE && lastChar != SPACE && firstChar != SPACE) {
-
-                // Push the word onto the next line
-                processedLines.add(wrappedString.substring(0, wrappedString.length() - 1));
-                newLine = lastChar + givenLine.substring(wrapIndex, givenLine.length());
-
-            } else {
-
-                processedLines.add(wrappedString);
-                newLine = givenLine.substring(wrapIndex, givenLine.length());
-
-            }
-
-            // The new line might need wrapping...
-            newLine = newLine.trim();
+            // Wrap the remainder if needed.
             Array<String> wrapResult = wrapLine(newLine);
             for (int i = 0; i < wrapResult.size; i++) {
                 processedLines.add(wrapResult.get(i));

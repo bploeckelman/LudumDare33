@@ -147,8 +147,9 @@ public class Assets {
         goombaHurtStandingAnimation = new Animation(.15f,
             atlas.findRegion("goomba-hurt-straight-on"));
 
+        TextureRegion[] coinFrames = atlas.findRegion("coin").split(16, 16)[0];
         coinAnimation = new Animation(.03f,
-            Arrays.copyOfRange(atlas.findRegion("coin").split(16, 16)[0], 1, 4));
+            coinFrames[1], coinFrames[2], coinFrames[3], coinFrames[4]);
         coinAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
         mushroomAnimation = new Animation(.15f, bigMushroom);
