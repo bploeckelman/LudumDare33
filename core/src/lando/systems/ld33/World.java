@@ -1,5 +1,9 @@
 package lando.systems.ld33;
 
+import aurelienribon.tweenengine.BaseTween;
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
+import aurelienribon.tweenengine.equations.Linear;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapLayer;
@@ -14,6 +18,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Pools;
+import lando.systems.ld33.accessors.RectangleAccessor;
 import lando.systems.ld33.entities.*;
 import org.w3c.dom.css.Rect;
 
@@ -49,9 +54,11 @@ public class World {
     public float                      gameWidth;
     public Phase                      phase;
     public int                        segment;
+    public boolean                    done;
 
     public World(OrthographicCamera cam, Phase p, SpriteBatch batch){
         phase = p;
+        done = false;
         gameEntities = new Array<EntityBase>();
         camera = cam;
 
@@ -174,6 +181,19 @@ public class World {
                             gameEntities.add(mario);
                         }
                         break;
+                    case 1:
+                        if (player.getBounds().x <= 5.5){
+                            Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
+                                    .target(3.5f)
+                                    .ease(Linear.INOUT)
+                                    .setCallback(new TweenCallback() {
+                                        @Override
+                                        public void onEvent(int i, BaseTween<?> baseTween) {
+                                            World.this.done = true;
+                                        }
+                                    })
+                                    .start(LudumDare33.tween);
+                        }
 
                 }
                 break;
