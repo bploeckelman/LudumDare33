@@ -38,6 +38,8 @@ public class Assets {
     public static Animation goombaNormalWalkAnimation;
     public static Animation goombaWalkAnimation;
     public static Animation coinAnimation;
+    public static Animation fireFlowerAnimation;
+    public static Animation starAnimation;
 
     public static void load() {
         batch = new SpriteBatch();
@@ -94,6 +96,12 @@ public class Assets {
         coinAnimation = new Animation(.03f,
             Arrays.copyOfRange(atlas.findRegion("coin").split(16, 16)[0], 1, 4));
         coinAnimation.setPlayMode(Animation.PlayMode.LOOP);
+        fireFlowerAnimation = new Animation(.15f,
+            atlas.findRegion("fire-flower").split(16, 16)[0]);
+        fireFlowerAnimation.setPlayMode(Animation.PlayMode.LOOP);
+        starAnimation = new Animation(.15f,
+            atlas.findRegion("star").split(16, 16)[0]);
+        starAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
     }
 
