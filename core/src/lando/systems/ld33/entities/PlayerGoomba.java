@@ -44,6 +44,11 @@ public class PlayerGoomba extends EntityBase {
         standingAnimation = Assets.goombaHurtStandingAnimation;
     }
 
+    public void setSadMode(){
+        walkingAnimation = Assets.goombaSadWalkAnimation;
+        standingAnimation = jumpingAnimation = Assets.goombaSadStandingAnimation;
+    }
+
     public void setRageMode() {
         raged = true;
         canJump = true;
@@ -51,6 +56,7 @@ public class PlayerGoomba extends EntityBase {
         walkingAnimation = Assets.goombaWalkAnimation;
         standingAnimation = Assets.goombaWalkAnimation;
         smashedAnimation = Assets.goombaWalkAnimation;
+        jumpingAnimation = Assets.goombaWalkAnimation;
     }
 
     public void stomped() {

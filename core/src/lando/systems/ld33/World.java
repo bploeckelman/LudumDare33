@@ -276,6 +276,7 @@ public class World {
                 player.canJump = false;
                 player.canRight = false;
                 player.moveDelay = EntityBase.PIPEDELAY;
+                player.setSadMode();
                 Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
                      .target(player.getBounds().x - 1f)
                      .ease(Linear.INOUT)
@@ -295,6 +296,7 @@ public class World {
                 player.canJump = false;
                 player.canRight = false;
                 player.moveDelay = EntityBase.PIPEDELAY;
+                player.setSadMode();
                 Tween.to(player.getBounds(), RectangleAccessor.Y, EntityBase.PIPEDELAY)
                      .target(player.getBounds().y + 1f)
                      .ease(Linear.INOUT)
@@ -333,6 +335,7 @@ public class World {
                 player.canJump = false;
                 player.canRight = false;
                 player.moveDelay = EntityBase.PIPEDELAY;
+                player.setSadMode();
                 Tween.to(player.getBounds(), RectangleAccessor.Y, EntityBase.PIPEDELAY)
                         .target(player.getBounds().y + 1f)
                         .ease(Linear.INOUT)
@@ -516,7 +519,7 @@ public class World {
                                     .setCallback(new TweenCallback() {
                                         @Override
                                         public void onEvent(int i, BaseTween<?> baseTween) {
-                                            World.this.player.setNormalMode();
+                                            World.this.player.setSadMode();
                                         }
                                     })
                                     .start(LudumDare33.tween);
@@ -641,7 +644,7 @@ public class World {
                                  .setCallback(new TweenCallback() {
                                      @Override
                                      public void onEvent(int i, BaseTween<?> baseTween) {
-                                         World.this.player.setNormalMode();
+                                         World.this.player.setSadMode();
                                      }
                                  })
                                  .start(LudumDare33.tween);
