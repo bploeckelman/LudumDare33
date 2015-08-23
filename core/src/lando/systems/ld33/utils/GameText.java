@@ -45,6 +45,10 @@ public class GameText {
 
         // Respawn
         strings.put("respawn", "Please be more careful, this is Ludum Dare so we won't make you start again.");
+
+        // Cult room
+        strings.put("cultEnter", strings.get("playerName") + ":\"This is creepy...\"");
+        strings.put("cultChant", "Cultists :(chanting) \"LUDUM DARE... LUDUM DARE... LUDUM DARE... LUDUM DARE...\"");
     }
 
     public static String getText(String key){

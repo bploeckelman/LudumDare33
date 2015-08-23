@@ -47,7 +47,9 @@ public class World {
     public static final int   PIXELS_PER_TILE   = Config.width / SCREEN_TILES_WIDE;
 
     public enum Phase {
-        DAY_ONE, HEADING_HOME, MEET_THE_WIFE, LEAVING_HOME, BACK_TO_WORK, INTO_THE_FACTORY, EMPTY_HOUSE, GET_MUSHROOM
+        DAY_ONE, HEADING_HOME, MEET_THE_WIFE, LEAVING_HOME, BACK_TO_WORK, INTO_THE_FACTORY, EMPTY_HOUSE,
+        CULT_ROOM,
+        GET_MUSHROOM
     }
 
     public TiledMapTileLayer          foregroundLayer;
@@ -368,6 +370,27 @@ public class World {
 
                 messages = new Array<String>();
                 messages.add(GameText.getText("playerName") + GameText.getText("intoFactory"));
+                dialogue.show(1, 10, 18, 4, messages);
+                break;
+            case CULT_ROOM:
+                Gdx.gl.glClearColor(220f / 255f, 20f / 255f, 60f / 255f, 1f);
+
+                loadMap("maps/cadreroom.tmx");
+
+                player = new PlayerGoomba(this, new Vector2(18.5f, 3));
+                player.setRageMode();
+                player.moveDelay = EntityBase.PIPEDELAY;
+                Tween.to(player.getBounds(), RectangleAccessor.Y, EntityBase.PIPEDELAY)
+                     .target(player.getBounds().y + 1f)
+                     .ease(Linear.INOUT)
+                     .start(LudumDare33.tween);
+
+                // TODO: spawn cultist members
+
+                messages = new Array<String>();
+                messages.add(GameText.getText("cultEnter"));
+                messages.add(GameText.getText("cultChant"));
+                // TODO: chanting
                 dialogue.show(1, 10, 18, 4, messages);
                 break;
         }
@@ -743,6 +766,27 @@ public class World {
                 }
                 break;
             case INTO_THE_FACTORY:
+                switch (segment) {
+                    case 0:
+                        if (player.getBounds().x < 2.5f && player.getBounds().y < 4.5) {
+                            player.getBounds().x = 2.5f;
+                            player.getBounds().y = 4f;
+                            player.moveDelay = EntityBase.PIPEDELAY;
+                            Tween.to(player.getBounds(), RectangleAccessor.Y, EntityBase.PIPEDELAY)
+                                    .target(player.getBounds().y - 1f)
+                                    .ease(Linear.INOUT)
+                                    .setCallback(new TweenCallback() {
+                                        @Override
+                                        public void onEvent(int i, BaseTween<?> baseTween) {
+                                            World.this.done = true;
+                                        }
+                                    })
+                                    .start(LudumDare33.tween);
+                        }
+                        break;
+                }
+                break;
+            case CULT_ROOM:
                 switch (segment) {
                     // TODO: handle segment changes here
                 }

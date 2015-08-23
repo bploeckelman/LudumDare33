@@ -39,6 +39,7 @@ public class StoryManager {
         storySequence.add(new StoryObject(this, 2, null));
         storySequence.add(new StoryObject(this, null, World.Phase.GET_MUSHROOM));
         storySequence.add(new StoryObject(this, null, World.Phase.INTO_THE_FACTORY));
+        storySequence.add(new StoryObject(this, null, World.Phase.CULT_ROOM));
 
         storyIndex = 0;
         storySequence.get(storyIndex).doTransition();
