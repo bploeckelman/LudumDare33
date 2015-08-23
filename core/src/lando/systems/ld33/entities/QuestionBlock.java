@@ -55,7 +55,7 @@ public class QuestionBlock extends ObjectBase {
             case COIN:       item = new CoinItem(world, bounds.x, bounds.y); break;
             case MUSHROOM:   item = new MushroomItem(world, bounds.x, bounds.y); break;
             case FIREFLOWER: item = new FireflowerItem(world, bounds.x, bounds.y); break;
-            case STAR:       item = new MushroomItem(world, bounds.x, bounds.y); break;
+            case STAR:       item = new StarItem(world, bounds.x, bounds.y); break;
         }
         world.gameEntities.add(item);
 
