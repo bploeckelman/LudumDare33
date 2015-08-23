@@ -58,7 +58,6 @@ public class QuestionBlock extends ObjectBase {
             case FIREFLOWER: item = new FireflowerItem(world, bounds.x, bounds.y); break;
             case STAR:       item = new StarItem(world, bounds.x, bounds.y); break;
         }
-        world.gameEntities.add(item);
 
         // Bounce this question block
         Tween.to(bounds, RectangleAccessor.XY, 0.175f)

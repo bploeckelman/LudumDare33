@@ -28,6 +28,7 @@ import lando.systems.ld33.entities.items.ItemEntity;
 import lando.systems.ld33.entities.mapobjects.ObjectBase;
 import lando.systems.ld33.entities.mapobjects.QuestionBlock;
 import lando.systems.ld33.utils.Assets;
+import lando.systems.ld33.utils.GameText;
 
 import java.util.Iterator;
 
@@ -196,10 +197,9 @@ public class World {
                      .target(player.getBounds().y + 1f)
                      .ease(Linear.INOUT)
                      .start(LudumDare33.tween);
-                gameEntities.add(player);
 
                 Array<String> messages = new Array<String>();
-                messages.add("\"You're late again! Move left and get into position!\"");
+                messages.add(GameText.getText("foremanLate"));
                 dialogue.show(1, 10, 18, 4, messages);
                 break;
             case HEADING_HOME:
@@ -217,10 +217,9 @@ public class World {
                      .target(player.getBounds().x - 1f)
                      .ease(Linear.INOUT)
                      .start(LudumDare33.tween);
-                gameEntities.add(player);
 
                 messages = new Array<String>();
-                messages.add(Assets.playerName + ":\"Damn it I'm late getting home again.\"");
+                messages.add(GameText.getText("playerName") + GameText.getText("playerLate"));
                 dialogue.show(1, 10, 18, 4, messages);
                 break;
             case MEET_THE_WIFE:
@@ -239,7 +238,6 @@ public class World {
                         .ease(Linear.INOUT)
                         .start(LudumDare33.tween);
 
-                gameEntities.add(player);
 
                 wife = new WifeGoomba(this, new Vector2(9, 2));
                 wife.moveDelay = 1f;
@@ -248,20 +246,16 @@ public class World {
                         .repeatYoyo(3, 0f)
                         .ease(Linear.INOUT)
                         .start(LudumDare33.tween);
-                gameEntities.add(wife);
 
                 kids = new GoombaKids(this, new Vector2(15, 2));
                 Tween.to(kids.getBounds(), RectangleAccessor.X, 2f)
                         .target(19)
                         .ease(Linear.INOUT)
                         .start(LudumDare33.tween);
-                gameEntities.add(kids);
 
                 messages = new Array<String>();
-                messages.add(Assets.wifeName
-                             + ":\"What the hell, injured on the job again?! "
-                             + "That's it, I'm taking the kids and going to my mother's house!\"");
-                messages.add(Assets.playerName + ":\"... wait, but... I ... don't go!\"");
+                messages.add(GameText.getText("wifeName") + GameText.getText("wifeBitching"));
+                messages.add(GameText.getText("playerName") + GameText.getText("playerDontGo"));
                 dialogue.show(1, 10, 18, 4, messages);
                 break;
             case LEAVING_HOME:
@@ -278,11 +272,9 @@ public class World {
                      .target(player.getBounds().x - 1f)
                      .ease(Linear.INOUT)
                      .start(LudumDare33.tween);
-                gameEntities.add(player);
 
                 messages = new Array<String>();
-                messages.add(Assets.playerName
-                             + ":\"6 am already?! God dammit... I'm getting to old for this shit.\"");
+                messages.add(GameText.getText("playerName") + GameText.getText("tooOld"));
                 dialogue.show(1, 10, 18, 4, messages);
                 break;
             case BACK_TO_WORK:
@@ -319,7 +311,6 @@ public class World {
                      .target(player.getBounds().x - 1f)
                      .ease(Linear.INOUT)
                      .start(LudumDare33.tween);
-                gameEntities.add(player);
 
                 messages = new Array<String>();
                 messages.add(Assets.playerName + ":\"... ... I guess she's really not coming back. *sigh*\"");
@@ -348,7 +339,6 @@ public class World {
                             dialogue.show(1,10,18,4,messages);
 
                             MarioAI mario = new MarioAI(this, new Vector2(10, 2));
-                            gameEntities.add(mario);
                         }
                         break;
                     case 1:

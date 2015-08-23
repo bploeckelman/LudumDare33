@@ -67,6 +67,7 @@ public class Assets {
 
     public static void load() {
         batch = new SpriteBatch();
+        GameText.load();
         playerName = "Billy";
         wifeName = "Misty";
         atlas = new TextureAtlas(Gdx.files.internal("sprites.atlas"));

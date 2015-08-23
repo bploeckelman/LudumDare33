@@ -56,6 +56,8 @@ public class EntityBase {
         jumpingAnimation = Assets.goombaSmashedAnimation;
         smashedAnimation = Assets.goombaSmashedAnimation;
 
+        world.gameEntities.add(this);
+
     }
 
     public Rectangle getBounds(){
