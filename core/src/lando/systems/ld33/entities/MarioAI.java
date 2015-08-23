@@ -35,7 +35,8 @@ public class MarioAI extends EntityBase {
     }
 
     public void growBig(){
-
+        animation = Assets.marioBigWalkAnimation;
+        bounds.height = 2;
     }
 
     protected void hitBlockFromBelow(ObjectBase obj){

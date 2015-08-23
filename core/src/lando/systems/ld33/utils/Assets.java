@@ -34,6 +34,7 @@ public class Assets {
 
     public static Animation questionBlockAnimation;
     public static Animation marioSmallWalkAnimation;
+    public static Animation marioBigWalkAnimation;
     public static Animation goombaNormalWalkAnimation;
     public static Animation goombaWalkAnimation;
     public static Animation coinAnimation;
@@ -75,6 +76,13 @@ public class Assets {
             atlas.findRegion("mario-small-walk2"),
             atlas.findRegion("mario-small-walk3"));
         marioSmallWalkAnimation.setPlayMode(Animation.PlayMode.LOOP);
+
+        marioBigWalkAnimation = new Animation(.15f,
+                atlas.findRegion("mario-big-walk1"),
+                atlas.findRegion("mario-big-walk2"),
+                atlas.findRegion("mario-big-walk3"));
+        marioBigWalkAnimation.setPlayMode(Animation.PlayMode.LOOP);
+
         goombaNormalWalkAnimation = new Animation(.15f,
             atlas.findRegion("goomba-normal-walk1"),
             atlas.findRegion("goomba-normal-walk2"));
@@ -84,7 +92,7 @@ public class Assets {
             atlas.findRegion("goomba-walk2"));
         goombaWalkAnimation.setPlayMode(Animation.PlayMode.LOOP);
         coinAnimation = new Animation(.03f,
-            Arrays.copyOfRange(atlas.findRegion("coin").split(16, 16)[0],1, 4));
+            Arrays.copyOfRange(atlas.findRegion("coin").split(16, 16)[0], 1, 4));
         coinAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
     }
