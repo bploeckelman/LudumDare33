@@ -1,6 +1,7 @@
 package lando.systems.ld33.entities;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
@@ -15,7 +16,7 @@ import lando.systems.ld33.utils.Assets;
 public class EntityBase {
     protected static final float PIPEDELAY = 2f;
 
-    protected TextureRegion keyframe;
+//    protected TextureRegion keyframe;
     protected Rectangle bounds;
     protected Vector2 velocity;
     protected boolean facesRight;
@@ -29,10 +30,15 @@ public class EntityBase {
     protected Array<Rectangle> tiles;
     public float moveDelay;
     public boolean dead;
+    public Animation standingAnimation;
+    public Animation walkingAnimation;
+    public Animation jumpingAnimation;
+    public Animation smashedAnimation;
+    public float stateTime;
 
 
     enum State {
-        Standing, Walking, Jumping
+        Standing, Walking, Jumping, Smashed
     }
 
 
@@ -40,10 +46,16 @@ public class EntityBase {
         tiles = new Array<Rectangle>();
         world = w;
         state = State.Standing;
-        keyframe = Assets.testTextureRegion;
+//        keyframe = Assets.testTextureRegion;
         bounds = new Rectangle(3,0,1,1);
         velocity = new Vector2();
         dead = false;
+        stateTime = 0;
+        standingAnimation = Assets.goombaSmashedAnimation;
+        walkingAnimation = Assets.goombaSmashedAnimation;
+        jumpingAnimation = Assets.goombaSmashedAnimation;
+        smashedAnimation = Assets.goombaSmashedAnimation;
+
     }
 
     public Rectangle getBounds(){
@@ -51,6 +63,8 @@ public class EntityBase {
     }
 
     public void update(float dt){
+        stateTime += dt;
+
         moveDelay -= dt;
         if (moveDelay > 0) return;
 
@@ -66,7 +80,12 @@ public class EntityBase {
         // Stop if gets slow enough
         if (Math.abs(velocity.x) < 1) {
             velocity.x = 0;
-            if (grounded) state = State.Standing;
+            state = State.Standing;
+        } else {
+            state = State.Walking;
+        }
+        if (!grounded) {
+            state = State.Jumping;
         }
 
         // multiply by delta time so we know how far we go
@@ -170,6 +189,10 @@ public class EntityBase {
     }
 
 
+    public void stomped(){
+
+    }
+
    protected void hitHorizontal(){
        velocity.x = 0;
    }
@@ -181,8 +204,23 @@ public class EntityBase {
 
 
     public void render(SpriteBatch batch){
+        TextureRegion keyframe = null;
+        switch(state){
+            case Walking:
+                keyframe = walkingAnimation.getKeyFrame(stateTime);
+                break;
+            case Standing:
+                keyframe = standingAnimation.getKeyFrame(stateTime);
+                break;
+            case Jumping:
+                keyframe = jumpingAnimation.getKeyFrame(stateTime);
+                break;
+            case Smashed:
+                keyframe = smashedAnimation.getKeyFrame(stateTime);
+                break;
+        }
 
-        // TODO make this some sort of animation?
+
         if (facesRight) {
             batch.draw(keyframe, bounds.x, bounds.y, bounds.width, bounds.height);
         } else {

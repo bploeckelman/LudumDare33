@@ -18,17 +18,11 @@ public class CoinItem extends ItemEntity {
 
     private static final float BOUNCE_HEIGHT = 4.0f;
 
-    Animation animation;
-    float     stateTime;
-    boolean   isUsed;
 
     public CoinItem(final World world, float px, float py) {
         super(world, px, py);
-        animation = Assets.coinAnimation;
-        stateTime = 0f;
-        isUsed = false;
+        walkingAnimation = smashedAnimation = jumpingAnimation = standingAnimation = Assets.coinAnimation;
         type = ItemType.COIN;
-
         Tween.to(bounds, RectangleAccessor.Y, 0.3f)
                 .target(py + BOUNCE_HEIGHT)
                 .repeatYoyo(1, 0f)
@@ -36,8 +30,7 @@ public class CoinItem extends ItemEntity {
                 .setCallback(new TweenCallback() {
                     @Override
                     public void onEvent(int i, BaseTween<?> baseTween) {
-                        isUsed = true;
-                        world.gameEntities.removeValue(CoinItem.this, true);
+                        CoinItem.this.dead = true;
                     }
                 })
                 .start(LudumDare33.tween);
@@ -45,15 +38,12 @@ public class CoinItem extends ItemEntity {
 
     @Override
     public void update(float delta) {
-        if (!isUsed) {
-            stateTime += delta;
-            keyframe = animation.getKeyFrame(stateTime);
-        }
+
     }
 
     @Override
     public void render(SpriteBatch batch) {
-        if (isUsed) return;
+
         super.render(batch);
     }
 

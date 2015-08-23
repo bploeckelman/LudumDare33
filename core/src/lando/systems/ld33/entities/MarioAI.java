@@ -10,52 +10,29 @@ import lando.systems.ld33.utils.Assets;
 /**
  * Created by dsgraham on 8/22/15.
  */
-public class MarioAI extends EntityBase {
+public class MarioAI extends Mario {
 
-    private int dir;
+
     private int segment;
     private boolean skipMushroom;
-    private float delay;
-
-    Animation animation;
-    float stateTime;
+    float delay;
 
     public MarioAI(World w, Vector2 pos, boolean skipMushroom) {
-        super(w);
+        super(w, pos);
         this.skipMushroom = skipMushroom;
-        bounds = new Rectangle(pos.x, pos.y, 1, 1);
-        animation = Assets.marioSmallWalkAnimation;
-        dir = 1;
         segment = 0;
-    }
-
-    public void jump(){
-        if (!grounded) return;
-        velocity.y = jumpVelocity;
-    }
-
-    public void growBig(){
-        animation = Assets.marioBigWalkAnimation;
-        bounds.height = 2;
-    }
-
-    protected void hitBlockFromBelow(ObjectBase obj){
-        obj.hit();
     }
 
     public void update(float dt){
         super.update(dt);
-        velocity.x = 8 * dir;
 
-        stateTime += dt;
-        keyframe = animation.getKeyFrame(stateTime);
 
         switch(segment) {
             case 0:
                 if (bounds.x > 20 && bounds.x < 21) {
                     jump();
                 }
-                if (bounds.x > 25) {
+                if (bounds.x > 25.5f) {
                     jump();
                     segment++;
                 }
@@ -95,20 +72,6 @@ public class MarioAI extends EntityBase {
                 break;
 
         }
-        velocity.x = 8 * dir;
 
-        facesRight = dir > 0;
-
-        Rectangle intersectRect = new Rectangle();
-        for (int i = 0; i < world.gameEntities.size; i ++){
-            EntityBase entity = world.gameEntities.get(i);
-            if (entity == this) continue;
-            if (Intersector.intersectRectangles(bounds, entity.getBounds(), intersectRect)){
-                if (entity instanceof MushroomItem) {
-                    growBig();
-                    entity.dead = true;
-                }
-            }
-        }
     }
 }

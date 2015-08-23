@@ -37,9 +37,11 @@ public class Assets {
     public static Animation marioBigWalkAnimation;
     public static Animation goombaNormalWalkAnimation;
     public static Animation goombaWalkAnimation;
+    public static Animation goombaSmashedAnimation;
     public static Animation coinAnimation;
     public static Animation fireFlowerAnimation;
     public static Animation starAnimation;
+    public static Animation mushroomAnimation;
 
     public static void load() {
         batch = new SpriteBatch();
@@ -93,9 +95,16 @@ public class Assets {
             atlas.findRegion("goomba-walk1"),
             atlas.findRegion("goomba-walk2"));
         goombaWalkAnimation.setPlayMode(Animation.PlayMode.LOOP);
+
+        goombaSmashedAnimation  = new Animation(.15f,
+                atlas.findRegion("goomba-squished"));
+
         coinAnimation = new Animation(.03f,
             Arrays.copyOfRange(atlas.findRegion("coin").split(16, 16)[0], 1, 4));
         coinAnimation.setPlayMode(Animation.PlayMode.LOOP);
+
+        mushroomAnimation = new Animation(.15f, bigMushroom);
+
         fireFlowerAnimation = new Animation(.15f,
             atlas.findRegion("fire-flower").split(16, 16)[0]);
         fireFlowerAnimation.setPlayMode(Animation.PlayMode.LOOP);

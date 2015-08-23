@@ -1,9 +1,6 @@
 package lando.systems.ld33.entities;
 
 import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenEquation;
-import aurelienribon.tweenengine.TweenEquations;
-import aurelienribon.tweenengine.equations.Back;
 import aurelienribon.tweenengine.equations.Linear;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -24,8 +21,8 @@ public class PlayerGoomba extends EntityBase {
     public boolean canJump;
     public boolean canRight;
 
-    Animation animation;
-    float stateTime;
+
+    boolean raged = false;
 
     public PlayerGoomba(World w, Vector2 p) {
         super(w);
@@ -46,10 +43,19 @@ public class PlayerGoomba extends EntityBase {
     }
 
     protected void setNormalMode() {
-        animation = Assets.goombaNormalWalkAnimation;
+        walkingAnimation = Assets.goombaNormalWalkAnimation;
+        smashedAnimation = Assets.goombaSmashedAnimation;
+        standingAnimation = Assets.goombaNormalWalkAnimation;
+        jumpingAnimation = Assets.goombaNormalWalkAnimation;
     }
     protected void setRageMode() {
-        animation = Assets.goombaWalkAnimation;
+        raged = true;
+        walkingAnimation = Assets.goombaWalkAnimation;
+    }
+
+    public void stomped() {
+        state = State.Smashed;
+        moveDelay = 4;
     }
 
     @Override
@@ -57,9 +63,6 @@ public class PlayerGoomba extends EntityBase {
 
         super.update(dt);
 
-
-        stateTime += dt;
-        keyframe = animation.getKeyFrame(stateTime);
 
         if (moveDelay <= 0) {
 
@@ -98,5 +101,7 @@ public class PlayerGoomba extends EntityBase {
 
         // Keep in bounds
         bounds.x = Math.max(0, Math.min(world.gameWidth - bounds.width, bounds.x));
+
+
     }
 }

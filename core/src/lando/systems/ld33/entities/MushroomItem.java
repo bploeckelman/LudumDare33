@@ -14,7 +14,7 @@ public class MushroomItem extends ItemEntity {
 
     public MushroomItem(World w, float px, float py) {
         super(w, px, py);
-        keyframe = Assets.bigMushroom;
+        walkingAnimation = jumpingAnimation = standingAnimation = Assets.mushroomAnimation;
         type = ItemType.MUSHROOM;
         Tween.to(bounds, RectangleAccessor.Y, ITEMDELAY)
              .target(py + 1.1f)

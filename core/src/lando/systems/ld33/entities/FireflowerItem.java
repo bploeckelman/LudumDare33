@@ -13,13 +13,11 @@ import lando.systems.ld33.utils.Assets;
  */
 public class FireflowerItem extends ItemEntity {
 
-    Animation animation;
-    float     stateTime;
 
     public FireflowerItem(World w, float px, float py) {
         super(w, px, py);
         type = ItemType.FIREFLOWER;
-        animation = Assets.fireFlowerAnimation;
+        walkingAnimation = smashedAnimation = jumpingAnimation = standingAnimation  = Assets.fireFlowerAnimation;
         stateTime = 0f;
 
         Tween.to(bounds, RectangleAccessor.Y, 0.5f)
@@ -30,8 +28,6 @@ public class FireflowerItem extends ItemEntity {
 
     @Override
     public void update(float delta) {
-        stateTime += delta;
-        keyframe = animation.getKeyFrame(stateTime);
     }
 
 }

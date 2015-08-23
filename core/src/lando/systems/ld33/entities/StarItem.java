@@ -13,13 +13,12 @@ import lando.systems.ld33.utils.Assets;
  */
 public class StarItem extends ItemEntity {
 
-    Animation animation;
-    float     stateTime;
+
 
     public StarItem(World w, float px, float py) {
         super(w, px, py);
         type = ItemType.STAR;
-        animation = Assets.starAnimation;
+        walkingAnimation = smashedAnimation = jumpingAnimation = standingAnimation  = Assets.starAnimation;
         stateTime = 0f;
         Tween.to(bounds, RectangleAccessor.Y, ITEMDELAY)
              .target(py + 1.1f)
@@ -31,8 +30,6 @@ public class StarItem extends ItemEntity {
 
     @Override
     public void update(float delta) {
-        stateTime += delta;
-        keyframe = animation.getKeyFrame(stateTime);
         super.update(delta);
     }
 
