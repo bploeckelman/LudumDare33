@@ -27,6 +27,7 @@ public class World {
     public static final float MAP_UNIT_SCALE    = 1f / 16f;
     public static final int   SCREEN_TILES_WIDE = 20;
     public static final int   SCREEN_TILES_HIGH = 15;
+    public static final int     PIXELS_PER_TILE = Config.width / SCREEN_TILES_WIDE;
 
     public enum Phase {
         First, Second
