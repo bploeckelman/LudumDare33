@@ -35,7 +35,7 @@ public class StoryManager {
         storySequence.add(new StoryObject(this, null, World.Phase.DAY_ONE));
         storySequence.add(new StoryObject(this, null, World.Phase.HEADING_HOME));
 
-        storyIndex = 0;
+        storyIndex = 3;
         storySequence.get(storyIndex).doTransition();
     }
 

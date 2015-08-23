@@ -23,10 +23,7 @@ import com.badlogic.gdx.utils.Pools;
 import lando.systems.ld33.accessors.ColorAccessor;
 import lando.systems.ld33.accessors.RectangleAccessor;
 import lando.systems.ld33.dialogue.Dialogue;
-import lando.systems.ld33.entities.EntityBase;
-import lando.systems.ld33.entities.MarioAI;
-import lando.systems.ld33.entities.PlayerGoomba;
-import lando.systems.ld33.entities.WifeGoomba;
+import lando.systems.ld33.entities.*;
 import lando.systems.ld33.entities.items.ItemEntity;
 import lando.systems.ld33.entities.mapobjects.ObjectBase;
 import lando.systems.ld33.entities.mapobjects.QuestionBlock;
@@ -59,6 +56,7 @@ public class World {
     public Array<EntityBase>          gameEntities;
     public PlayerGoomba               player;
     public WifeGoomba                 wife;
+    public GoombaKids                 kids;
     public float                      cameraLeftEdge;
     public float                      cameraRightEdge;
     public float                      gameWidth;
@@ -90,7 +88,6 @@ public class World {
         tileRects = new Array<Rectangle>();
         rectPool = Pools.get(Rectangle.class);
 
-        gameEntities.add(player);
     }
 
     public void update(float dt) {
@@ -199,6 +196,7 @@ public class World {
                      .target(player.getBounds().y + 1f)
                      .ease(Linear.INOUT)
                      .start(LudumDare33.tween);
+                gameEntities.add(player);
 
                 Array<String> messages = new Array<String>();
                 messages.add("\"You're late! Move left and get into position!\"");
@@ -219,6 +217,7 @@ public class World {
                      .target(player.getBounds().x - 1f)
                      .ease(Linear.INOUT)
                      .start(LudumDare33.tween);
+                gameEntities.add(player);
 
                 messages = new Array<String>();
                 messages.add(Assets.playerName + ":\"Damn it I'm late getting home again.\"");
@@ -230,6 +229,18 @@ public class World {
                 map = mapLoader.load("maps/inhome-bedroom.tmx");
                 loadMapObjects();
 
+                player = new PlayerGoomba(this, new Vector2(20, 2));
+                player.canJump = false;
+                player.canRight = false;
+                player.setWounded();
+                player.moveDelay = EntityBase.PIPEDELAY;
+                Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
+                        .target(player.getBounds().x - 1f)
+                        .ease(Linear.INOUT)
+                        .start(LudumDare33.tween);
+
+                gameEntities.add(player);
+
                 wife = new WifeGoomba(this, new Vector2(9, 2));
                 wife.moveDelay = 1f;
                 Tween.to(wife.getBounds(), RectangleAccessor.Y, 0.2f)
@@ -239,15 +250,14 @@ public class World {
                         .start(LudumDare33.tween);
                 gameEntities.add(wife);
 
-                player = new PlayerGoomba(this, new Vector2(20, 2));
-                player.canJump = false;
-                player.canRight = false;
-                player.setWounded();
-                player.moveDelay = EntityBase.PIPEDELAY;
-                Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
-                     .target(player.getBounds().x - 1f)
-                     .ease(Linear.INOUT)
-                     .start(LudumDare33.tween);
+                kids = new GoombaKids(this, new Vector2(15, 2));
+                Tween.to(kids.getBounds(), RectangleAccessor.X, 2f)
+                        .target(19)
+                        .ease(Linear.INOUT)
+                        .start(LudumDare33.tween);
+                gameEntities.add(kids);
+
+
 
                 messages = new Array<String>();
                 messages.add(Assets.wifeName
@@ -343,6 +353,17 @@ public class World {
             case MEET_THE_WIFE:
                 switch (segment) {
                     case 0:
+                        if (!dialogue.isActive()){
+                            segment++;
+                            player.moveDelay = 2f;
+                            Tween.to(kids.getBounds(), RectangleAccessor.X, 2f)
+                                    .target(wife.getBounds().x)
+                                    .ease(Linear.INOUT)
+
+                                    .start(LudumDare33.tween);
+                        }
+                        break;
+                    case 1:
                         // Wife storms out, TODO: takes the kids
                         if (player.getBounds().x < 19){
                             player.getBounds().x = 19;
@@ -358,10 +379,20 @@ public class World {
                                         }
                                     })
                                     .start(LudumDare33.tween);
+                            Tween.to(kids.getBounds(), RectangleAccessor.X, 4f)
+                                    .target(-1f)
+                                    .ease(Linear.INOUT)
+                                    .setCallback(new TweenCallback() {
+                                        @Override
+                                        public void onEvent(int i, BaseTween<?> baseTween) {
+                                            kids.dead = true;
+                                        }
+                                    })
+                                    .start(LudumDare33.tween);
                         }
                         break;
                     // TODO: have a drink (or three)
-                    case 1:
+                    case 2:
                         // Go to the bed
                         if (player.getBounds().x < 12) {
                             Array<String> messages = new Array<String>();
@@ -371,7 +402,7 @@ public class World {
                             segment++;
                         }
                         break;
-                    case 2:
+                    case 3:
                         // Get into bed
                         if (player.getBounds().x < 9) {
                             player.getBounds().x = 9;
@@ -383,7 +414,7 @@ public class World {
                                  .start(LudumDare33.tween);
                         }
                         break;
-                    case 3:
+                    case 4:
                         if (player.moveDelay <= 0){
                             player.moveDelay = 2f;
                             segment++;
@@ -400,7 +431,7 @@ public class World {
                                     .start(LudumDare33.tween);
                         }
                         break;
-                    case 4:
+                    case 5:
                         if (player.getBounds().x < 1) {
                             player.moveDelay = EntityBase.PIPEDELAY;
                             segment++;
