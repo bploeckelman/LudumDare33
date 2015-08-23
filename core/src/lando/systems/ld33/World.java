@@ -235,7 +235,7 @@ public class World {
                             messages.add("\"Good Work!  Head on home to your family.\"");
                             dialogue.show(1, 10, 18, 4, messages);
                             player.walkingAnimation = Assets.goombaHurtAnimation;
-                            player.standingAnimation = Assets.goombaHurtAnimation;
+                            player.standingAnimation = Assets.goombaHurtStandingAnimation;
                         }
                         break;
                     case 2:
