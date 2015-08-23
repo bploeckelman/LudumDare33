@@ -27,6 +27,8 @@ public class Assets {
 
     public static TextureRegion testTextureRegion;
     public static TextureRegion deadQuestionBlockRegion;
+    public static TextureRegion[][] mushrooms;
+    public static TextureRegion bigMushroom;
 
     public static Animation questionBlockAnimation;
     public static Animation marioSmallWalkAnimation;
@@ -52,6 +54,9 @@ public class Assets {
         marioTilesetTexture = new Texture("maps/mario-tileset.png");
 
         TextureRegion[][] tilesetRegions = TextureRegion.split(marioTilesetTexture, 16, 16);
+
+        mushrooms = atlas.findRegion("mushrooms").split(16, 16);
+        bigMushroom = mushrooms[0][0];
 
         questionBlockAnimation = new Animation(QuestionBlock.FRAME_DURATION,
                                                tilesetRegions[0][24],
