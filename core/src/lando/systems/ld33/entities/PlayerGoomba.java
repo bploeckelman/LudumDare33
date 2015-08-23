@@ -27,14 +27,7 @@ public class PlayerGoomba extends EntityBase {
     public PlayerGoomba(World w, Vector2 p) {
         super(w);
 
-        bounds = new Rectangle(p.x, p.y - 1, 1, 1);
-        Tween.to(bounds, RectangleAccessor.Y, PIPEDELAY)
-                .target(p.y)
-                .ease(Linear.INOUT)
-                .start(LudumDare33.tween);
-        canJump = true;
-        canRight = true;
-        moveDelay = PIPEDELAY;
+        bounds = new Rectangle(p.x, p.y, 1, 1);
         setNormalMode();
     }
 

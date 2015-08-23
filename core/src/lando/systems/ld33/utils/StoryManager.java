@@ -40,7 +40,7 @@ public class StoryManager {
             currentScreen = new PrototypeScreen(game, currentPhase);
             currentChapter++;
             // TODO: temporary until we have more chapters in place
-            if (currentChapter > 2) currentChapter = 1;
+            if (currentChapter > 1) currentChapter = 1;
             game.setScreen(currentScreen);
         }
     }

@@ -117,6 +117,7 @@ public class ChapterScreen extends LDScreen  {
                 })
                 .start(LudumDare33.tween);
 
+        Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
     }
 
     // -----------------------------------------------------------------------------------------------------------------

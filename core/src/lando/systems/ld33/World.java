@@ -105,17 +105,27 @@ public class World {
                 map = mapLoader.load("maps/level1.tmx");
                 loadObjects();
 
-                player = new PlayerGoomba(this, new Vector2(33.5f, 4));
-                player.canRight = false;
+                player = new PlayerGoomba(this, new Vector2(33.5f, 3f));
                 player.canJump = false;
+                player.canRight = false;
+                player.moveDelay = EntityBase.PIPEDELAY;
+                Tween.to(player.getBounds(), RectangleAccessor.Y, EntityBase.PIPEDELAY)
+                     .target(player.getBounds().y + 1f)
+                     .ease(Linear.INOUT)
+                     .start(LudumDare33.tween);
                 break;
             case Second:
                 map = mapLoader.load("maps/enterhome.tmx");
                 loadObjects();
 
-                player = new PlayerGoomba(this, new Vector2(16, 3));
-                player.canRight = false;
+                player = new PlayerGoomba(this, new Vector2(17, 2));
                 player.canJump = false;
+                player.canRight = false;
+                player.moveDelay = EntityBase.PIPEDELAY;
+                Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
+                     .target(player.getBounds().x - 1f)
+                     .ease(Linear.INOUT)
+                     .start(LudumDare33.tween);
                 break;
         }
     }
@@ -221,7 +231,7 @@ public class World {
                             segment++;
                             Array<String> messages = new Array<String>();
                             messages.add("\"Good Work!  Head on home to your family.\"");
-                            dialogue.show(1,10,18,4,messages);
+                            dialogue.show(1, 10, 18, 4, messages);
                         }
                         break;
                     case 2:
@@ -238,22 +248,34 @@ public class World {
                                     })
                                     .start(LudumDare33.tween);
                         }
-
                 }
                 break;
             case Second:
-//                switch (segment){
-//                    case 0:
-//                        if (player.getBounds().x < 27){
-//                            player.getBounds().x = 27;
-//                            segment++;
-//                            player.moveDelay = 6;
-//                            MarioAI mario = new MarioAI(this, new Vector2(10, 2), false);
-//                            gameEntities.add(mario);
-//                        }
-//                        break;
-//
-//                }
+                switch (segment){
+                    case 0:
+                        if (player.getBounds().x < 16){
+                            player.getBounds().x = 16;
+                            segment++;
+                        }
+                        break;
+                    case 1:
+                        if (player.getBounds().x < 10) {
+                            player.getBounds().x = 10;
+                            segment++;
+                            Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
+                                 .target(8f)
+                                 .ease(Linear.INOUT)
+                                 .setCallback(new TweenCallback() {
+                                     @Override
+                                     public void onEvent(int i, BaseTween<?> baseTween) {
+                                         World.this.done = true;
+                                     }
+                                 })
+                                 .start(LudumDare33.tween);
+                        }
+                        break;
+
+                }
                 break;
         }
     }
