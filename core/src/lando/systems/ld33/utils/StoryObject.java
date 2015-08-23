@@ -22,19 +22,6 @@ public class StoryObject {
         this.chapterNumber = chapterNumber;
         this.worldPhase = worldPhase;
     }
-    //        if (currentScreen instanceof PrototypeScreen) {
-    //            System.out.println("launching chapter " + currentChapter);
-    //            currentScreen = new ChapterScreen(game, currentChapter);
-    //            game.setScreen(currentScreen);
-    //        }
-    //        else if (currentScreen instanceof ChapterScreen) {
-    //            System.out.println("launching game phase " + currentPhase.getValue());
-    //            currentScreen = new PrototypeScreen(game, currentPhase);
-    //            currentChapter++;
-    //            // TODO: temporary until we have more chapters in place
-    //            if (currentChapter > 1) currentChapter = 1;
-    //            game.setScreen(currentScreen);
-    //        }
 
     public void doTransition() {
         if (chapterNumber != null) {
