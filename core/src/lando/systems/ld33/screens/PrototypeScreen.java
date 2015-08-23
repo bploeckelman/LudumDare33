@@ -31,6 +31,7 @@ public class PrototypeScreen extends LDScreen {
 
         uiCamera = new OrthographicCamera();
         uiCamera.setToOrtho(false, Config.width, Config.height);
+        uiCamera.update();
         sceneFrameBuffer = new FrameBuffer(Format.RGBA8888, Config.width, Config.height, false);
         sceneRegion = new TextureRegion(sceneFrameBuffer.getColorBufferTexture());
         sceneRegion.flip(false, true);
@@ -64,7 +65,7 @@ public class PrototypeScreen extends LDScreen {
             // Draw user interface stuff
             batch.begin();
             batch.setProjectionMatrix(uiCamera.combined);
-            world.renderUI(batch);
+            world.renderUI(batch, uiCamera);
             // NOTE: we can fit 41 characters across the screen using the default 16pt font
 //            Assets.font.draw(batch, "This... is... GOOMBA!", 0, uiCamera.viewportHeight);
             batch.end();

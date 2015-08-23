@@ -168,8 +168,11 @@ public class World {
 
     }
 
-    public void renderUI(SpriteBatch batch) {
+    public void renderUI(SpriteBatch batch, OrthographicCamera uiCam) {
         dialogue.render(batch);
+        for (EntityBase entity : gameEntities){
+            entity.renderUI(batch, camera, uiCam);
+        }
     }
 
     public void getTiles (int startX, int startY, int endX, int endY, Array<Rectangle> tiles) {

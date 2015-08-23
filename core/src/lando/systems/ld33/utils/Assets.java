@@ -31,6 +31,7 @@ public class Assets {
     public static TextureRegion[][] mushrooms;
     public static TextureRegion     bigMushroom;
     public static TextureRegion     tubeBg;
+    public static NinePatch         thoughtBubble;
 
     public static Animation questionBlockAnimation;
     public static Animation spikesDownAnimation;
@@ -94,6 +95,9 @@ public class Assets {
         whiteTexture = new Texture("white.png");
         testTextureRegion = new TextureRegion(testTexture, testTexture.getWidth(), testTexture.getHeight());
         marioTilesetTexture = new Texture("maps/mario-tileset.png");
+
+        thoughtBubble = new NinePatch(atlas.findRegion("thought"), 4, 5, 4, 9);
+        //thoughtBubble.scale(1/16f, 1/16f);
 
         TextureRegion[][] tilesetRegions = TextureRegion.split(marioTilesetTexture, 16, 16);
 

@@ -1,5 +1,6 @@
 package lando.systems.ld33.entities;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -35,6 +36,7 @@ public class EntityBase {
     public Animation jumpingAnimation;
     public Animation smashedAnimation;
     public float stateTime;
+    public Thought thought;
 
 
     enum State {
@@ -64,7 +66,17 @@ public class EntityBase {
         return bounds;
     }
 
+    public void addThought(String text){
+        thought = new Thought(text, bounds);
+    }
+
     public void update(float dt){
+        if (thought != null) {
+            thought.update(dt);
+            if (thought.timeToLive < 0) thought = null;
+        }
+
+
         stateTime += dt;
 
         moveDelay -= dt;
@@ -231,6 +243,12 @@ public class EntityBase {
             batch.draw(keyframe, bounds.x, bounds.y, bounds.width, bounds.height);
         } else {
             batch.draw(keyframe, bounds.x + bounds.width, bounds.y, - bounds.width, bounds.height);
+        }
+    }
+
+    public void renderUI(SpriteBatch batch, OrthographicCamera gameCam, OrthographicCamera uiCam){
+        if (thought != null){
+            thought.render(batch, gameCam, uiCam);
         }
     }
 }
