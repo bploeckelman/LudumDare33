@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import lando.systems.ld33.entities.QuestionBlock;
 
+import java.util.Arrays;
+
 /**
  * Brian Ploeckelman created on 8/22/2015.
  */
@@ -34,6 +36,7 @@ public class Assets {
     public static Animation marioSmallWalkAnimation;
     public static Animation goombaNormalWalkAnimation;
     public static Animation goombaWalkAnimation;
+    public static Animation coinAnimation;
 
     public static void load() {
         batch = new SpriteBatch();
@@ -80,6 +83,9 @@ public class Assets {
             atlas.findRegion("goomba-walk1"),
             atlas.findRegion("goomba-walk2"));
         goombaWalkAnimation.setPlayMode(Animation.PlayMode.LOOP);
+        coinAnimation = new Animation(.15f,
+            Arrays.copyOfRange(atlas.findRegion("coin").split(16, 16)[0],1, 4));
+        coinAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
     }
 
@@ -90,6 +96,7 @@ public class Assets {
         font32pt.dispose();
         testTexture.dispose();
         marioTilesetTexture.dispose();
+        atlas.dispose();
     }
 
     private static ShaderProgram compileShaderProgram(FileHandle vertSource, FileHandle fragSource) {
