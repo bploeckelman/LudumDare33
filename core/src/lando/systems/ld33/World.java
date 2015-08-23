@@ -426,10 +426,16 @@ public class World {
                             messages.add(GameText.getText("hereComesMario"));
                             dialogue.show(1,10,18,4,messages);
 
-                            MarioAI mario = new MarioAI(this, new Vector2(10, 2));
                         }
                         break;
                     case 1:
+                        if (!dialogue.isActive()) {
+                            segment++;
+                            MarioAI mario = new MarioAI(this, new Vector2(10, 2));
+
+                        }
+                        break;
+                    case 2:
                         // Just a bump on the head, released to go home for the day
                         if (player.moveDelay <= 0){
                             segment++;
@@ -439,7 +445,7 @@ public class World {
                             player.setWounded();
                         }
                         break;
-                    case 2:
+                    case 3:
                         // Enter home pipe
                         if (player.getBounds().x <= 5.5){
                             Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
@@ -499,9 +505,10 @@ public class World {
                     case 1:
                         // Wife storms out, takes the kids
                         if (player.getBounds().x < 19){
+                            player.addThought(":(");
                             player.getBounds().x = 19;
                             segment++;
-                            player.moveDelay = 4f;
+                            //player.moveDelay = 4f;
                             Tween.to(wife.getBounds(), RectangleAccessor.X, 4f)
                                     .target(-1f)
                                     .ease(Linear.INOUT)
@@ -628,10 +635,16 @@ public class World {
                             messages.add(GameText.getText("hereComesMario"));
                             dialogue.show(1,10,18,4,messages);
 
-                            MarioAI mario = new MarioAI(this, new Vector2(10, 2));
                         }
                         break;
                     case 1:
+                        if (!dialogue.isActive()){
+                            segment++;
+                            MarioAI mario = new MarioAI(this, new Vector2(10, 2));
+
+                        }
+                        break;
+                    case 2:
                         // Just a bump on the head, released to go home for the day
                         if (player.moveDelay <= 0){
                             segment++;
@@ -641,7 +654,7 @@ public class World {
                             player.setWounded();
                         }
                         break;
-                    case 2:
+                    case 3:
                         // Enter home pipe
                         if (player.getBounds().x <= 5.5){
                             Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
@@ -734,10 +747,17 @@ public class World {
                             messages.add(GameText.getText("hereComesMario"));
                             dialogue.show(1,10,18,4,messages);
 
-                            MarioAI mario = new MarioAI(this, new Vector2(10, 2));
                         }
                         break;
                     case 1:
+                        if (!dialogue.isActive()){
+                            segment++;
+                            MarioAI mario = new MarioAI(this, new Vector2(10, 2));
+
+                        }
+                        break;
+                    case 2:
+                        // Just picked up the Mushroom
                         if (player.raged){
                             segment++;
                             player.moveDelay = 3f;
@@ -749,8 +769,7 @@ public class World {
                                     .start(LudumDare33.tween);
                         }
                         break;
-                    case 2:
-                        // Just picked up the Mushroom
+                    case 3:
                         if (player.moveDelay <= 0){
                             cameraLock = true;
                             segment++;
@@ -759,7 +778,7 @@ public class World {
                             dialogue.show(1, 10, 18, 4, messages);
                         }
                         break;
-                    case 3:
+                    case 4:
                         // Head to Factory
                         if (player.getBounds().x <= .5){
                             player.moveDelay = EntityBase.PIPEDELAY;
