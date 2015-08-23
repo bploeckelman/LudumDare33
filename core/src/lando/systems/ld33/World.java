@@ -19,10 +19,8 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Pools;
 import lando.systems.ld33.accessors.RectangleAccessor;
+import lando.systems.ld33.dialogue.Dialogue;
 import lando.systems.ld33.entities.*;
-import org.w3c.dom.css.Rect;
-
-import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
@@ -55,6 +53,7 @@ public class World {
     public Phase                      phase;
     public int                        segment;
     public boolean                    done;
+    public Dialogue                   dialogue;
 
     public World(OrthographicCamera cam, Phase p, SpriteBatch batch){
         phase = p;
@@ -77,6 +76,12 @@ public class World {
 
         gameEntities.add(player);
 //        gameEntities.add(new MushroomItem(this, new Vector2(27, 10)));
+
+        dialogue = new Dialogue();
+        Array<String> messages = new Array<String>();
+        messages.add("\"You're late! Move left and get into position!\"");
+        dialogue.show(1, 10, 18, 4, messages);
+
     }
 
     private void initPhase(){
@@ -97,11 +102,13 @@ public class World {
     }
 
     public void update(float dt){
+
+        dialogue.update(dt);
+
         Iterator<EntityBase> iterator = gameEntities.iterator();
         while(iterator.hasNext()) {
             EntityBase entity = iterator.next();
             entity.update(dt);
-
             if (entity.dead)
                 iterator.remove();
         }
@@ -163,6 +170,10 @@ public class World {
 
     }
 
+    public void renderUI(SpriteBatch batch) {
+        dialogue.render(batch);
+    }
+
     // ------------------------------------------------------------------------
     // Private Implementation
     // ------------------------------------------------------------------------
@@ -177,6 +188,11 @@ public class World {
                             player.getBounds().x = 27;
                             segment++;
                             player.moveDelay = 6;
+
+                            Array<String> messages = new Array<String>();
+                            messages.add("\"All right everyone!  Here we go!\"");
+                            dialogue.show(1,10,18,4,messages);
+
                             MarioAI mario = new MarioAI(this, new Vector2(10, 2), true);
                             gameEntities.add(mario);
                         }

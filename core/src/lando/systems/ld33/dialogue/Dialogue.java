@@ -89,8 +89,8 @@ public class Dialogue extends InputAdapter {
         this.isShown = false;
     }
 
-    public boolean isComplete() {
-        return this.isComplete;
+    public boolean isActive() {
+        return (this.isShown && !this.isComplete);
     }
 
     // -----------------------------------------------------------------------------------------------------------------

@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
-import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import lando.systems.ld33.entities.QuestionBlock;
@@ -25,6 +24,7 @@ public class Assets {
     public static BitmapFont  font32pt;
 
     public static Texture testTexture;
+    public static Texture blackTexture;
     public static Texture marioTilesetTexture;
 
     public static TextureRegion testTextureRegion;
@@ -65,6 +65,7 @@ public class Assets {
         font = font16pt;
 
         testTexture = new Texture("badlogic.jpg");
+        blackTexture = new Texture("black.png");
         testTextureRegion = new TextureRegion(testTexture, testTexture.getWidth(), testTexture.getHeight());
         marioTilesetTexture = new Texture("maps/mario-tileset.png");
 

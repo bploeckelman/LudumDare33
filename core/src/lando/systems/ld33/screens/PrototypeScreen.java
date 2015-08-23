@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import lando.systems.ld33.Config;
 import lando.systems.ld33.LudumDare33;
 import lando.systems.ld33.World;
-import lando.systems.ld33.utils.Assets;
 
 /**
  * Brian Ploeckelman created on 8/22/2015.
@@ -50,13 +49,14 @@ public class PrototypeScreen extends LDScreen {
 
     @Override
     public void update(float delta) {
-
         world.update(delta);
         super.update(delta);
+        enableInput();
     }
 
     @Override
     public void render(float delta) {
+
         update(delta);
 
         sceneFrameBuffer.begin();
@@ -68,8 +68,9 @@ public class PrototypeScreen extends LDScreen {
             // Draw user interface stuff
             batch.begin();
             batch.setProjectionMatrix(uiCamera.combined);
+            world.renderUI(batch);
             // NOTE: we can fit 41 characters across the screen using the default 16pt font
-            Assets.font.draw(batch, "This... is... GOOMBA!", 0, uiCamera.viewportHeight);
+//            Assets.font.draw(batch, "This... is... GOOMBA!", 0, uiCamera.viewportHeight);
             batch.end();
         }
         sceneFrameBuffer.end();
@@ -100,9 +101,11 @@ public class PrototypeScreen extends LDScreen {
     protected void enableInput() {
         final InputMultiplexer mux = new InputMultiplexer();
         // TODO: add any other input processors here as needed
+        mux.addProcessor(world.dialogue);
         Gdx.input.setInputProcessor(mux);
     }
-@Override
+
+    @Override
     protected void disableInput() {
         Gdx.input.setInputProcessor(null);
     }
