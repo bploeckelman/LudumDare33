@@ -65,9 +65,8 @@ public class World {
         tileRects = new Array<Rectangle>();
         rectPool = Pools.get(Rectangle.class);
 
-        ItemEntity item = new ItemEntity(this, new Vector2(27, 10));
         gameEntities.add(player);
-        gameEntities.add(item);
+        gameEntities.add(new MushroomItem(this, new Vector2(27, 10)));
     }
 
     private void initPhase(){
@@ -187,7 +186,7 @@ public class World {
             if (type.equals("qblock")) {
                 String dropTypeName = (String) props.get("drops");
                 ItemEntity.ItemType dropType = ItemEntity.ItemType.getType(dropTypeName);
-                mapObjects.add(new QuestionBlock(new Rectangle(x / w, y / h, 1, 1), dropType));
+                mapObjects.add(new QuestionBlock(this, new Rectangle(x / w, y / h, 1, 1), dropType));
             }
 //            else if (type.equals("...")) {
 //

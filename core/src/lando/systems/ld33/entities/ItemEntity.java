@@ -7,7 +7,7 @@ import lando.systems.ld33.World;
 /**
  * Created by dsgraham on 8/22/15.
  */
-public class ItemEntity extends EntityBase {
+public abstract class ItemEntity extends EntityBase {
 
     public enum ItemType {
         COIN,

@@ -2,6 +2,7 @@ package lando.systems.ld33.entities;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Rectangle;
+import lando.systems.ld33.World;
 import lando.systems.ld33.utils.Assets;
 
 /**
@@ -15,8 +16,8 @@ public class QuestionBlock extends ObjectBase {
     float               stateTime;
     ItemEntity.ItemType spawnType;
 
-    public QuestionBlock(Rectangle bounds, ItemEntity.ItemType spawnType) {
-        super(bounds);
+    public QuestionBlock(World world, Rectangle bounds, ItemEntity.ItemType spawnType) {
+        super(world, bounds);
         animation = Assets.questionBlockAnimation;
         stateTime = 0f;
         this.spawnType = spawnType;
@@ -26,6 +27,11 @@ public class QuestionBlock extends ObjectBase {
     public void update(float delta) {
         stateTime += delta;
         keyframe = animation.getKeyFrame(stateTime);
+    }
+
+    @Override
+    public void hit() {
+        // TODO: do things
     }
 
 }
