@@ -246,7 +246,7 @@ public class World {
                      .start(LudumDare33.tween);
 
                 messages = new Array<String>();
-                messages.add(GameText.getText("playerName") + GameText.getText("playerLate"));
+                messages.add(GameText.getText("playerLate"));
                 dialogue.show(1, 10, 18, 4, messages);
                 break;
             case MEET_THE_WIFE:
@@ -275,13 +275,14 @@ public class World {
 
                 kids = new GoombaKids(this, new Vector2(15, 2));
                 Tween.to(kids.getBounds(), RectangleAccessor.X, 2f)
-                        .target(19)
+                        .target(18)
                         .ease(Linear.INOUT)
                         .start(LudumDare33.tween);
+                kids.addThought("Daddy! Daddy!");
 
                 messages = new Array<String>();
-                messages.add(GameText.getText("wifeName") + GameText.getText("wifeBitching"));
-                messages.add(GameText.getText("playerName") + GameText.getText("playerDontGo"));
+                messages.add(GameText.getText("wifeBitching"));
+                messages.add(GameText.getText("playerDontGo"));
                 dialogue.show(1, 10, 18, 4, messages);
                 break;
             case LEAVING_HOME:
@@ -298,10 +299,6 @@ public class World {
                      .target(player.getBounds().x - 1f)
                      .ease(Linear.INOUT)
                      .start(LudumDare33.tween);
-
-                messages = new Array<String>();
-                messages.add(GameText.getText("playerName") + GameText.getText("tooOld"));
-                dialogue.show(1, 10, 18, 4, messages);
                 break;
             case BACK_TO_WORK:
                 Gdx.gl.glClearColor(Assets.BLUE_SKY_R, Assets.BLUE_SKY_G, Assets.BLUE_SKY_B, 1f);
@@ -319,7 +316,7 @@ public class World {
                      .start(LudumDare33.tween);
 
                 messages = new Array<String>();
-                messages.add(GameText.getText("playerName") + GameText.getText("impressBoss"));
+                messages.add(GameText.getText("impressBoss"));
                 dialogue.show(1, 10, 18, 4, messages);
                 break;
             case EMPTY_HOUSE:
@@ -338,8 +335,16 @@ public class World {
                      .start(LudumDare33.tween);
 
                 messages = new Array<String>();
-                messages.add(GameText.getText("playerName") + GameText.getText("notComingBack"));
+                messages.add(GameText.getText("notComingBack"));
                 dialogue.show(1, 10, 18, 4, messages);
+                Tween.call(new TweenCallback() {
+                        @Override
+                        public void onEvent(int i, BaseTween<?> baseTween) {
+                            player.addThought("*sigh*");
+                        }
+                    })
+                     .delay(3f)
+                     .start(LudumDare33.tween);
                 break;
             case GET_MUSHROOM:
                 Gdx.gl.glClearColor(Assets.BLUE_SKY_R, Assets.BLUE_SKY_G, Assets.BLUE_SKY_B, 1);
@@ -373,7 +378,7 @@ public class World {
                      .start(LudumDare33.tween);
 
                 messages = new Array<String>();
-                messages.add(GameText.getText("playerName") + GameText.getText("intoFactory"));
+                messages.add(GameText.getText("intoFactory"));
                 dialogue.show(1, 10, 18, 4, messages);
                 break;
             case CULT_ROOM:
@@ -382,14 +387,45 @@ public class World {
                 loadMap("maps/cadreroom.tmx");
 
                 // Spawn cultist members
-                new Ganon(this, new Vector2(0.5f, 2));
-                new KingHippo(this, new Vector2(2.5f, 2));
-                new MotherBrain(this, new Vector2(6, 2));
-                new Dracula(this, new Vector2(13, 2));
-                new Luigi(this, new Vector2(16, 2));
-                new DrWily(this, new Vector2(18, 2));
+                final Ganon ganon = new Ganon(this, new Vector2(0.5f, 2));
+                final KingHippo kingHippo = new KingHippo(this, new Vector2(2.5f, 2));
+                final MotherBrain motherBrain = new MotherBrain(this, new Vector2(6, 2));
+                final Dracula dracula = new Dracula(this, new Vector2(13, 2));
+                final Luigi luigi = new Luigi(this, new Vector2(16, 2));
+                final DrWily drWily = new DrWily(this, new Vector2(18, 2));
 
-                player = new PlayerGoomba(this, new Vector2(17.5f, 13f));
+                ganon.addThought("LUDUM DARE");
+                kingHippo.addThought("LUDUM DARE");
+                motherBrain.addThought("LUDUM DARE");
+                dracula.addThought("LUDUM DARE");
+                luigi.addThought("LUDUM DARE");
+                drWily.addThought("LUDUM DARE");
+
+                final Tween chant = Tween.call(new TweenCallback() {
+                            @Override
+                            public void onEvent(int i, BaseTween<?> baseTween) {
+                                ganon.addThought("LUDUM DARE");
+                                kingHippo.addThought("LUDUM DARE");
+                                motherBrain.addThought("LUDUM DARE");
+                                dracula.addThought("LUDUM DARE");
+                                luigi.addThought("LUDUM DARE");
+                                drWily.addThought("LUDUM DARE");
+                            }
+                        })
+                     .delay(3.5f)
+                     .repeat(-1, 3.5f)
+                     .start(LudumDare33.tween);
+
+                Tween.call(new TweenCallback() {
+                            @Override
+                            public void onEvent(int i, BaseTween<?> baseTween) {
+                                chant.kill();
+                            }
+                        })
+                        .delay(10f)
+                        .start(LudumDare33.tween);
+
+                player = new PlayerGoomba(this, new Vector2(17.5f, 7f));
                 player.canRight = true;
                 player.canJump = true;
                 player.setNormalMode();
@@ -400,7 +436,6 @@ public class World {
                      .start(LudumDare33.tween);
 
                 messages = new Array<String>();
-                messages.add(GameText.getText("cultChant"));
                 messages.add(GameText.getText("cultEnter"));
                 dialogue.show(1, 10, 18, 4, messages);
                 break;
@@ -431,8 +466,8 @@ public class World {
                     case 1:
                         if (!dialogue.isActive()) {
                             segment++;
-                            MarioAI mario = new MarioAI(this, new Vector2(10, 2));
-
+                            new MarioAI(this, new Vector2(10, 2));
+                            player.moveDelay = 4f;
                         }
                         break;
                     case 2:
@@ -496,17 +531,21 @@ public class World {
                         if (!dialogue.isActive()){
                             segment++;
                             player.moveDelay = 2f;
+                            Array<String> messages = new Array<String>();
+                            messages.add(GameText.getText("wrangleKids"));
+                            dialogue.show(1,10,18,4,messages);
                             Tween.to(kids.getBounds(), RectangleAccessor.X, 2f)
-                                    .target(wife.getBounds().x)
+                                    .target(wife.getBounds().x + 1f)
                                     .ease(Linear.INOUT)
                                     .start(LudumDare33.tween);
                         }
                         break;
                     case 1:
                         // Wife storms out, takes the kids
-                        if (player.getBounds().x < 19){
-                            player.addThought(":(");
-                            player.getBounds().x = 19;
+                        if (!dialogue.isActive()) {
+                            Array<String> messages = new Array<String>();
+                            messages.add(GameText.getText("noTimeForThis"));
+                            dialogue.show(1, 10, 18, 4, messages);
                             segment++;
                             //player.moveDelay = 4f;
                             Tween.to(wife.getBounds(), RectangleAccessor.X, 4f)
@@ -535,17 +574,14 @@ public class World {
                     case 2:
                         // Go to the bed
                         if (player.getBounds().x < 12) {
-                            Array<String> messages = new Array<String>();
-                            messages.add(GameText.getText("playerName") + GameText.getText("noTimeForThis"));
-                            dialogue.show(1, 10, 18, 4, messages);
                             player.getBounds().x = 12;
                             segment++;
                         }
                         break;
                     case 3:
                         // Get into bed
-                        if (player.getBounds().x < 9) {
-                            player.getBounds().x = 9;
+                        if (player.getBounds().x < 9.5f) {
+                            player.getBounds().x = 9.5f;
                             segment++;
                             player.moveDelay = 1f;
                             Tween.to(player.getBounds(), RectangleAccessor.Y, 1f)
@@ -566,9 +602,21 @@ public class World {
                                         @Override
                                         public void onEvent(int i, BaseTween<?> baseTween) {
                                             World.this.player.setSadMode();
+
+                                            Array<String> messages = new Array<String>();
+                                            messages.add(GameText.getText("tooOld"));
+                                            dialogue.show(1, 10, 18, 4, messages);
                                         }
                                     })
                                     .start(LudumDare33.tween);
+                            Tween.call(new TweenCallback() {
+                                @Override
+                                public void onEvent(int i, BaseTween<?> baseTween) {
+                                    player.setSadMode();
+                                }
+                            })
+                                 .delay(1f)
+                                 .start(LudumDare33.tween);
                         }
                         break;
                     case 5:
@@ -649,9 +697,17 @@ public class World {
                         if (player.moveDelay <= 0){
                             segment++;
                             Array<String> messages = new Array<String>();
-                            messages.add(GameText.getText("headHome"));
+                            messages.add(GameText.getText("injuredAgain"));
                             dialogue.show(1, 10, 18, 4, messages);
                             player.setWounded();
+                            Tween.call(new TweenCallback() {
+                                    @Override
+                                    public void onEvent(int i, BaseTween<?> baseTween) {
+                                        player.addThought("yeah ... family ...");
+                                    }
+                                })
+                                 .delay(2f)
+                                 .start(LudumDare33.tween);
                         }
                         break;
                     case 3:
@@ -674,8 +730,8 @@ public class World {
                 switch (segment) {
                     case 0:
                         // Get into bed
-                        if (player.getBounds().x < 9) {
-                            player.getBounds().x = 9;
+                        if (player.getBounds().x < 9.5f) {
+                            player.getBounds().x = 9.5f;
                             segment++;
                             player.moveDelay = 1f;
                             Tween.to(player.getBounds(), RectangleAccessor.Y, 1f)
@@ -690,11 +746,12 @@ public class World {
                             player.moveDelay = 2f;
                             segment++;
                             Tween.call(new TweenCallback() {
-                                @Override
-                                public void onEvent(int i, BaseTween<?> baseTween) {
-                                    loadMap("maps/inhome-bedroom-sad.tmx");
-                                }
-                            })
+                                    @Override
+                                    public void onEvent(int i, BaseTween<?> baseTween) {
+                                        loadMap("maps/inhome-bedroom-sad.tmx");
+                                        player.setSadMode();
+                                    }
+                                })
                                     .delay(.5f)
                                     .start(LudumDare33.tween);
 
@@ -765,7 +822,7 @@ public class World {
                             player.smashedAnimation = Assets.goombaGrowAnimation;
                             player.stateTime = 0f;
                             Tween.to(camera, CameraAccessor.XYZ, 1.5f)
-                                    .target(player.getBounds().x + .5f, player.getBounds().y+ .5f, .1f)
+                                    .target(player.getBounds().x + .5f, player.getBounds().y + .5f, .1f)
                                     .ease(Quad.INOUT)
                                     .repeatYoyo(1, 0)
                                     .setCallback(new TweenCallback() {
