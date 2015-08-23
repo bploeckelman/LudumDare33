@@ -52,6 +52,9 @@ public class MarioAI extends EntityBase {
 
         switch(segment) {
             case 0:
+                if (bounds.x > 20 && bounds.x < 21) {
+                    jump();
+                }
                 if (bounds.x > 25) {
                     jump();
                     segment++;
