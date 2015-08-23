@@ -1,6 +1,7 @@
 package lando.systems.ld33.entities;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld33.World;
@@ -31,6 +32,10 @@ public class MarioAI extends EntityBase {
     public void jump(){
         if (!grounded) return;
         velocity.y = jumpVelocity;
+    }
+
+    public void growBig(){
+
     }
 
     protected void hitBlockFromBelow(ObjectBase obj){
@@ -89,5 +94,17 @@ public class MarioAI extends EntityBase {
         velocity.x = 8 * dir;
 
         facesRight = dir > 0;
+
+        Rectangle intersectRect = new Rectangle();
+        for (int i = 0; i < world.gameEntities.size; i ++){
+            EntityBase entity = world.gameEntities.get(i);
+            if (entity == this) continue;
+            if (Intersector.intersectRectangles(bounds, entity.getBounds(), intersectRect)){
+                if (entity instanceof MushroomItem) {
+                    growBig();
+                    entity.dead = true;
+                }
+            }
+        }
     }
 }

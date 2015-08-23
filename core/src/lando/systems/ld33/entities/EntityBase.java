@@ -28,6 +28,7 @@ public class EntityBase {
     protected World world;
     protected Array<Rectangle> tiles;
     public float moveDelay;
+    public boolean dead;
 
 
     enum State {
@@ -42,6 +43,7 @@ public class EntityBase {
         keyframe = Assets.testTextureRegion;
         bounds = new Rectangle(3,0,1,1);
         velocity = new Vector2();
+        dead = false;
     }
 
     public Rectangle getBounds(){

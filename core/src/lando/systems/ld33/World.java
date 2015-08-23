@@ -18,6 +18,7 @@ import lando.systems.ld33.entities.*;
 import org.w3c.dom.css.Rect;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by dsgraham on 8/22/15.
@@ -89,9 +90,15 @@ public class World {
     }
 
     public void update(float dt){
-        for (EntityBase entity: gameEntities){
+        Iterator<EntityBase> iterator = gameEntities.iterator();
+        while(iterator.hasNext()) {
+            EntityBase entity = iterator.next();
             entity.update(dt);
+
+            if (entity.dead)
+                iterator.remove();
         }
+
         for (ObjectBase object : mapObjects) {
             object.update(dt);
         }

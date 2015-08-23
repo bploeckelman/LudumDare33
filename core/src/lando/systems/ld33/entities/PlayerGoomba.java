@@ -8,6 +8,7 @@ import aurelienribon.tweenengine.equations.Linear;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld33.LudumDare33;
@@ -78,6 +79,18 @@ public class PlayerGoomba extends EntityBase {
                 velocity.x = maxVelocity;
                 if (grounded) state = State.Walking;
                 facesRight = true;
+            }
+        }
+
+        Rectangle intersectRect = new Rectangle();
+        for (int i = 0; i < world.gameEntities.size; i ++){
+            EntityBase entity = world.gameEntities.get(i);
+            if (entity == this) continue;
+            if (Intersector.intersectRectangles(bounds, entity.getBounds(), intersectRect)){
+                if (entity instanceof MushroomItem) {
+                    setRageMode();
+                    entity.dead = true;
+                }
             }
         }
 
