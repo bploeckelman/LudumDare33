@@ -71,8 +71,10 @@ public class World {
     public Dialogue                   dialogue;
     public Color transitionColor;
     public boolean                    cameraLock;
+    public SpriteBatch                batch;
 
     public World(OrthographicCamera cam, Phase p, SpriteBatch batch) {
+        this.batch = batch;
         phase = p;
         done = false;
         cameraLock = true;
@@ -83,10 +85,7 @@ public class World {
         camera = cam;
 
         initPhase();
-        mapRenderer = new OrthogonalTiledMapRenderer(map, MAP_UNIT_SCALE, batch);
 
-        foregroundLayer = (TiledMapTileLayer) map.getLayers().get("foreground");
-        backgroundLayer = (TiledMapTileLayer) map.getLayers().get("background");
 
         gameWidth = backgroundLayer.getWidth();
         cameraLeftEdge = SCREEN_TILES_WIDE / 2;
@@ -95,6 +94,18 @@ public class World {
         tileRects = new Array<Rectangle>();
         rectPool = Pools.get(Rectangle.class);
 
+    }
+
+    public void loadMap(String mapName){
+        final TmxMapLoader mapLoader = new TmxMapLoader();
+
+        map = mapLoader.load(mapName);
+        loadMapObjects();
+
+        mapRenderer = new OrthogonalTiledMapRenderer(map, MAP_UNIT_SCALE, batch);
+
+        foregroundLayer = (TiledMapTileLayer) map.getLayers().get("foreground");
+        backgroundLayer = (TiledMapTileLayer) map.getLayers().get("background");
     }
 
     public void update(float dt) {
@@ -196,13 +207,10 @@ public class World {
      */
     private void initPhase() {
         segment = 0;
-        final TmxMapLoader mapLoader = new TmxMapLoader();
 
         switch (phase) {
             case DAY_ONE:
-                // TODO: encapsulate map loading so that loadMapObjects is always called right after map load
-                map = mapLoader.load("maps/level1.tmx");
-                loadMapObjects();
+                loadMap("maps/level1.tmx");
 
                 player = new PlayerGoomba(this, new Vector2(33.5f, 3f));
                 player.canJump = false;
@@ -219,9 +227,7 @@ public class World {
                 break;
             case HEADING_HOME:
                 Gdx.gl.glClearColor(Assets.NIGHT_SKY_R, Assets.NIGHT_SKY_G, Assets.NIGHT_SKY_B, 1f);
-
-                map = mapLoader.load("maps/enterhome.tmx");
-                loadMapObjects();
+                loadMap("maps/enterhome.tmx");
 
                 player = new PlayerGoomba(this, new Vector2(17, 2));
                 player.canJump = false;
@@ -240,8 +246,7 @@ public class World {
             case MEET_THE_WIFE:
                 Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
 
-                map = mapLoader.load("maps/inhome-bedroom.tmx");
-                loadMapObjects();
+                loadMap("maps/inhome-bedroom.tmx");
 
                 player = new PlayerGoomba(this, new Vector2(20, 2));
                 player.canJump = false;
@@ -276,8 +281,7 @@ public class World {
             case LEAVING_HOME:
                 Gdx.gl.glClearColor(Assets.BLUE_SKY_R, Assets.BLUE_SKY_G, Assets.BLUE_SKY_B, 1f);
 
-                map = mapLoader.load("maps/exithome.tmx");
-                loadMapObjects();
+                loadMap("maps/exithome.tmx");
 
                 player = new PlayerGoomba(this, new Vector2(11, 2));
                 player.canJump = false;
@@ -296,8 +300,7 @@ public class World {
             case BACK_TO_WORK:
                 Gdx.gl.glClearColor(Assets.BLUE_SKY_R, Assets.BLUE_SKY_G, Assets.BLUE_SKY_B, 1f);
 
-                map = mapLoader.load("maps/level1.tmx");
-                loadMapObjects();
+                loadMap("maps/level1.tmx");
 
                 player = new PlayerGoomba(this, new Vector2(33.5f, 3f));
                 player.canJump = false;
@@ -316,8 +319,7 @@ public class World {
             case EMPTY_HOUSE:
                 Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
 
-                map = mapLoader.load("maps/inhome-bedroom-sad.tmx");
-                loadMapObjects();
+                loadMap("maps/inhome-bedroom.tmx");
 
                 player = new PlayerGoomba(this, new Vector2(20, 2));
                 player.canJump = false;
@@ -335,8 +337,7 @@ public class World {
                 break;
             case GET_MUSHROOM:
                 Gdx.gl.glClearColor(Assets.BLUE_SKY_R, Assets.BLUE_SKY_G, Assets.BLUE_SKY_B, 1);
-                map = mapLoader.load("maps/level1.tmx");
-                loadMapObjects();
+                loadMap("maps/level1.tmx");
 
                 player = new PlayerGoomba(this, new Vector2(33.5f, 3f));
                 player.canJump = false;
@@ -355,8 +356,7 @@ public class World {
             case INTO_THE_FACTORY:
                 Gdx.gl.glClearColor(0.25f, 0.25f, 0.25f, 1f);
 
-                map = mapLoader.load("maps/level-factory.tmx");
-                loadMapObjects();
+                loadMap("maps/level-factory.tmx");
 
                 player = new PlayerGoomba(this, new Vector2(97, 2));
                 player.setRageMode();
@@ -642,6 +642,15 @@ public class World {
                         if (player.moveDelay <= 0) {
                             player.moveDelay = 2f;
                             segment++;
+                            Tween.call(new TweenCallback() {
+                                @Override
+                                public void onEvent(int i, BaseTween<?> baseTween) {
+                                    loadMap("maps/inhome-bedroom-sad.tmx");
+                                }
+                            })
+                                    .delay(.5f)
+                                    .start(LudumDare33.tween);
+
                             Tween.to(transitionColor, ColorAccessor.A, 1f)
                                  .target(0)
                                  .ease(Linear.INOUT)
