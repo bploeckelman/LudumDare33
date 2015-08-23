@@ -3,9 +3,7 @@ package lando.systems.ld33.utils;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.ld33.LudumDare33;
 import lando.systems.ld33.World;
-import lando.systems.ld33.screens.ChapterScreen;
 import lando.systems.ld33.screens.LDScreen;
-import lando.systems.ld33.screens.PrototypeScreen;
 
 /**
  * Brian Ploeckelman created on 8/22/2015.
@@ -30,12 +28,12 @@ public class StoryManager {
         storySequence = new Array<StoryObject>();
 
         storySequence.add(new StoryObject(this, 1, null));
-        storySequence.add(new StoryObject(this, null, World.Phase.First));
-        storySequence.add(new StoryObject(this, null, World.Phase.Second));
-        storySequence.add(new StoryObject(this, null, World.Phase.Third));
+        storySequence.add(new StoryObject(this, null, World.Phase.DAY_ONE));
+        storySequence.add(new StoryObject(this, null, World.Phase.HEADING_HOME));
+        storySequence.add(new StoryObject(this, null, World.Phase.MEET_THE_WIFE));
         storySequence.add(new StoryObject(this, 2, null));
-        storySequence.add(new StoryObject(this, null, World.Phase.First));
-        storySequence.add(new StoryObject(this, null, World.Phase.Second));
+        storySequence.add(new StoryObject(this, null, World.Phase.DAY_ONE));
+        storySequence.add(new StoryObject(this, null, World.Phase.HEADING_HOME));
 
         storyIndex = 0;
         storySequence.get(storyIndex).doTransition();

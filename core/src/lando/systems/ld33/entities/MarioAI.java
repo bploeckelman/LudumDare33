@@ -1,11 +1,7 @@
 package lando.systems.ld33.entities;
 
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld33.World;
-import lando.systems.ld33.utils.Assets;
 
 /**
  * Created by dsgraham on 8/22/15.
@@ -25,7 +21,7 @@ public class MarioAI extends Mario {
         super.update(dt);
 
         switch (world.phase){
-            case First:
+            case DAY_ONE:
                 handleGrabMushroom(dt);
                 break;
         }

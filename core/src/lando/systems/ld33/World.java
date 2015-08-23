@@ -21,7 +21,10 @@ import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Pools;
 import lando.systems.ld33.accessors.RectangleAccessor;
 import lando.systems.ld33.dialogue.Dialogue;
-import lando.systems.ld33.entities.*;
+import lando.systems.ld33.entities.EntityBase;
+import lando.systems.ld33.entities.MarioAI;
+import lando.systems.ld33.entities.PlayerGoomba;
+import lando.systems.ld33.entities.WifeGoomba;
 import lando.systems.ld33.entities.items.ItemEntity;
 import lando.systems.ld33.entities.mapobjects.ObjectBase;
 import lando.systems.ld33.entities.mapobjects.QuestionBlock;
@@ -37,10 +40,10 @@ public class World {
     public static final float MAP_UNIT_SCALE    = 1f / 16f;
     public static final int   SCREEN_TILES_WIDE = 20;
     public static final int   SCREEN_TILES_HIGH = 15;
-    public static final int     PIXELS_PER_TILE = Config.width / SCREEN_TILES_WIDE;
+    public static final int   PIXELS_PER_TILE   = Config.width / SCREEN_TILES_WIDE;
 
     public enum Phase {
-        First, Second, Third
+        DAY_ONE, HEADING_HOME, MEET_THE_WIFE
     }
 
     public TiledMapTileLayer          foregroundLayer;
@@ -86,80 +89,7 @@ public class World {
         gameEntities.add(player);
     }
 
-    private void initPhase() {
-        segment = 0;
-        final TmxMapLoader mapLoader = new TmxMapLoader();
-
-        switch (phase) {
-            case First:
-                Array<String> messages = new Array<String>();
-                messages.add("\"You're late! Move left and get into position!\"");
-                dialogue.show(1, 10, 18, 4, messages);
-
-                // TODO: encapsulate map loading so that loadObjects is always called right after map load
-
-                map = mapLoader.load("maps/level1.tmx");
-                loadObjects();
-
-                player = new PlayerGoomba(this, new Vector2(33.5f, 3f));
-                player.canJump = false;
-                player.canRight = false;
-                player.moveDelay = EntityBase.PIPEDELAY;
-                Tween.to(player.getBounds(), RectangleAccessor.Y, EntityBase.PIPEDELAY)
-                     .target(player.getBounds().y + 1f)
-                     .ease(Linear.INOUT)
-                     .start(LudumDare33.tween);
-                break;
-            case Second:
-                Gdx.gl.glClearColor(Assets.NIGHT_SKY_R, Assets.NIGHT_SKY_G, Assets.NIGHT_SKY_B, 1f);
-
-                map = mapLoader.load("maps/enterhome.tmx");
-                loadObjects();
-
-                messages = new Array<String>();
-                messages.add(Assets.playerName + ":\"Damn it I'm late getting home again.\"");
-                dialogue.show(1, 10, 18, 4, messages);
-
-                player = new PlayerGoomba(this, new Vector2(17, 2));
-                player.canJump = false;
-                player.canRight = false;
-                player.setWounded();
-                player.moveDelay = EntityBase.PIPEDELAY;
-                Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
-                     .target(player.getBounds().x - 1f)
-                     .ease(Linear.INOUT)
-                     .start(LudumDare33.tween);
-                break;
-            case Third:
-                Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
-
-                map = mapLoader.load("maps/inhome-bedroom.tmx");
-                loadObjects();
-
-                messages = new Array<String>();
-                messages.add(Assets.wifeName +
-                             ":\"What the hell, injured on the job again?! That's it, I'm taking the kids and going to my mother's house!\"");
-                messages.add(Assets.playerName + "\"... wait, but... I ... don't go!\"");
-                dialogue.show(1, 10, 18, 4, messages);
-                wife = new WifeGoomba(this, new Vector2(9, 2));
-                gameEntities.add(wife);
-
-                player = new PlayerGoomba(this, new Vector2(20, 2));
-                player.canJump = false;
-                player.canRight = false;
-                player.setWounded();
-                player.moveDelay = EntityBase.PIPEDELAY;
-                Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
-                     .target(player.getBounds().x - 1f)
-                     .ease(Linear.INOUT)
-                     .start(LudumDare33.tween);
-                break;
-
-        }
-    }
-
     public void update(float dt) {
-
         dialogue.update(dt);
 
         Iterator<EntityBase> iterator = gameEntities.iterator();
@@ -185,9 +115,29 @@ public class World {
         camera.update();
     }
 
+    public void render(SpriteBatch batch){
+        mapRenderer.setView(camera);
 
-    public boolean allowPolling(){
-        return !dialogue.isActive();
+        batch.begin();
+        batch.setProjectionMatrix(camera.combined);
+        {
+            mapRenderer.renderTileLayer(backgroundLayer);
+
+            for (EntityBase entity : gameEntities) {
+                entity.render(batch);
+            }
+            for (ObjectBase object : mapObjects) {
+                object.render(batch);
+            }
+
+            mapRenderer.renderTileLayer(foregroundLayer);
+        }
+        batch.end();
+
+    }
+
+    public void renderUI(SpriteBatch batch) {
+        dialogue.render(batch);
     }
 
     public void getTiles (int startX, int startY, int endX, int endY, Array<Rectangle> tiles) {
@@ -209,42 +159,107 @@ public class World {
         return mapObjects;
     }
 
-    public void render(SpriteBatch batch){
-
-        mapRenderer.setView(camera);
-
-        batch.begin();
-        batch.setProjectionMatrix(camera.combined);
-
-        mapRenderer.renderTileLayer(backgroundLayer);
-
-        for (EntityBase entity : gameEntities){
-            entity.render(batch);
-        }
-        for (ObjectBase object : mapObjects) {
-            object.render(batch);
-        }
-
-        mapRenderer.renderTileLayer(foregroundLayer);
-
-        batch.end();
-
-    }
-
-    public void renderUI(SpriteBatch batch) {
-        dialogue.render(batch);
+    public boolean allowPolling(){
+        return !dialogue.isActive();
     }
 
     // ------------------------------------------------------------------------
     // Private Implementation
     // ------------------------------------------------------------------------
 
+    /**
+     * Performs the initial setup for each phase.
+     * - Load the appropriate map
+     * - Spawn entities
+     * - Get entities in their places
+     * - Kick off any dialog
+     * - ???
+     * - Profit
+     */
+    private void initPhase() {
+        segment = 0;
+        final TmxMapLoader mapLoader = new TmxMapLoader();
 
+        switch (phase) {
+            case DAY_ONE:
+                // TODO: encapsulate map loading so that loadMapObjects is always called right after map load
+                map = mapLoader.load("maps/level1.tmx");
+                loadMapObjects();
+
+                player = new PlayerGoomba(this, new Vector2(33.5f, 3f));
+                player.canJump = false;
+                player.canRight = false;
+                player.moveDelay = EntityBase.PIPEDELAY;
+                Tween.to(player.getBounds(), RectangleAccessor.Y, EntityBase.PIPEDELAY)
+                     .target(player.getBounds().y + 1f)
+                     .ease(Linear.INOUT)
+                     .start(LudumDare33.tween);
+
+                Array<String> messages = new Array<String>();
+                messages.add("\"You're late! Move left and get into position!\"");
+                dialogue.show(1, 10, 18, 4, messages);
+                break;
+            case HEADING_HOME:
+                Gdx.gl.glClearColor(Assets.NIGHT_SKY_R, Assets.NIGHT_SKY_G, Assets.NIGHT_SKY_B, 1f);
+
+                map = mapLoader.load("maps/enterhome.tmx");
+                loadMapObjects();
+
+                player = new PlayerGoomba(this, new Vector2(17, 2));
+                player.canJump = false;
+                player.canRight = false;
+                player.setWounded();
+                player.moveDelay = EntityBase.PIPEDELAY;
+                Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
+                     .target(player.getBounds().x - 1f)
+                     .ease(Linear.INOUT)
+                     .start(LudumDare33.tween);
+
+                messages = new Array<String>();
+                messages.add(Assets.playerName + ":\"Damn it I'm late getting home again.\"");
+                dialogue.show(1, 10, 18, 4, messages);
+                break;
+            case MEET_THE_WIFE:
+                Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
+
+                map = mapLoader.load("maps/inhome-bedroom.tmx");
+                loadMapObjects();
+
+                wife = new WifeGoomba(this, new Vector2(9, 2));
+                gameEntities.add(wife);
+
+                player = new PlayerGoomba(this, new Vector2(20, 2));
+                player.canJump = false;
+                player.canRight = false;
+                player.setWounded();
+                player.moveDelay = EntityBase.PIPEDELAY;
+                Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
+                     .target(player.getBounds().x - 1f)
+                     .ease(Linear.INOUT)
+                     .start(LudumDare33.tween);
+
+                messages = new Array<String>();
+                messages.add(Assets.wifeName
+                             + ":\"What the hell, injured on the job again?! "
+                             + "That's it, I'm taking the kids and going to my mother's house!\"");
+                messages.add(Assets.playerName + "\"... wait, but... I ... don't go!\"");
+                dialogue.show(1, 10, 18, 4, messages);
+
+                break;
+
+        }
+    }
+
+    /**
+     * Progress through each phase one scripted segment at a time
+     * @param dt
+     */
     private void handlePhaseUpdate(float dt){
         switch (phase){
-            case First:
+            case DAY_ONE:
                 switch (segment){
                     case 0:
+                        // Get in position, release a mario
                         if (player.getBounds().x < 27){
                             player.getBounds().x = 27;
                             segment++;
@@ -259,6 +274,7 @@ public class World {
                         }
                         break;
                     case 1:
+                        // Just a bump on the head, released to go home for the day
                         if (player.moveDelay <= 0){
                             segment++;
                             Array<String> messages = new Array<String>();
@@ -268,7 +284,7 @@ public class World {
                         }
                         break;
                     case 2:
-
+                        // Enter home pipe
                         if (player.getBounds().x <= 5.5){
                             Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
                                     .target(3.5f)
@@ -283,16 +299,17 @@ public class World {
                         }
                 }
                 break;
-            case Second:
+            case HEADING_HOME:
                 switch (segment){
                     case 0:
+                        // Enter, stage right
                         if (player.getBounds().x < 16){
                             player.getBounds().x = 16;
                             segment++;
-
                         }
                         break;
                     case 1:
+                        // Walking into the house
                         if (player.getBounds().x < 10) {
                             player.getBounds().x = 10;
                             segment++;
@@ -311,9 +328,10 @@ public class World {
                         break;
                 }
                 break;
-            case Third:
+            case MEET_THE_WIFE:
                 switch (segment) {
                     case 0:
+                        // Wife storms out
                         if (player.getBounds().x < 19){
                             player.getBounds().x = 19;
                             segment++;
@@ -328,11 +346,11 @@ public class World {
                                         }
                                     })
                                     .start(LudumDare33.tween);
-
                         }
                         break;
-                    // TODO: wife walks out with kids
+                    // TODO: have a drink (or three)
                     case 1:
+                        // Go to the bed
                         if (player.getBounds().x < 12) {
                             Array<String> messages = new Array<String>();
                             messages.add(Assets.playerName + ":\"I don't have time for this. I need to get up early tomorrow for work again.\"");
@@ -342,6 +360,7 @@ public class World {
                         }
                         break;
                     case 2:
+                        // Get into bed
                         if (player.getBounds().x < 9) {
                             player.getBounds().x = 9;
                             segment++;
@@ -362,7 +381,7 @@ public class World {
         }
     }
 
-    private void loadObjects() {
+    private void loadMapObjects() {
         if (map == null) return;
 
         mapObjects = new Array<ObjectBase>();
