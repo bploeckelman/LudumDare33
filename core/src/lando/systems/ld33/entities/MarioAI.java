@@ -14,19 +14,26 @@ public class MarioAI extends Mario {
 
 
     private int segment;
-    private boolean skipMushroom;
     float delay;
 
-    public MarioAI(World w, Vector2 pos, boolean skipMushroom) {
+    public MarioAI(World w, Vector2 pos) {
         super(w, pos);
-        this.skipMushroom = skipMushroom;
         segment = 0;
     }
 
     public void update(float dt){
         super.update(dt);
 
+        switch (world.phase){
+            case First:
+                handlePhase1(dt);
+                break;
+        }
 
+
+    }
+
+    public void handlePhase1(float dt){
         switch(segment) {
             case 0:
                 if (bounds.x > 20 && bounds.x < 21) {
@@ -47,11 +54,10 @@ public class MarioAI extends Mario {
             case 2:
                 if (bounds.x < 27 && grounded){
                     bounds.x = 27;
-                    if (skipMushroom) segment++;
                     segment++;
                     dir = 0;
                     jump();
-                    delay = 1f;
+                    //delay = 1f;
                 }
                 break;
             case 3:
@@ -72,6 +78,5 @@ public class MarioAI extends Mario {
                 break;
 
         }
-
     }
 }

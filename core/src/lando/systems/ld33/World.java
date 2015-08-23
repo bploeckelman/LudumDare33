@@ -222,7 +222,7 @@ public class World {
                             messages.add("\"All right everyone! Here we go!\"");
                             dialogue.show(1,10,18,4,messages);
 
-                            MarioAI mario = new MarioAI(this, new Vector2(10, 2), true);
+                            MarioAI mario = new MarioAI(this, new Vector2(10, 2));
                             gameEntities.add(mario);
                         }
                         break;
