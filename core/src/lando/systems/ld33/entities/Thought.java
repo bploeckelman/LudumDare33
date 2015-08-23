@@ -37,11 +37,14 @@ public class Thought {
         Vector3 worldCoords = uiCam.unproject(screenCoords);
         bounds = new Rectangle(worldCoords.x - ((layout.width + 10 )/2), uiCam.viewportHeight - worldCoords.y, (layout.width) + 20, (layout.height) + 20);
 
+        float alpha = Math.min(1, timeToLive * 2);
+        batch.setColor(1,1,1,alpha);
         Assets.thoughtBubble.draw(batch, bounds.x, bounds.y, bounds.width, bounds.height);
-        Assets.font8pt.setColor(Color.BLACK);
+        Assets.font8pt.setColor(0,0,0,alpha);
 
         //Assets.font8pt.getData().setScale(1);
         Assets.font8pt.draw(batch, text, bounds.x + 10, bounds.y + layout.height + 15);
         Assets.font8pt.setColor(Color.WHITE);
+        batch.setColor(Color.WHITE);
     }
 }
