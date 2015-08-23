@@ -30,6 +30,7 @@ import lando.systems.ld33.entities.*;
 import lando.systems.ld33.entities.items.ItemEntity;
 import lando.systems.ld33.entities.mapobjects.ObjectBase;
 import lando.systems.ld33.entities.mapobjects.QuestionBlock;
+import lando.systems.ld33.entities.mapobjects.SpikeObject;
 import lando.systems.ld33.utils.Assets;
 import lando.systems.ld33.utils.GameText;
 
@@ -346,15 +347,13 @@ public class World {
                 dialogue.show(1, 10, 18, 4, messages);
                 break;
             case INTO_THE_FACTORY:
-                Gdx.gl.glClearColor(0.75f, 0.75f, 0.75f, 1f);
+                Gdx.gl.glClearColor(0.25f, 0.25f, 0.25f, 1f);
 
                 map = mapLoader.load("maps/level-factory.tmx");
                 loadMapObjects();
 
                 player = new PlayerGoomba(this, new Vector2(97, 2));
-                player.canJump = true;
-                player.canRight = true;
-                player.setNormalMode();
+                player.setRageMode();
                 player.moveDelay = EntityBase.PIPEDELAY;
                 Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
                      .target(player.getBounds().x - 1f)
@@ -756,6 +755,9 @@ public class World {
                 String dropTypeName = (String) props.get("drops");
                 ItemEntity.ItemType dropType = ItemEntity.ItemType.getType(dropTypeName);
                 mapObjects.add(new QuestionBlock(this, new Rectangle(x / w, y / h, 1, 1), dropType));
+            }
+            else if (type.equals("spike")) {
+                mapObjects.add(new SpikeObject(this, new Rectangle(x / w, y / h, 1, 1)));
             }
 //            else if (type.equals("...")) {
 //

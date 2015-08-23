@@ -38,7 +38,7 @@ public class StoryManager {
         storySequence.add(new StoryObject(this, null, World.Phase.LEAVING_HOME));
         storySequence.add(new StoryObject(this, 2, null));
         storySequence.add(new StoryObject(this, null, World.Phase.GET_MUSHROOM));
-        storySequence.add(new StoryObject(this, null, World.Phase.HEADING_HOME));
+        storySequence.add(new StoryObject(this, null, World.Phase.INTO_THE_FACTORY));
 
         storyIndex = 0;
         storySequence.get(storyIndex).doTransition();
