@@ -52,7 +52,7 @@ public class QuestionBlock extends ObjectBase {
         ItemEntity item;
         switch (spawnType) {
             default:
-            case COIN:       item = new MushroomItem(world, bounds.x, bounds.y); break;
+            case COIN:       item = new Coin(world, bounds.x, bounds.y); break;
             case MUSHROOM:   item = new MushroomItem(world, bounds.x, bounds.y); break;
             case FIREFLOWER: item = new MushroomItem(world, bounds.x, bounds.y); break;
             case STAR:       item = new MushroomItem(world, bounds.x, bounds.y); break;

@@ -83,7 +83,7 @@ public class Assets {
             atlas.findRegion("goomba-walk1"),
             atlas.findRegion("goomba-walk2"));
         goombaWalkAnimation.setPlayMode(Animation.PlayMode.LOOP);
-        coinAnimation = new Animation(.15f,
+        coinAnimation = new Animation(.03f,
             Arrays.copyOfRange(atlas.findRegion("coin").split(16, 16)[0],1, 4));
         coinAnimation.setPlayMode(Animation.PlayMode.LOOP);
 

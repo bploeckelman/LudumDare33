@@ -36,15 +36,8 @@ public abstract class ItemEntity extends EntityBase {
     public ItemEntity(World w, float px, float py) {
         super(w);
         bounds = new Rectangle(px, py, 1, 1);
-        Tween.to(bounds, RectangleAccessor.Y, ITEMDELAY)
-                .target(py + 1.1f)
-                .ease(Linear.INOUT)
-                .start(LudumDare33.tween);
-        moveDelay = ITEMDELAY+ .1f;
-        velocity.x = 4;
     }
 
-    protected void hitHorizontal(){
-        velocity.x = -velocity.x;
-    }
+    protected abstract void hitHorizontal();
+
 }

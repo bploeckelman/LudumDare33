@@ -12,6 +12,7 @@ import lando.systems.ld33.Config;
 import lando.systems.ld33.LudumDare33;
 import lando.systems.ld33.World;
 import lando.systems.ld33.dialogue.Dialogue;
+import lando.systems.ld33.utils.Assets;
 
 /**
  * Brian Ploeckelman created on 8/22/2015.
@@ -33,7 +34,7 @@ public class NarrativeTestScreen extends LDScreen {
     public NarrativeTestScreen(LudumDare33 game) {
         super(game);
 
-        world = new World(camera);
+        world = new World(camera, World.Phase.First, Assets.batch);
 
         uiCamera = new OrthographicCamera();
         uiCamera.setToOrtho(false, Config.width, Config.height);

@@ -7,13 +7,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Pool;
-import com.badlogic.gdx.utils.Pools;
 import lando.systems.ld33.Config;
 import lando.systems.ld33.LudumDare33;
 import lando.systems.ld33.World;
@@ -24,9 +17,9 @@ import lando.systems.ld33.utils.Assets;
  */
 public class PrototypeScreen extends LDScreen {
 
-    private static final float BLUE_SKY_R        = 107f / 255f;
-    private static final float BLUE_SKY_G        = 140f / 255f;
-    private static final float BLUE_SKY_B        = 255f / 255f;
+    private static final float BLUE_SKY_R = 107f / 255f;
+    private static final float BLUE_SKY_G = 140f / 255f;
+    private static final float BLUE_SKY_B = 255f / 255f;
 
 
     OrthographicCamera         uiCamera;
