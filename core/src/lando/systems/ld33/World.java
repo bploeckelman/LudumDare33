@@ -21,6 +21,8 @@ import com.badlogic.gdx.utils.Pools;
 import lando.systems.ld33.accessors.RectangleAccessor;
 import lando.systems.ld33.dialogue.Dialogue;
 import lando.systems.ld33.entities.*;
+import lando.systems.ld33.utils.Assets;
+
 import java.util.Iterator;
 
 /**
@@ -232,6 +234,8 @@ public class World {
                             Array<String> messages = new Array<String>();
                             messages.add("\"Good Work!  Head on home to your family.\"");
                             dialogue.show(1, 10, 18, 4, messages);
+                            player.walkingAnimation = Assets.goombaHurtAnimation;
+                            player.standingAnimation = Assets.goombaHurtAnimation;
                         }
                         break;
                     case 2:

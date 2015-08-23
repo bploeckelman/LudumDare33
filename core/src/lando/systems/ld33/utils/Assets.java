@@ -131,6 +131,7 @@ public class Assets {
         goombaKidsAnimation = new Animation(.15f,
             atlas.findRegion("goomba-kids").split(32, 32)[0]);
         goombaKidsAnimation.setPlayMode(Animation.PlayMode.LOOP);
+
         goombaHurtAnimation = new Animation(.15f,
             atlas.findRegion("goomba-hurt").split(16, 16)[0]);
         goombaHurtAnimation.setPlayMode(Animation.PlayMode.LOOP);
