@@ -96,10 +96,11 @@ public class World {
 
         switch (phase) {
             case First:
-                // TODO: encapsulate map loading so that loadObjects is always called right after map load
                 Array<String> messages = new Array<String>();
                 messages.add("\"You're late! Move left and get into position!\"");
                 dialogue.show(1, 10, 18, 4, messages);
+
+                // TODO: encapsulate map loading so that loadObjects is always called right after map load
 
                 map = mapLoader.load("maps/level1.tmx");
                 loadObjects();

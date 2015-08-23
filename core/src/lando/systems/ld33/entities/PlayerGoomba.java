@@ -83,7 +83,7 @@ public class PlayerGoomba extends EntityBase {
                 if (grounded) state = State.Walking;
                 facesRight = true;
             }
-        } else {
+        } else if (state != State.Smashed) {
             state = State.Standing;
         }
 
