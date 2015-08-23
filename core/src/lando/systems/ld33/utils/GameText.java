@@ -36,6 +36,9 @@ public class GameText {
 
         // Empty Nest
         strings.put("notComingBack", ":\"... ... I guess she's really not coming back. *sigh*\"");
+
+        //Factory
+        strings.put("intoFactory", ":\"What... what [RED]is[] this place?\"");
     }
 
     public static String getText(String key){

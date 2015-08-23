@@ -44,7 +44,7 @@ public class World {
     public static final int   PIXELS_PER_TILE   = Config.width / SCREEN_TILES_WIDE;
 
     public enum Phase {
-        DAY_ONE, HEADING_HOME, MEET_THE_WIFE, LEAVING_HOME, BACK_TO_WORK, INTO_THE_FACTORY, EMPTY_HOUSE
+        DAY_ONE, HEADING_HOME, MEET_THE_WIFE, LEAVING_HOME, BACK_TO_WORK, INTO_THE_FACTORY, EMPTY_HOUSE, GET_MUSHROOM
     }
 
     public TiledMapTileLayer          foregroundLayer;
@@ -334,7 +334,7 @@ public class World {
                      .start(LudumDare33.tween);
 
                 messages = new Array<String>();
-                messages.add(Assets.playerName + ":\"What... what [RED]is[] this place?\"");
+                messages.add(GameText.getText("playerName") + GameText.getText("intoFactory"));
                 dialogue.show(1, 10, 18, 4, messages);
                 break;
         }
