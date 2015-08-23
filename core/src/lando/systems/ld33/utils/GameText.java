@@ -37,6 +37,9 @@ public class GameText {
         // Empty Nest
         strings.put("notComingBack", ":\"... ... I guess she's really not coming back. *sigh*\"");
 
+        // Get Mushroom Day
+        strings.put("gotMushroom", "What is this?!? There is more to life than just moving left!");
+
         //Factory
         strings.put("intoFactory", ":\"What... what [RED]is[] this place?\"");
     }

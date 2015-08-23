@@ -317,6 +317,24 @@ public class World {
                 messages.add(GameText.getText("playerName") + GameText.getText("notComingBack"));
                 dialogue.show(1, 10, 18, 4, messages);
                 break;
+            case GET_MUSHROOM:
+                Gdx.gl.glClearColor(Assets.BLUE_SKY_R, Assets.BLUE_SKY_G, Assets.BLUE_SKY_B, 1);
+                map = mapLoader.load("maps/level1.tmx");
+                loadMapObjects();
+
+                player = new PlayerGoomba(this, new Vector2(33.5f, 3f));
+                player.canJump = false;
+                player.canRight = false;
+                player.moveDelay = EntityBase.PIPEDELAY;
+                Tween.to(player.getBounds(), RectangleAccessor.Y, EntityBase.PIPEDELAY)
+                        .target(player.getBounds().y + 1f)
+                        .ease(Linear.INOUT)
+                        .start(LudumDare33.tween);
+
+                messages = new Array<String>();
+                messages.add(GameText.getText("foremanLate"));
+                dialogue.show(1, 10, 18, 4, messages);
+                break;
             case INTO_THE_FACTORY:
                 Gdx.gl.glClearColor(0.75f, 0.75f, 0.75f, 1f);
 
@@ -603,6 +621,47 @@ public class World {
                                  .start(LudumDare33.tween);
                         }
                         break;
+                }
+                break;
+            case GET_MUSHROOM:
+                switch (segment){
+                    case 0:
+                        // Get in position, release a mario
+                        if (player.getBounds().x < 27){
+                            player.getBounds().x = 27;
+                            segment++;
+                            player.moveDelay = 6;
+
+                            Array<String> messages = new Array<String>();
+                            messages.add(GameText.getText("hereComesMario"));
+                            dialogue.show(1,10,18,4,messages);
+
+                            MarioAI mario = new MarioAI(this, new Vector2(10, 2));
+                        }
+                        break;
+                    case 1:
+                        // Just a bump on the head, released to go home for the day
+                        if (player.moveDelay <= 0){
+                            segment++;
+                            Array<String> messages = new Array<String>();
+                            messages.add(GameText.getText("gotMushroom"));
+                            dialogue.show(1, 10, 18, 4, messages);
+                        }
+                        break;
+                    case 2:
+                        // Enter home pipe
+                        if (player.getBounds().x <= 1.5){
+                            Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
+                                    .target(-1f)
+                                    .ease(Linear.INOUT)
+                                    .setCallback(new TweenCallback() {
+                                        @Override
+                                        public void onEvent(int i, BaseTween<?> baseTween) {
+                                            World.this.done = true;
+                                        }
+                                    })
+                                    .start(LudumDare33.tween);
+                        }
                 }
                 break;
             case INTO_THE_FACTORY:

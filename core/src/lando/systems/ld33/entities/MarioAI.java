@@ -22,13 +22,37 @@ public class MarioAI extends Mario {
 
         switch (world.phase){
             case DAY_ONE:
+            case BACK_TO_WORK:
                 handleGrabMushroom(dt);
+                break;
+            case GET_MUSHROOM:
+                handleMissMushroom(dt);
                 break;
         }
 
 
+
     }
 
+
+    public void handleMissMushroom(float dt){
+        switch(segment) {
+            case 0:
+                if (bounds.x > 20 && bounds.x < 21) {
+                    jump();
+                }
+                if (bounds.x > 25.5f) {
+                    jump();
+                    segment++;
+                }
+                break;
+            case 1:
+                if (bounds.x > 31 && grounded){
+                    jump();
+                    segment++;
+                }
+        }
+    }
     public void handleGrabMushroom(float dt){
         switch(segment) {
             case 0:
