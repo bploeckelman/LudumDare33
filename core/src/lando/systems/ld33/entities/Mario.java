@@ -67,6 +67,9 @@ public class Mario extends EntityBase {
                     if (intersectRect.width > intersectRect.height){
                         velocity.y = jumpVelocity;
                         entity.stomped();
+                    } else {
+                        // TODO kill mario
+                        dead = true;
                     }
                 }
             }

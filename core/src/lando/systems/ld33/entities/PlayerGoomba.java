@@ -19,7 +19,7 @@ public class PlayerGoomba extends EntityBase {
     public boolean canRight;
 
 
-    boolean raged = false;
+    public boolean raged = false;
 
     public PlayerGoomba(World w, Vector2 p) {
         super(w);
@@ -49,6 +49,8 @@ public class PlayerGoomba extends EntityBase {
         canJump = true;
         canRight = true;
         walkingAnimation = Assets.goombaWalkAnimation;
+        standingAnimation = Assets.goombaWalkAnimation;
+        smashedAnimation = Assets.goombaWalkAnimation;
     }
 
     public void stomped() {
@@ -102,7 +104,8 @@ public class PlayerGoomba extends EntityBase {
         velocity.x *= damping;
 
         // Keep in bounds
-        bounds.x = Math.max(0, Math.min(world.gameWidth - bounds.width, bounds.x));
+        if (moveDelay < 0)
+            bounds.x = Math.max(0, Math.min(world.gameWidth - bounds.width, bounds.x));
 
 
     }

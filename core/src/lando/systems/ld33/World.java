@@ -4,6 +4,7 @@ import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.equations.Linear;
+import aurelienribon.tweenengine.equations.Quad;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -21,6 +22,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Pools;
+import lando.systems.ld33.accessors.CameraAccessor;
 import lando.systems.ld33.accessors.ColorAccessor;
 import lando.systems.ld33.accessors.RectangleAccessor;
 import lando.systems.ld33.dialogue.Dialogue;
@@ -67,10 +69,12 @@ public class World {
     public boolean                    done;
     public Dialogue                   dialogue;
     public Color transitionColor;
+    public boolean                    cameraLock;
 
     public World(OrthographicCamera cam, Phase p, SpriteBatch batch) {
         phase = p;
         done = false;
+        cameraLock = true;
         dialogue = new Dialogue();
         transitionColor = new Color(1,1,1,1);
 
@@ -114,8 +118,11 @@ public class World {
         if (playerX > camera.position.x + 2) camera.position.x = playerX - 2;
 
         // keep the map in view always
-        camera.position.x = Math.min(cameraRightEdge, Math.max(cameraLeftEdge, camera.position.x));
+        if (cameraLock) {
+            camera.position.x = Math.min(cameraRightEdge, Math.max(cameraLeftEdge, camera.position.x));
+        }
         camera.update();
+
     }
 
     public void render(SpriteBatch batch){
@@ -680,19 +687,33 @@ public class World {
                         }
                         break;
                     case 1:
-                        // Just a bump on the head, released to go home for the day
+                        if (player.raged){
+                            segment++;
+                            player.moveDelay = 3f;
+                            cameraLock = false;
+                            Tween.to(camera, CameraAccessor.XYZ, 1.5f)
+                                    .target(player.getBounds().x + .5f, player.getBounds().y+ .5f, .1f)
+                                    .ease(Quad.INOUT)
+                                    .repeatYoyo(1, 0)
+                                    .start(LudumDare33.tween);
+                        }
+                        break;
+                    case 2:
+                        // Just picked up the Mushroom
                         if (player.moveDelay <= 0){
+                            cameraLock = true;
                             segment++;
                             Array<String> messages = new Array<String>();
                             messages.add(GameText.getText("gotMushroom"));
                             dialogue.show(1, 10, 18, 4, messages);
                         }
                         break;
-                    case 2:
-                        // Enter home pipe
-                        if (player.getBounds().x <= 1.5){
+                    case 3:
+                        // Head to Factory
+                        if (player.getBounds().x <= .5){
+                            player.moveDelay = EntityBase.PIPEDELAY;
                             Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
-                                    .target(-1f)
+                                    .target(-2f)
                                     .ease(Linear.INOUT)
                                     .setCallback(new TweenCallback() {
                                         @Override
