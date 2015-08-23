@@ -29,13 +29,15 @@ public class Mario extends EntityBase {
 
     public void growBig(){
         walkingAnimation = Assets.marioBigWalkAnimation;
+        jumpingAnimation = Assets.marioBigJumpingAnimation;
+        standingAnimation = Assets.marioBigStandingAnimation;
         bounds.height = 2;
     }
 
     public void makeSmall(){
         walkingAnimation = Assets.marioSmallWalkAnimation;
-        jumpingAnimation = Assets.marioSmallWalkAnimation;
-        standingAnimation = Assets.marioSmallWalkAnimation;
+        jumpingAnimation = Assets.marioSmallJumpingAnimation;
+        standingAnimation = Assets.marioSmallStandingAnimation;
         bounds.height = 1;
     }
 

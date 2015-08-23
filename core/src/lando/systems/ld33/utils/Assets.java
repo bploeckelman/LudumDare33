@@ -34,7 +34,11 @@ public class Assets {
 
     public static Animation questionBlockAnimation;
     public static Animation marioSmallWalkAnimation;
+    public static Animation marioSmallStandingAnimation;
+    public static Animation marioSmallJumpingAnimation;
     public static Animation marioBigWalkAnimation;
+    public static Animation marioBigStandingAnimation;
+    public static Animation marioBigJumpingAnimation;
     public static Animation goombaNormalWalkAnimation;
     public static Animation goombaWalkAnimation;
     public static Animation goombaSmashedAnimation;
@@ -83,11 +87,17 @@ public class Assets {
             atlas.findRegion("mario-small-walk3"));
         marioSmallWalkAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
+        marioSmallStandingAnimation = new Animation(.15f, atlas.findRegion("mario-small-straight-on"));
+        marioSmallJumpingAnimation = new Animation(.15f, atlas.findRegion("mario-small-jump"));
+
         marioBigWalkAnimation = new Animation(.15f,
                 atlas.findRegion("mario-big-walk1"),
                 atlas.findRegion("mario-big-walk2"),
                 atlas.findRegion("mario-big-walk3"));
         marioBigWalkAnimation.setPlayMode(Animation.PlayMode.LOOP);
+
+        marioBigStandingAnimation = new Animation(.15f, atlas.findRegion("mario-big-straight-on"));
+        marioBigJumpingAnimation = new Animation(.15f, atlas.findRegion("mario-big-jump"));
 
         goombaNormalWalkAnimation = new Animation(.15f,
             atlas.findRegion("goomba-normal-walk1"),
