@@ -44,6 +44,7 @@ public class Assets {
     public static Animation goombaSmashedAnimation;
     public static Animation goombaWifeAnimation;
     public static Animation goombaKidsAnimation;
+    public static Animation goombaHurtAnimation;
     public static Animation coinAnimation;
     public static Animation fireFlowerAnimation;
     public static Animation starAnimation;
@@ -115,6 +116,9 @@ public class Assets {
         goombaKidsAnimation = new Animation(.15f,
             atlas.findRegion("goomba-kids").split(32, 32)[0]);
         goombaKidsAnimation.setPlayMode(Animation.PlayMode.LOOP);
+        goombaHurtAnimation = new Animation(.15f,
+            atlas.findRegion("goomba-hurt").split(16, 16)[0]);
+        goombaHurtAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
         coinAnimation = new Animation(.03f,
             Arrays.copyOfRange(atlas.findRegion("coin").split(16, 16)[0], 1, 4));
