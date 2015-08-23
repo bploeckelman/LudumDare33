@@ -340,14 +340,6 @@ public class World {
                 messages = new Array<String>();
                 messages.add(GameText.getText("notComingBack"));
                 dialogue.show(1, 10, 18, 4, messages);
-                Tween.call(new TweenCallback() {
-                        @Override
-                        public void onEvent(int i, BaseTween<?> baseTween) {
-                            player.addThought("*sigh*");
-                        }
-                    })
-                     .delay(3f)
-                     .start(LudumDare33.tween);
                 break;
             case GET_MUSHROOM:
                 Gdx.gl.glClearColor(Assets.BLUE_SKY_R, Assets.BLUE_SKY_G, Assets.BLUE_SKY_B, 1);
@@ -425,7 +417,7 @@ public class World {
                                 chant.kill();
                             }
                         })
-                        .delay(10f)
+                        .delay(12f)
                         .start(LudumDare33.tween);
 
                 player = new PlayerGoomba(this, new Vector2(17.5f, 7f));
@@ -730,6 +722,7 @@ public class World {
                                     public void onEvent(int i, BaseTween<?> baseTween) {
                                         loadMap("maps/inhome-bedroom-sad.tmx");
                                         player.setSadMode();
+                                        player.addThought("* sigh *");
                                     }
                                 })
                                     .delay(.5f)
