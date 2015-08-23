@@ -71,6 +71,8 @@ public class PlayerGoomba extends EntityBase {
         Vector2 safe = lastSafePos.first();
         bounds.x = safe.x;
         bounds.y = safe.y;
+        velocity.x = 0;
+        velocity.y = 0;
         dead = false;
         Array<String> messages = new Array<String>();
         messages.add(GameText.getText("respawn"));
