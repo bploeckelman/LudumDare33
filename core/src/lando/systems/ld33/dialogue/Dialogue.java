@@ -1,6 +1,7 @@
 package lando.systems.ld33.dialogue;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -23,10 +24,10 @@ public class Dialogue extends InputAdapter {
     private static final float LINE_HEIGHT = 20f;
     private static final float CPS = 20f;
     private static final char SPACE = ' ';
-    private static final float DEBOUNCETIME = .5f;
+    private static final float DEBOUNCE_TIME = .25f;
 
     // SETTINGS
-    private float alpha = 0.7f;
+    private float alpha = 0.8f;
 
     // FLAGS
     private boolean isShown = false;
@@ -45,18 +46,20 @@ public class Dialogue extends InputAdapter {
     private float fontDrawX;
     private float fontDrawTopY;
     private float fontDrawWidth;
+    private float pressEnterX;
+    private float pressEnterY;
 
     // Message vars
     private int currentMessageIndex;
-    private String currentMessage;
     private int currentMessageCharIndex;
     private Array<String> currentMessageLines;
-    private String renderString;
     private GlyphLayout finalLayout = new GlyphLayout();
+    private static final GlyphLayout pressEnterLayout = new GlyphLayout(Assets.font8pt, "PRESS ENTER...");
     private GlyphLayout measuringLayout = new GlyphLayout();
 
     // Time Tracking
-    private float updateTime = 0f;
+    private float updateTime;
+    private float pressEnterTime;
     private float keyDeBounce;
 
     public Dialogue() {}
@@ -79,7 +82,16 @@ public class Dialogue extends InputAdapter {
 
         this.isShown = true;
         this.isComplete = false;
-        this.keyDeBounce = DEBOUNCETIME;
+        this.keyDeBounce = DEBOUNCE_TIME;
+
+        // Measure out where the "press enter" will be placed
+        pressEnterX = fontDrawX + fontDrawWidth - pressEnterLayout.width;
+        pressEnterY = startY + MARGIN;
+
+        // Times
+        updateTime = 0f;
+        pressEnterTime = 0f;
+
     }
 
     private void hide() {
@@ -95,34 +107,27 @@ public class Dialogue extends InputAdapter {
     @Override
     public boolean keyDown(int keycode) {
 
-//        Gdx.app.log("DEBUG", "keyUp");
+        // Don't block if we're hidden
+        if (!isShown) return false;
 
-        if (!isShown) {
-//            Gdx.app.log("DEBUG", "keyUp | not shown");
-            // Don't block if we're hidden.
-            return false;
-        }
+        // Limit the rate at which we'll accept input, but still block
+        if (keyDeBounce > 0) return true;
+        // Reset the keyDeBounce timer
+        keyDeBounce = DEBOUNCE_TIME;
 
-        if (keyDeBounce > 0) return false;
-        keyDeBounce = DEBOUNCETIME;
-
-        if (atEndOfMessage) {
-
-//            Gdx.app.log("DEBUG", "keyUp | at and... go to next.");
-            // Get the next message going.
-            nextMessage();
-
-        } else {
-
-            //Gdx.app.log("DEBUG", "keyUp | FF");
-            // Fast forward to the end of the message.
-            this.fastForward = true;
-
+        // Listen for a specific key(s)
+        if (keycode == Input.Keys.ENTER) {
+            if (atEndOfMessage) {
+                // Get the next message going.
+                nextMessage();
+            } else {
+                // Fast forward to the end of the message.
+                this.fastForward = true;
+            }
         }
 
         // Input handled.
         return true;
-
 
     }
 
@@ -155,8 +160,8 @@ public class Dialogue extends InputAdapter {
         }
 
         // Update the shit
-        this.currentMessage = this.messages.get(this.currentMessageIndex);
-        this.currentMessageLines = wrapLine(this.currentMessage);
+        String currentMessage = this.messages.get(this.currentMessageIndex);
+        this.currentMessageLines = wrapLine(currentMessage);
         this.currentMessageCharIndex = 0;
         this.finalLayout.setText(Assets.font, "");
 
@@ -216,12 +221,23 @@ public class Dialogue extends InputAdapter {
 
     // -----------------------------------------------------------------------------------------------------------------
 
+    private float pressEnterAlpha;
+
     public void render(SpriteBatch batch) {
 
         if (this.isShown) {
+
             batch.setColor(1, 1, 1, this.alpha);
             batch.draw(BLACK, this.startX, this.startY, this.width, this.height);
             batch.setColor(1, 1, 1, 1);
+
+            // If we're complete, show the "press enter"
+            if (atEndOfMessage) {
+                pressEnterAlpha = Math.abs(MathUtils.sin(pressEnterTime * 2.5f));
+                Assets.font8pt.setColor(1, 1, 1, pressEnterAlpha);
+                Assets.font8pt.draw(batch, "PRESS ENTER...", pressEnterX, pressEnterY);
+                Assets.font8pt.setColor(1,1,1,1);
+            }
 
             Assets.font.draw(batch, finalLayout, this.getFontDrawX(), this.getFontDrawY(0));
 
@@ -231,12 +247,13 @@ public class Dialogue extends InputAdapter {
     public void update(float dt) {
 
         keyDeBounce -= dt;
+        if (atEndOfMessage) this.pressEnterTime += dt;
 
-        if (!isShown || atEndOfMessage || isComplete) {
-            return;
-        }
+        // Abort?
+        if (!isShown || atEndOfMessage || isComplete) return;
 
         this.updateTime += dt;
+
         int totalCharsToShow;
         totalCharsToShow = MathUtils.floor(this.updateTime * CPS);
 
@@ -244,7 +261,7 @@ public class Dialogue extends InputAdapter {
         if (totalCharsToShow > this.currentMessageCharIndex) {
 
             // Start building the render string
-            renderString = "";
+            String renderString = "";
             int i;
             int charsRemaining = totalCharsToShow;
             for (i = 0; i < this.currentMessageLines.size; i++) {
@@ -276,6 +293,7 @@ public class Dialogue extends InputAdapter {
 
             // Check for end of message
             if (charsRemaining > 0 || this.fastForward) {
+                // End of message has been reached.
                 this.atEndOfMessage = true;
                 this.fastForward = false;
             }
