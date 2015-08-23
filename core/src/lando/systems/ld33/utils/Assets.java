@@ -32,6 +32,8 @@ public class Assets {
     public static TextureRegion     bigMushroom;
 
     public static Animation questionBlockAnimation;
+    public static Animation spikesDownAnimation;
+    public static Animation spikesDownBloodyAnimation;
     public static Animation marioSmallWalkAnimation;
     public static Animation marioSmallStandingAnimation;
     public static Animation marioSmallJumpingAnimation;
@@ -96,6 +98,13 @@ public class Assets {
                                                tilesetRegions[0][26]);
         questionBlockAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
         deadQuestionBlockRegion = new TextureRegion(tilesetRegions[0][27]);
+
+        spikesDownAnimation = new Animation(.15f,
+            atlas.findRegion("spikes-down").split(16, 16)[0]);
+        spikesDownAnimation.setPlayMode(Animation.PlayMode.LOOP);
+        spikesDownBloodyAnimation = new Animation(.15f,
+            atlas.findRegion("spikes-down").split(16, 16)[1]);
+        spikesDownBloodyAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
         marioSmallWalkAnimation = new Animation(.15f,
             atlas.findRegion("mario-small-walk1"),

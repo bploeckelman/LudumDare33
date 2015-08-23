@@ -17,8 +17,8 @@ public class SpikeObject extends ObjectBase {
 
     public SpikeObject(World world, Rectangle bounds) {
         super(world, bounds);
-        cleanAnimation = Assets.questionBlockAnimation;
-        usedAnimation = Assets.questionBlockAnimation;
+        cleanAnimation = Assets.spikesDownAnimation;
+        usedAnimation = Assets.spikesDownBloodyAnimation;
         stateTime = 0f;
         isUsed = false;
     }
@@ -26,7 +26,7 @@ public class SpikeObject extends ObjectBase {
     @Override
     public void update(float delta) {
         stateTime += delta;
-        keyframe = (isUsed) ? Assets.deadQuestionBlockRegion //usedAnimation.getKeyFrame(stateTime)
+        keyframe = (isUsed) ? usedAnimation.getKeyFrame(stateTime)
                             : cleanAnimation.getKeyFrame(stateTime);
     }
 
