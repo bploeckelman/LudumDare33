@@ -50,6 +50,7 @@ public class World {
     public OrthographicCamera         camera;
     public Array<EntityBase>          gameEntities;
     public PlayerGoomba               player;
+    public WifeGoomba                 wife;
     public float                      cameraLeftEdge;
     public float                      cameraRightEdge;
     public float                      gameWidth;
@@ -136,6 +137,8 @@ public class World {
                 messages.add(Assets.wifeName + ":\"What the hell, injured on the job again?! That's it, I'm taking the kids and going to my mother's house!\"");
                 messages.add(Assets.playerName + "\"... wait, but... I ... don't go!\"");
                 dialogue.show(1, 10, 18, 4, messages);
+                wife = new WifeGoomba(this, new Vector2(9, 2));
+                gameEntities.add(wife);
 
                 player = new PlayerGoomba(this, new Vector2(20, 2));
                 player.canJump = false;
@@ -282,6 +285,7 @@ public class World {
                         if (player.getBounds().x < 16){
                             player.getBounds().x = 16;
                             segment++;
+
                         }
                         break;
                     case 1:
@@ -309,11 +313,26 @@ public class World {
                         if (player.getBounds().x < 19){
                             player.getBounds().x = 19;
                             segment++;
+                            player.moveDelay = 4f;
+                            Tween.to(wife.getBounds(), RectangleAccessor.X, 4f)
+                                    .target(-1f)
+                                    .ease(Linear.INOUT)
+                                    .setCallback(new TweenCallback() {
+                                        @Override
+                                        public void onEvent(int i, BaseTween<?> baseTween) {
+                                            wife.dead = true;
+                                        }
+                                    })
+                                    .start(LudumDare33.tween);
+
                         }
                         break;
                     // TODO: wife walks out with kids
                     case 1:
                         if (player.getBounds().x < 9) {
+                            Array<String> messages = new Array<String>();
+                            messages.add(Assets.playerName +":\"I don't have time for this. I need to get up early tomorrow for work again.\"");
+                            dialogue.show(1, 10, 18, 4, messages);
                             player.getBounds().x = 9;
                             segment++;
                             player.moveDelay = EntityBase.PIPEDELAY;
