@@ -154,7 +154,7 @@ public class Dialogue extends InputAdapter {
 
         // Update the shit
         this.currentMessage = this.messages.get(this.currentMessageIndex);
-        this.currentMessageLines = new Array<String>();
+        this.currentMessageLines = wrapLine(this.currentMessage);
         this.currentMessageCharIndex = 0;
         this.finalLayout.setText(Assets.font, "");
 
@@ -227,61 +227,55 @@ public class Dialogue extends InputAdapter {
 
     }
     public void update(float dt) {
+
         keyDeBounce -= dt;
+
         if (!isShown || atEndOfMessage || isComplete) {
             return;
         }
 
         this.updateTime += dt;
         int totalCharsToShow;
-
-        if (this.fastForward) {
-            this.fastForward = false;
-            totalCharsToShow = this.currentMessage.length();
-        } else {
-            totalCharsToShow = MathUtils.floor(this.updateTime * CPS);
-        }
-
-        // Cap it to the length of the current message.
-        totalCharsToShow = Math.min(this.currentMessage.length(), totalCharsToShow);
+        totalCharsToShow = MathUtils.floor(this.updateTime * CPS);
 
         // If we get to show more than we currently are:
         if (totalCharsToShow > this.currentMessageCharIndex) {
 
-            // What new characters are to be shown?
-            String charsToAdd = this.currentMessage.substring(this.currentMessageCharIndex, totalCharsToShow);
-
+            // Start building the render string
+            renderString = "";
             int i;
-
-            // Add a line if we need a new one.
-            if (this.currentMessageLines.size == 0) {
-                this.currentMessageLines.add("");
-            }
-
-            // Pop off the last line
-            String currentLine = this.currentMessageLines.pop();
-            currentLine += charsToAdd;
-
-            // Wrap it?
-            Array<String> wrapResult = wrapLine(currentLine);
-            // Add the line(s) back into the collection
-            for (i = 0; i < wrapResult.size; i++) {
-                this.currentMessageLines.add(wrapResult.get(i));
-            }
-
-            // Build the render string and set the text in the glyph
+            int charsRemaining = totalCharsToShow;
             for (i = 0; i < this.currentMessageLines.size; i++) {
+
+                // If we've done this before, go to a new line.
                 if (i > 0) {
-                    renderString += "\n" + this.currentMessageLines.get(i);
+                    renderString += "\n";
+                }
+
+                if (charsRemaining >= this.currentMessageLines.get(i).length() || this.fastForward) {
+                    // Use the whole line
+                    renderString += this.currentMessageLines.get(i);
+                    // Update the remaining count.
+                    charsRemaining -= this.currentMessageLines.get(i).length();
                 } else {
-                    renderString = this.currentMessageLines.get(i);
+                    // Use part of the line.
+                    renderString += this.currentMessageLines.get(i).substring(0, charsRemaining);
+                    // Update the remaining count.
+                    charsRemaining = 0;
+                }
+
+                // Continue?
+                if (charsRemaining < 1 && !this.fastForward) {
+                    break;
                 }
             }
+
             this.finalLayout.setText(Assets.font, renderString);
 
             // Check for end of message
-            if (totalCharsToShow == this.currentMessage.length()) {
+            if (charsRemaining > 0 || this.fastForward) {
                 this.atEndOfMessage = true;
+                this.fastForward = false;
             }
 
             // Update the current thing
