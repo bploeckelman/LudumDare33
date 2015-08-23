@@ -33,6 +33,12 @@ public abstract class ItemEntity extends EntityBase {
         velocity.x = 4;
     }
 
+    public ItemEntity(World w, float px, float py) {
+        super(w);
+        bounds = new Rectangle(px, py, 1, 1);
+        velocity.x = 4;
+    }
+
     protected void hitHorizontal(){
         velocity.x = -velocity.x;
     }

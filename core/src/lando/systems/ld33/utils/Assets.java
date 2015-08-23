@@ -23,8 +23,10 @@ public class Assets {
     public static BitmapFont  font32pt;
 
     public static Texture testTexture;
-    public static TextureRegion testTextureRegion;
     public static Texture marioTilesetTexture;
+
+    public static TextureRegion testTextureRegion;
+    public static TextureRegion deadQuestionBlockRegion;
 
     public static Animation questionBlockAnimation;
     public static Animation marioSmallWalkAnimation;
@@ -58,6 +60,7 @@ public class Assets {
                                                tilesetRegions[0][25],
                                                tilesetRegions[0][26]);
         questionBlockAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+        deadQuestionBlockRegion = new TextureRegion(tilesetRegions[0][27]);
 
         marioSmallWalkAnimation = new Animation(.15f,
             atlas.findRegion("mario-small-walk1"),

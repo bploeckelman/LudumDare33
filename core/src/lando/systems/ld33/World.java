@@ -40,7 +40,7 @@ public class World {
     public Pool<Rectangle>            rectPool;
     public Array<ObjectBase>          mapObjects;
     public OrthographicCamera         camera;
-    public ArrayList<EntityBase>      gameEntities;
+    public Array<EntityBase>          gameEntities;
     public PlayerGoomba               player;
     public float                      cameraLeftEdge;
     public float                      cameraRightEdge;
@@ -50,7 +50,7 @@ public class World {
 
     public World(OrthographicCamera cam, Phase p, SpriteBatch batch){
         phase = p;
-        gameEntities = new ArrayList<EntityBase>();
+        gameEntities = new Array<EntityBase>();
         camera = cam;
 
         initPhase();

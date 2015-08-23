@@ -8,8 +8,12 @@ import lando.systems.ld33.World;
  */
 public class MushroomItem extends ItemEntity {
 
-    public MushroomItem(World world, Vector2 position) {
-        super(world, position);
+    public MushroomItem(World w, Vector2 p) {
+        super(w, p);
+    }
+
+    public MushroomItem(World w, float px, float py) {
+        super(w, px, py);
     }
 
 }
