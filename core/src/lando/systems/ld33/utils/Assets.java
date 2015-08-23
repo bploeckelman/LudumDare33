@@ -56,8 +56,11 @@ public class Assets {
     public static Animation starAnimation;
     public static Animation mushroomAnimation;
 
+    public static String playerName;
+
     public static void load() {
         batch = new SpriteBatch();
+        playerName = "Billy";
         atlas = new TextureAtlas(Gdx.files.internal("sprites.atlas"));
 
         font8pt = new BitmapFont(Gdx.files.internal("fonts/emulogic-8pt.fnt"));

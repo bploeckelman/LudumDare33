@@ -120,9 +120,14 @@ public class World {
                 map = mapLoader.load("maps/enterhome.tmx");
                 loadObjects();
 
+                messages = new Array<String>();
+                messages.add(Assets.playerName + ":\"Damn it I'm late getting home again.\"");
+                dialogue.show(1, 10, 18, 4, messages);
+
                 player = new PlayerGoomba(this, new Vector2(17, 2));
                 player.canJump = false;
                 player.canRight = false;
+                player.setWounded();
                 player.moveDelay = EntityBase.PIPEDELAY;
                 Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
                      .target(player.getBounds().x - 1f)
@@ -234,8 +239,7 @@ public class World {
                             Array<String> messages = new Array<String>();
                             messages.add("\"Good Work!  Head on home to your family.\"");
                             dialogue.show(1, 10, 18, 4, messages);
-                            player.walkingAnimation = Assets.goombaHurtAnimation;
-                            player.standingAnimation = Assets.goombaHurtStandingAnimation;
+                            player.setWounded();
                         }
                         break;
                     case 2:
@@ -266,6 +270,7 @@ public class World {
                         if (player.getBounds().x < 10) {
                             player.getBounds().x = 10;
                             segment++;
+                            player.moveDelay = EntityBase.PIPEDELAY;
                             Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
                                  .target(8f)
                                  .ease(Linear.INOUT)
