@@ -23,6 +23,7 @@ public class Dialogue extends InputAdapter {
     private static final float LINE_HEIGHT = 20f;
     private static final float CPS = 20f;
     private static final char SPACE = ' ';
+    private static final float DEBOUNCETIME = .2f;
 
     // SETTINGS
     private float alpha = 0.7f;
@@ -56,6 +57,7 @@ public class Dialogue extends InputAdapter {
 
     // Time Tracking
     private float updateTime = 0f;
+    private float keyDeBounce;
 
     /**
      *
@@ -83,6 +85,8 @@ public class Dialogue extends InputAdapter {
         this.nextMessage(true);
 
         this.isShown = true;
+        this.isComplete = false;
+        this.keyDeBounce = DEBOUNCETIME;
     }
 
     private void hide() {
@@ -97,7 +101,8 @@ public class Dialogue extends InputAdapter {
 
     @Override
     public boolean keyUp(int keycode) {
-
+        if (keyDeBounce > 0) return false;
+        keyDeBounce = DEBOUNCETIME;
         Gdx.app.log("DEBUG", "keyUp");
 
         if (!isShown) {
@@ -245,7 +250,7 @@ public class Dialogue extends InputAdapter {
 
     }
     public void update(float dt) {
-
+        keyDeBounce -= dt;
         if (!isShown || atEndOfMessage || isComplete) {
             return;
         }
