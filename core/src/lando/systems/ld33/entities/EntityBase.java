@@ -27,6 +27,8 @@ public class EntityBase {
     protected float gravity = -2f;
     protected World world;
     protected Array<Rectangle> tiles;
+    public float moveDelay;
+
 
     enum State {
         Standing, Walking, Jumping
@@ -47,6 +49,8 @@ public class EntityBase {
     }
 
     public void update(float dt){
+        moveDelay -= dt;
+        if (moveDelay > 0) return;
 
         if (dt == 0) return;
 

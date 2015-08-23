@@ -22,7 +22,6 @@ public class PlayerGoomba extends EntityBase {
 
     public boolean canJump;
     public boolean canRight;
-    public float moveDelay;
 
     Animation animation;
     float stateTime;
@@ -55,13 +54,13 @@ public class PlayerGoomba extends EntityBase {
     @Override
     public void update(float dt){
 
-        moveDelay -= dt;
+        super.update(dt);
+
 
         stateTime += dt;
         keyframe = animation.getKeyFrame(stateTime);
 
         if (moveDelay <= 0) {
-            super.update(dt);
 
             if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && canJump && grounded) {
                 velocity.y += jumpVelocity;

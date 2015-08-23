@@ -60,7 +60,7 @@ public class QuestionBlock extends ObjectBase {
         world.gameEntities.add(item);
 
         // Bounce this question block
-        Tween.to(bounds, RectangleAccessor.XY, 0.075f)
+        Tween.to(bounds, RectangleAccessor.XY, 0.175f)
                  .target(bounds.x, bounds.y + BOUNCE_OFFSET)
                 .repeatYoyo(1, 0f)
                 .ease(Linear.INOUT)

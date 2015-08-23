@@ -1,8 +1,12 @@
 package lando.systems.ld33.entities;
 
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.equations.Linear;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import lando.systems.ld33.LudumDare33;
 import lando.systems.ld33.World;
+import lando.systems.ld33.accessors.RectangleAccessor;
 
 /**
  * Created by dsgraham on 8/22/15.
@@ -26,16 +30,17 @@ public abstract class ItemEntity extends EntityBase {
     }
 
     public ItemType type;
+    public static final float ITEMDELAY = .5f;
 
-    public ItemEntity(World w, Vector2 p) {
-        super(w);
-        bounds = new Rectangle(p.x, p.y, 1, 1);
-        velocity.x = 4;
-    }
 
     public ItemEntity(World w, float px, float py) {
         super(w);
         bounds = new Rectangle(px, py, 1, 1);
+        Tween.to(bounds, RectangleAccessor.Y, ITEMDELAY)
+                .target(py + 1.1f)
+                .ease(Linear.INOUT)
+                .start(LudumDare33.tween);
+        moveDelay = ITEMDELAY+ .1f;
         velocity.x = 4;
     }
 

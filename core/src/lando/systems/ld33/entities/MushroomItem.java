@@ -9,11 +9,6 @@ import lando.systems.ld33.utils.Assets;
  */
 public class MushroomItem extends ItemEntity {
 
-    public MushroomItem(World w, Vector2 p) {
-        super(w, p);
-        setKeyframe();
-    }
-
     public MushroomItem(World w, float px, float py) {
         super(w, px, py);
         setKeyframe();
