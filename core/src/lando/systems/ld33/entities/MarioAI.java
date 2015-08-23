@@ -12,9 +12,12 @@ public class MarioAI extends EntityBase {
 
     private int dir;
     private int segment;
+    private boolean skipMushroom;
+    private float delay;
 
-    public MarioAI(World w, Vector2 pos) {
+    public MarioAI(World w, Vector2 pos, boolean skipMushroom) {
         super(w);
+        this.skipMushroom = skipMushroom;
         bounds = new Rectangle(pos.x, pos.y, 1, 1);
         texture = Assets.testTexture;
         dir = 1;
@@ -26,9 +29,12 @@ public class MarioAI extends EntityBase {
         velocity.y = jumpVelocity;
     }
 
+    protected void hitBlockFromBelow(ObjectBase obj){
+        obj.hit();
+    }
+
     public void update(float dt){
         super.update(dt);
-        velocity.x = 8 * dir;
         switch(segment) {
             case 0:
                 if (bounds.x > 25) {
@@ -46,12 +52,21 @@ public class MarioAI extends EntityBase {
             case 2:
                 if (bounds.x < 27 && grounded){
                     bounds.x = 27;
+                    if (skipMushroom) segment++;
                     segment++;
                     dir = 0;
                     jump();
+                    delay = 1f;
                 }
                 break;
             case 3:
+                if (grounded){
+                    delay -=dt;
+                    if (delay < 0) segment++;
+
+                }
+                break;
+            case 4:
                 if (grounded){
                     dir = 1;
                     if (bounds.x > 30){
@@ -59,7 +74,11 @@ public class MarioAI extends EntityBase {
                         segment++;
                     }
                 }
+                break;
+
         }
+        velocity.x = 8 * dir;
+
 
     }
 }

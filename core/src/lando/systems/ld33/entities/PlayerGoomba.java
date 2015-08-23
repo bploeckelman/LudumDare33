@@ -35,6 +35,10 @@ public class PlayerGoomba extends EntityBase {
         moveDelay = PIPEDELAY;
     }
 
+    protected void hitBlockFromBelow(ObjectBase obj){
+        obj.hit();
+    }
+
     @Override
     public void update(float dt){
 

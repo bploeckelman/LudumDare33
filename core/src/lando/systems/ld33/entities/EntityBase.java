@@ -88,11 +88,21 @@ public class EntityBase {
                 break;
             }
         }
+
+        Array<ObjectBase> objTiles = world.getObjects();
+        for (ObjectBase tile : objTiles) {
+            if (entityRect.overlaps(tile.getBounds())) {
+
+                hitHorizontal();
+                break;
+            }
+        }
         entityRect.x = bounds.x;
 
         // if the koala is moving upwards, check the tiles to the top of it's
         // top bounding box edge, otherwise check the ones to the bottom
         grounded = false;
+        boolean clearYVel = false;
         if (velocity.y > 0) {
             startY = endY = (int)(bounds.y + bounds.height + velocity.y);
         } else {
@@ -117,9 +127,27 @@ public class EntityBase {
                     // if we hit the ground, mark us as grounded so we can jump
                     grounded = true;
                 }
-                velocity.y = 0;
+                clearYVel = true;
                 break;
             }
+        }
+
+        for (ObjectBase obj : objTiles){
+            if (entityRect.overlaps(obj.getBounds())) {
+                 if (velocity.y > 0){
+                     bounds.y = obj.getBounds().y - bounds.height;
+                     hitBlockFromBelow(obj);
+                 } else {
+                     bounds.y = obj.getBounds().y + obj.getBounds().height;
+                     grounded = true;
+                 }
+                clearYVel = true;
+                break;
+            }
+
+        }
+        if (clearYVel){
+            velocity.y = 0;
         }
 
         world.rectPool.free(entityRect);
@@ -139,7 +167,7 @@ public class EntityBase {
        velocity.x = 0;
    }
 
-    protected void hitBlockFromBelow(){
+    protected void hitBlockFromBelow(ObjectBase obj){
 
     }
 

@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Pools;
 import lando.systems.ld33.entities.*;
+import org.w3c.dom.css.Rect;
 
 import java.util.ArrayList;
 
@@ -28,7 +29,7 @@ public class World {
     public static final int   SCREEN_TILES_HIGH = 15;
 
     public enum Phase {
-        First
+        First, Second
     }
 
     public TiledMapTileLayer          foregroundLayer;
@@ -66,7 +67,7 @@ public class World {
         rectPool = Pools.get(Rectangle.class);
 
         gameEntities.add(player);
-        gameEntities.add(new MushroomItem(this, new Vector2(27, 10)));
+//        gameEntities.add(new MushroomItem(this, new Vector2(27, 10)));
     }
 
     private void initPhase(){
@@ -121,6 +122,10 @@ public class World {
         }
     }
 
+    public Array<ObjectBase> getObjects(){
+        return mapObjects;
+    }
+
     public void render(SpriteBatch batch){
 
         mapRenderer.setView(camera);
@@ -157,7 +162,21 @@ public class World {
                             player.getBounds().x = 27;
                             segment++;
                             player.moveDelay = 6;
-                            MarioAI mario = new MarioAI(this, new Vector2(10, 2));
+                            MarioAI mario = new MarioAI(this, new Vector2(10, 2), true);
+                            gameEntities.add(mario);
+                        }
+                        break;
+
+                }
+                break;
+            case Second:
+                switch (segment){
+                    case 0:
+                        if (player.getBounds().x < 27){
+                            player.getBounds().x = 27;
+                            segment++;
+                            player.moveDelay = 6;
+                            MarioAI mario = new MarioAI(this, new Vector2(10, 2), false);
                             gameEntities.add(mario);
                         }
                         break;
