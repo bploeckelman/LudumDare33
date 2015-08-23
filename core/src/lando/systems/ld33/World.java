@@ -44,7 +44,7 @@ public class World {
     public static final int   PIXELS_PER_TILE   = Config.width / SCREEN_TILES_WIDE;
 
     public enum Phase {
-        DAY_ONE, HEADING_HOME, MEET_THE_WIFE, LEAVING_HOME, BACK_TO_WORK, EMPTY_HOUSE
+        DAY_ONE, HEADING_HOME, MEET_THE_WIFE, LEAVING_HOME, BACK_TO_WORK, INTO_THE_FACTORY, EMPTY_HOUSE
     }
 
     public TiledMapTileLayer          foregroundLayer;
@@ -317,6 +317,26 @@ public class World {
                 messages.add(GameText.getText("playerName") + GameText.getText("notComingBack"));
                 dialogue.show(1, 10, 18, 4, messages);
                 break;
+            case INTO_THE_FACTORY:
+                Gdx.gl.glClearColor(0.75f, 0.75f, 0.75f, 1f);
+
+                map = mapLoader.load("maps/level-factory.tmx");
+                loadMapObjects();
+
+                player = new PlayerGoomba(this, new Vector2(97, 2));
+                player.canJump = true;
+                player.canRight = true;
+                player.setNormalMode();
+                player.moveDelay = EntityBase.PIPEDELAY;
+                Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
+                     .target(player.getBounds().x - 1f)
+                     .ease(Linear.INOUT)
+                     .start(LudumDare33.tween);
+
+                messages = new Array<String>();
+                messages.add(Assets.playerName + ":\"What... what [RED]is[] this place?\"");
+                dialogue.show(1, 10, 18, 4, messages);
+                break;
         }
     }
 
@@ -583,6 +603,11 @@ public class World {
                                  .start(LudumDare33.tween);
                         }
                         break;
+                }
+                break;
+            case INTO_THE_FACTORY:
+                switch (segment) {
+                    // TODO: handle segment changes here
                 }
                 break;
         }
