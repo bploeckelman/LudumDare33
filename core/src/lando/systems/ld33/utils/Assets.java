@@ -28,6 +28,8 @@ public class Assets {
 
     public static Animation questionBlockAnimation;
     public static Animation marioSmallWalkAnimation;
+    public static Animation goombaNormalWalkAnimation;
+    public static Animation goombaWalkAnimation;
 
     public static void load() {
         batch = new SpriteBatch();
@@ -62,6 +64,15 @@ public class Assets {
             atlas.findRegion("mario-small-walk2"),
             atlas.findRegion("mario-small-walk3"));
         marioSmallWalkAnimation.setPlayMode(Animation.PlayMode.LOOP);
+        goombaNormalWalkAnimation = new Animation(.15f,
+            atlas.findRegion("goomba-normal-walk1"),
+            atlas.findRegion("goomba-normal-walk2"));
+        goombaNormalWalkAnimation.setPlayMode(Animation.PlayMode.LOOP);
+        goombaWalkAnimation = new Animation(.15f,
+            atlas.findRegion("goomba-walk1"),
+            atlas.findRegion("goomba-walk2"));
+        goombaWalkAnimation.setPlayMode(Animation.PlayMode.LOOP);
+
     }
 
     public static void dispose() {
