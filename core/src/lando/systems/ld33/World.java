@@ -34,12 +34,20 @@ public class World {
     public static final int     PIXELS_PER_TILE = Config.width / SCREEN_TILES_WIDE;
 
     public enum Phase {
-        First, Second
+        First(1), Second(2);
+
+        private int value;
+        Phase(int value) { this.value = value; }
+        public int getValue() { return value; }
+        public Phase nextPhase() {
+            if (value == 1) return Second;
+            else return First;
+        }
     }
 
     public TiledMapTileLayer          foregroundLayer;
     public TiledMapTileLayer          backgroundLayer;
-    public TiledMap                   mapLevel1;
+    public TiledMap                   map;
     public OrthogonalTiledMapRenderer mapRenderer;
     public Array<Rectangle>           tileRects;
     public Pool<Rectangle>            rectPool;
@@ -55,17 +63,17 @@ public class World {
     public boolean                    done;
     public Dialogue                   dialogue;
 
-    public World(OrthographicCamera cam, Phase p, SpriteBatch batch){
+    public World(OrthographicCamera cam, Phase p, SpriteBatch batch) {
         phase = p;
         done = false;
         gameEntities = new Array<EntityBase>();
         camera = cam;
 
         initPhase();
-        mapRenderer = new OrthogonalTiledMapRenderer(mapLevel1, MAP_UNIT_SCALE, batch);
+        mapRenderer = new OrthogonalTiledMapRenderer(map, MAP_UNIT_SCALE, batch);
 
-        foregroundLayer = (TiledMapTileLayer) mapLevel1.getLayers().get("foreground");
-        backgroundLayer = (TiledMapTileLayer) mapLevel1.getLayers().get("background");
+        foregroundLayer = (TiledMapTileLayer) map.getLayers().get("foreground");
+        backgroundLayer = (TiledMapTileLayer) map.getLayers().get("background");
 
         gameWidth = backgroundLayer.getWidth();
         cameraLeftEdge = SCREEN_TILES_WIDE / 2;
@@ -75,7 +83,6 @@ public class World {
         rectPool = Pools.get(Rectangle.class);
 
         gameEntities.add(player);
-//        gameEntities.add(new MushroomItem(this, new Vector2(27, 10)));
 
         dialogue = new Dialogue();
         Array<String> messages = new Array<String>();
@@ -84,24 +91,32 @@ public class World {
 
     }
 
-    private void initPhase(){
+    private void initPhase() {
         segment = 0;
         final TmxMapLoader mapLoader = new TmxMapLoader();
 
-        switch (phase){
+        switch (phase) {
             case First:
                 // TODO: encapsulate map loading so that loadObjects is always called right after map load
-                mapLevel1 = mapLoader.load("maps/level1.tmx");
+                map = mapLoader.load("maps/level1.tmx");
                 loadObjects();
 
-                player = new PlayerGoomba(this, new Vector2(33.5f,4));
+                player = new PlayerGoomba(this, new Vector2(33.5f, 4));
+                player.canRight = false;
+                player.canJump = false;
+                break;
+            case Second:
+                map = mapLoader.load("maps/enterhome.tmx");
+                loadObjects();
+
+                player = new PlayerGoomba(this, new Vector2(16, 3));
                 player.canRight = false;
                 player.canJump = false;
                 break;
         }
     }
 
-    public void update(float dt){
+    public void update(float dt) {
 
         dialogue.update(dt);
 
@@ -223,29 +238,29 @@ public class World {
                 }
                 break;
             case Second:
-                switch (segment){
-                    case 0:
-                        if (player.getBounds().x < 27){
-                            player.getBounds().x = 27;
-                            segment++;
-                            player.moveDelay = 6;
-                            MarioAI mario = new MarioAI(this, new Vector2(10, 2), false);
-                            gameEntities.add(mario);
-                        }
-                        break;
-
-                }
+//                switch (segment){
+//                    case 0:
+//                        if (player.getBounds().x < 27){
+//                            player.getBounds().x = 27;
+//                            segment++;
+//                            player.moveDelay = 6;
+//                            MarioAI mario = new MarioAI(this, new Vector2(10, 2), false);
+//                            gameEntities.add(mario);
+//                        }
+//                        break;
+//
+//                }
                 break;
         }
     }
 
     private void loadObjects() {
-        if (mapLevel1 == null) return;
+        if (map == null) return;
 
         mapObjects = new Array<ObjectBase>();
 
         MapProperties props;
-        MapLayer objectLayer = mapLevel1.getLayers().get("objects");
+        MapLayer objectLayer = map.getLayers().get("objects");
         for (MapObject object : objectLayer.getObjects()) {
             props = object.getProperties();
             float w = (Float) props.get("width");

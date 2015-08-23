@@ -86,6 +86,9 @@ public class ChapterScreen extends LDScreen  {
     @Override
     public void update(float delta) {
         super.update(delta);
+
+        // TODO: just for testing
+        if (time > 3f) isComplete = true;
     }
 
     @Override
@@ -113,6 +116,11 @@ public class ChapterScreen extends LDScreen  {
             batch.draw(sceneRegion, 0, 0);
             batch.end();
         }
+    }
+
+    @Override
+    public boolean isDone() {
+        return isComplete;
     }
 
     // -----------------------------------------------------------------------------------------------------------------

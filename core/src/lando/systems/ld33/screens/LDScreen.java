@@ -15,7 +15,7 @@ import lando.systems.ld33.utils.Assets;
 /**
  * Brian Ploeckelman created on 8/9/2015.
  */
-public class LDScreen extends ScreenAdapter {
+public abstract class LDScreen extends ScreenAdapter {
 
     protected final LudumDare33 game;
 
@@ -61,6 +61,8 @@ public class LDScreen extends ScreenAdapter {
     public void resume() {
         enableInput();
     }
+
+    public abstract boolean isDone();
 
     public Vector3 getMouseWorldPos() {
         return mouseWorldPos;

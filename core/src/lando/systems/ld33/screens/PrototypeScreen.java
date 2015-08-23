@@ -27,10 +27,10 @@ public class PrototypeScreen extends LDScreen {
     World                      world;
 
 
-    public PrototypeScreen(LudumDare33 game) {
+    public PrototypeScreen(LudumDare33 game, World.Phase worldPhase) {
         super(game);
 
-        world = new World(camera, World.Phase.First, batch);
+        world = new World(camera, worldPhase, batch);
 
         uiCamera = new OrthographicCamera();
         uiCamera.setToOrtho(false, Config.width, Config.height);
@@ -91,7 +91,10 @@ public class PrototypeScreen extends LDScreen {
     // Accessors
     // ------------------------------------------------------------------------
 
-
+    @Override
+    public boolean isDone() {
+        return world.done;
+    }
 
     // ------------------------------------------------------------------------
     // Private Implementation
