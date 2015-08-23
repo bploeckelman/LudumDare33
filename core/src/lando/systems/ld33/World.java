@@ -150,7 +150,6 @@ public class World {
         mapRenderer.setView(camera);
 
         batch.begin();
-        batch.setColor(transitionColor);
         batch.setProjectionMatrix(camera.combined);
         {
             mapRenderer.renderTileLayer(backgroundLayer);
@@ -173,6 +172,9 @@ public class World {
         for (EntityBase entity : gameEntities){
             entity.renderUI(batch, camera, uiCam);
         }
+        batch.setColor(transitionColor);
+        batch.draw(Assets.blackTexture, 0,0, uiCam.viewportWidth, uiCam.viewportHeight);
+        batch.setColor(Color.WHITE);
     }
 
     public void getTiles (int startX, int startY, int endX, int endY, Array<Rectangle> tiles) {
@@ -213,6 +215,7 @@ public class World {
      */
     private void initPhase() {
         segment = 0;
+        fadeIn();
 
         switch (phase) {
             case DAY_ONE:
@@ -448,15 +451,10 @@ public class World {
                     case 3:
                         // Enter home pipe
                         if (player.getBounds().x <= 5.5){
+                            fadeOut();
                             Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
                                     .target(3.5f)
                                     .ease(Linear.INOUT)
-                                    .setCallback(new TweenCallback() {
-                                        @Override
-                                        public void onEvent(int i, BaseTween<?> baseTween) {
-                                            World.this.done = true;
-                                        }
-                                    })
                                     .start(LudumDare33.tween);
                         }
                 }
@@ -476,15 +474,10 @@ public class World {
                             player.getBounds().x = 10;
                             segment++;
                             player.moveDelay = EntityBase.PIPEDELAY;
+                            fadeOut();
                             Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
                                  .target(8f)
                                  .ease(Linear.INOUT)
-                                 .setCallback(new TweenCallback() {
-                                     @Override
-                                     public void onEvent(int i, BaseTween<?> baseTween) {
-                                         World.this.done = true;
-                                     }
-                                 })
                                  .start(LudumDare33.tween);
                         }
                         break;
@@ -559,7 +552,7 @@ public class World {
                             player.moveDelay = 2f;
                             segment++;
                             Tween.to(transitionColor, ColorAccessor.A, 1f)
-                                    .target(0)
+                                    .target(1)
                                     .ease(Linear.INOUT)
                                     .repeatYoyo(1, 0)
                                     .setCallback(new TweenCallback() {
@@ -575,15 +568,10 @@ public class World {
                         if (player.getBounds().x < 1) {
                             player.moveDelay = EntityBase.PIPEDELAY;
                             segment++;
+                            fadeOut();
                             Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
                                     .target(-1f)
                                     .ease(Linear.INOUT)
-                                    .setCallback(new TweenCallback() {
-                                        @Override
-                                        public void onEvent(int i, BaseTween<?> baseTween) {
-                                            World.this.done = true;
-                                        }
-                                    })
                                     .start(LudumDare33.tween);
                             Tween.to(transitionColor, ColorAccessor.A, EntityBase.PIPEDELAY)
                                     .target(0)
@@ -608,15 +596,11 @@ public class World {
                             player.getBounds().x = 3;
                             segment++;
                             player.moveDelay = EntityBase.PIPEDELAY;
+                            fadeOut();
                             Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
                                  .target(player.getBounds().x - 1f)
                                  .ease(Linear.INOUT)
-                                 .setCallback(new TweenCallback() {
-                                     @Override
-                                     public void onEvent(int i, BaseTween<?> baseTween) {
-                                         World.this.done = true;
-                                     }
-                                 })
+
                                  .start(LudumDare33.tween);
                         }
                         break;
@@ -657,15 +641,11 @@ public class World {
                     case 3:
                         // Enter home pipe
                         if (player.getBounds().x <= 5.5){
+                            fadeOut();
                             Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
                                     .target(3.5f)
                                     .ease(Linear.INOUT)
-                                    .setCallback(new TweenCallback() {
-                                        @Override
-                                        public void onEvent(int i, BaseTween<?> baseTween) {
-                                            World.this.done = true;
-                                        }
-                                    })
+
                                     .start(LudumDare33.tween);
                         }
                 }
@@ -699,7 +679,7 @@ public class World {
                                     .start(LudumDare33.tween);
 
                             Tween.to(transitionColor, ColorAccessor.A, 1f)
-                                 .target(0)
+                                 .target(1)
                                  .ease(Linear.INOUT)
                                  .repeatYoyo(1, 0)
                                  .setCallback(new TweenCallback() {
@@ -716,15 +696,10 @@ public class World {
                         if (player.getBounds().x < 1) {
                             player.moveDelay = EntityBase.PIPEDELAY;
                             segment++;
+                            fadeOut();
                             Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
                                  .target(-1f)
                                  .ease(Linear.INOUT)
-                                 .setCallback(new TweenCallback() {
-                                     @Override
-                                     public void onEvent(int i, BaseTween<?> baseTween) {
-                                         World.this.done = true;
-                                     }
-                                 })
                                  .start(LudumDare33.tween);
                             Tween.to(transitionColor, ColorAccessor.A, EntityBase.PIPEDELAY)
                                  .target(0)
@@ -810,15 +785,10 @@ public class World {
                             player.getBounds().x = 2.5f;
                             player.getBounds().y = 4f;
                             player.moveDelay = EntityBase.PIPEDELAY;
+                            fadeOut();
                             Tween.to(player.getBounds(), RectangleAccessor.Y, EntityBase.PIPEDELAY)
                                     .target(player.getBounds().y - 1f)
                                     .ease(Linear.INOUT)
-                                    .setCallback(new TweenCallback() {
-                                        @Override
-                                        public void onEvent(int i, BaseTween<?> baseTween) {
-                                            World.this.done = true;
-                                        }
-                                    })
                                     .start(LudumDare33.tween);
                         }
                         break;
@@ -830,6 +800,28 @@ public class World {
                 }
                 break;
         }
+    }
+
+    private void fadeIn(){
+        transitionColor = new Color(0, 0, 0, 1);
+        Tween.to(transitionColor, ColorAccessor.A, EntityBase.PIPEDELAY)
+                .target(0)
+                .ease(Linear.INOUT)
+                .start(LudumDare33.tween);
+    }
+
+    private void fadeOut(){
+        transitionColor = new Color(0, 0, 0, 0);
+        Tween.to(transitionColor, ColorAccessor.A, EntityBase.PIPEDELAY)
+                .target(1)
+                .ease(Linear.INOUT)
+                .setCallback(new TweenCallback() {
+                    @Override
+                    public void onEvent(int i, BaseTween<?> baseTween) {
+                        World.this.done = true;
+                    }
+                })
+                .start(LudumDare33.tween);
     }
 
     private void loadMapObjects() {
