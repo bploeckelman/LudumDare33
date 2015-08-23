@@ -13,7 +13,7 @@ public class WifeGoomba extends EntityBase {
         super(w);
 
         bounds = new Rectangle(p.x, p.y, 1, 1);
-        standingAnimation = walkingAnimation = Assets.goombaWifeAnimation;
+        standingAnimation = walkingAnimation = jumpingAnimation = Assets.goombaWifeAnimation;
     }
 
 }

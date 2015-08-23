@@ -226,6 +226,12 @@ public class World {
                 loadMapObjects();
 
                 wife = new WifeGoomba(this, new Vector2(9, 2));
+                wife.moveDelay = 1f;
+                Tween.to(wife.getBounds(), RectangleAccessor.Y, 0.2f)
+                        .target(wife.getBounds().y + 0.5f)
+                        .repeatYoyo(3, 0f)
+                        .ease(Linear.INOUT)
+                        .start(LudumDare33.tween);
                 gameEntities.add(wife);
 
                 player = new PlayerGoomba(this, new Vector2(20, 2));
@@ -278,7 +284,8 @@ public class World {
                         if (player.moveDelay <= 0){
                             segment++;
                             Array<String> messages = new Array<String>();
-                            messages.add("\"Good Work!  Head on home to your family.\"");
+                            messages.add("\"Looks like you took a nasty knock there... "
+                                         + "Why don't you head on home to your family.\"");
                             dialogue.show(1, 10, 18, 4, messages);
                             player.setWounded();
                         }
@@ -331,7 +338,7 @@ public class World {
             case MEET_THE_WIFE:
                 switch (segment) {
                     case 0:
-                        // Wife storms out
+                        // Wife storms out, TODO: takes the kids
                         if (player.getBounds().x < 19){
                             player.getBounds().x = 19;
                             segment++;
@@ -364,8 +371,8 @@ public class World {
                         if (player.getBounds().x < 9) {
                             player.getBounds().x = 9;
                             segment++;
-                            player.moveDelay = EntityBase.PIPEDELAY;
-                            Tween.to(player.getBounds(), RectangleAccessor.Y, EntityBase.PIPEDELAY)
+                            player.moveDelay = 1f;
+                            Tween.to(player.getBounds(), RectangleAccessor.Y, 1f)
                                  .target(player.getBounds().y + 1f)
                                  .ease(Linear.INOUT)
                                  .setCallback(new TweenCallback() {
