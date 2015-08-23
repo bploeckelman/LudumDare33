@@ -66,6 +66,8 @@ public class World {
     public World(OrthographicCamera cam, Phase p, SpriteBatch batch) {
         phase = p;
         done = false;
+        dialogue = new Dialogue();
+
         gameEntities = new Array<EntityBase>();
         camera = cam;
 
@@ -84,10 +86,7 @@ public class World {
 
         gameEntities.add(player);
 
-        dialogue = new Dialogue();
-        Array<String> messages = new Array<String>();
-        messages.add("\"You're late! Move left and get into position!\"");
-        dialogue.show(1, 10, 18, 4, messages);
+
 
     }
 
@@ -98,6 +97,10 @@ public class World {
         switch (phase) {
             case First:
                 // TODO: encapsulate map loading so that loadObjects is always called right after map load
+                Array<String> messages = new Array<String>();
+                messages.add("\"You're late! Move left and get into position!\"");
+                dialogue.show(1, 10, 18, 4, messages);
+
                 map = mapLoader.load("maps/level1.tmx");
                 loadObjects();
 
