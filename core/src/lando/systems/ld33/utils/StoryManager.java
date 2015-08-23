@@ -1,5 +1,6 @@
 package lando.systems.ld33.utils;
 
+import com.badlogic.gdx.utils.Array;
 import lando.systems.ld33.LudumDare33;
 import lando.systems.ld33.World;
 import lando.systems.ld33.screens.ChapterScreen;
@@ -13,36 +14,39 @@ public class StoryManager {
 
     final LudumDare33 game;
 
-    int         currentChapter;
-    World.Phase currentPhase;
-    LDScreen    currentScreen;
+    Integer            currentChapter;
+    World.Phase        currentPhase;
+    LDScreen           currentScreen;
+    int                storyIndex;
+    Array<StoryObject> storySequence;
 
     public StoryManager(LudumDare33 game) {
         this.game = game;
-        this.currentChapter = 1;
-        this.currentPhase = World.Phase.First;
-        this.currentScreen = new PrototypeScreen(game, currentPhase);
 
-        game.setScreen(currentScreen);
+        initializeStorySequence();
+    }
+
+    private void initializeStorySequence() {
+        storySequence = new Array<StoryObject>();
+
+        storySequence.add(new StoryObject(this, 1, null));
+        storySequence.add(new StoryObject(this, null, World.Phase.First));
+        storySequence.add(new StoryObject(this, null, World.Phase.Second));
+        storySequence.add(new StoryObject(this, null, World.Phase.Third));
+        storySequence.add(new StoryObject(this, 2, null));
+        storySequence.add(new StoryObject(this, null, World.Phase.First));
+        storySequence.add(new StoryObject(this, null, World.Phase.Second));
+
+        storyIndex = 0;
+        storySequence.get(storyIndex).doTransition();
     }
 
     public void update(float delta) {
         if (!currentScreen.isDone()) return;
-
-        if (currentScreen instanceof PrototypeScreen) {
-            System.out.println("launching chapter " + currentChapter);
-            currentScreen = new ChapterScreen(game, currentChapter);
-            currentPhase = currentPhase.nextPhase();
-            game.setScreen(currentScreen);
+        if (storyIndex + 1 >= storySequence.size) {
+            storyIndex = -1;
         }
-        else if (currentScreen instanceof ChapterScreen) {
-            System.out.println("launching game phase " + currentPhase.getValue());
-            currentScreen = new PrototypeScreen(game, currentPhase);
-            currentChapter++;
-            // TODO: temporary until we have more chapters in place
-            if (currentChapter > 1) currentChapter = 1;
-            game.setScreen(currentScreen);
-        }
+        storySequence.get(++storyIndex).doTransition();
     }
 
 }

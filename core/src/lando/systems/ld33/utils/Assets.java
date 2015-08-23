@@ -15,23 +15,23 @@ import java.util.Arrays;
  */
 public class Assets {
 
-    public static SpriteBatch batch;
+    public static SpriteBatch  batch;
     public static TextureAtlas atlas;
 
-    public static BitmapFont  font;
-    public static BitmapFont  font8pt;
-    public static BitmapFont  font16pt;
-    public static BitmapFont  font32pt;
+    public static BitmapFont font;
+    public static BitmapFont font8pt;
+    public static BitmapFont font16pt;
+    public static BitmapFont font32pt;
 
     public static Texture testTexture;
     public static Texture blackTexture;
     public static Texture whiteTexture;
     public static Texture marioTilesetTexture;
 
-    public static TextureRegion testTextureRegion;
-    public static TextureRegion deadQuestionBlockRegion;
+    public static TextureRegion     testTextureRegion;
+    public static TextureRegion     deadQuestionBlockRegion;
     public static TextureRegion[][] mushrooms;
-    public static TextureRegion bigMushroom;
+    public static TextureRegion     bigMushroom;
 
     public static Animation questionBlockAnimation;
     public static Animation marioSmallWalkAnimation;
@@ -57,18 +57,20 @@ public class Assets {
     public static Animation mushroomAnimation;
 
     public static String playerName;
+    public static String wifeName;
 
     public static final float BLUE_SKY_R = 107f / 255f;
     public static final float BLUE_SKY_G = 140f / 255f;
     public static final float BLUE_SKY_B = 255f / 255f;
 
-    public static final float NIGHT_SKY_R = BLUE_SKY_R /2;
-    public static final float NIGHT_SKY_G = BLUE_SKY_G /2;
-    public static final float NIGHT_SKY_B = BLUE_SKY_B /2;
+    public static final float NIGHT_SKY_R = BLUE_SKY_R / 2;
+    public static final float NIGHT_SKY_G = BLUE_SKY_G / 2;
+    public static final float NIGHT_SKY_B = BLUE_SKY_B / 2;
 
     public static void load() {
         batch = new SpriteBatch();
         playerName = "Billy";
+        wifeName = "Misty";
         atlas = new TextureAtlas(Gdx.files.internal("sprites.atlas"));
 
         font8pt = new BitmapFont(Gdx.files.internal("fonts/emulogic-8pt.fnt"));

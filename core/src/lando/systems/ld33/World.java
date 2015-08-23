@@ -37,15 +37,7 @@ public class World {
     public static final int     PIXELS_PER_TILE = Config.width / SCREEN_TILES_WIDE;
 
     public enum Phase {
-        First(1), Second(2);
-
-        private int value;
-        Phase(int value) { this.value = value; }
-        public int getValue() { return value; }
-        public Phase nextPhase() {
-            if (value == 1) return Second;
-            else return First;
-        }
+        First, Second, Third
     }
 
     public TiledMapTileLayer          foregroundLayer;
@@ -88,9 +80,6 @@ public class World {
         rectPool = Pools.get(Rectangle.class);
 
         gameEntities.add(player);
-
-
-
     }
 
     private void initPhase() {
@@ -137,6 +126,28 @@ public class World {
                      .ease(Linear.INOUT)
                      .start(LudumDare33.tween);
                 break;
+            case Third:
+                Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
+
+                map = mapLoader.load("maps/inhome-bedroom.tmx");
+                loadObjects();
+
+                messages = new Array<String>();
+                messages.add(Assets.wifeName + ":\"What the hell, injured on the job again?! That's it, I'm taking the kids and going to my mother's house!\"");
+                messages.add(Assets.playerName + "\"... wait, but... I ... don't go!\"");
+                dialogue.show(1, 10, 18, 4, messages);
+
+                player = new PlayerGoomba(this, new Vector2(20, 2));
+                player.canJump = false;
+                player.canRight = false;
+                player.setWounded();
+                player.moveDelay = EntityBase.PIPEDELAY;
+                Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
+                     .target(player.getBounds().x - 1f)
+                     .ease(Linear.INOUT)
+                     .start(LudumDare33.tween);
+                break;
+
         }
     }
 
@@ -290,9 +301,35 @@ public class World {
                                  .start(LudumDare33.tween);
                         }
                         break;
-
                 }
                 break;
+            case Third:
+                switch (segment) {
+                    case 0:
+                        if (player.getBounds().x < 19){
+                            player.getBounds().x = 19;
+                            segment++;
+                        }
+                        break;
+                    // TODO: wife walks out with kids
+                    case 1:
+                        if (player.getBounds().x < 9) {
+                            player.getBounds().x = 9;
+                            segment++;
+                            player.moveDelay = EntityBase.PIPEDELAY;
+                            Tween.to(player.getBounds(), RectangleAccessor.Y, EntityBase.PIPEDELAY)
+                                 .target(player.getBounds().y + 1f)
+                                 .ease(Linear.INOUT)
+                                 .setCallback(new TweenCallback() {
+                                     @Override
+                                     public void onEvent(int i, BaseTween<?> baseTween) {
+                                         World.this.done = true;
+                                     }
+                                 })
+                                 .start(LudumDare33.tween);
+                        }
+                        break;
+                }
         }
     }
 
