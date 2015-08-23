@@ -78,7 +78,7 @@ public class PlayerGoomba extends EntityBase {
         dead = false;
         Array<String> messages = new Array<String>();
         messages.add(GameText.getText("respawn"));
-        world.dialogue.show(1,10,18,4,messages);
+        world.dialogue.show(1,10,18,4,messages,true,600);
     }
 
     @Override

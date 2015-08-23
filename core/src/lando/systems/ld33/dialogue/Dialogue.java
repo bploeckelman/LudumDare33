@@ -22,12 +22,15 @@ public class Dialogue extends InputAdapter {
     private static final Texture BLACK = new Texture("black.png");
     private static final float MARGIN = 32f;
     private static final float LINE_HEIGHT = 20f;
-    private static final float CPS = 20f;
     private static final char SPACE = ' ';
     private static final float DEBOUNCE_TIME = .25f;
+    private static final float BACKGROUND_ALPHA = 0.8f;
 
     // SETTINGS
-    private float alpha = 0.8f;
+    private static final boolean SHOW_PRESS_ENTER_DEFAULT = true;
+    private boolean showPressEnter;
+    private static final float CPS_DEFAULT = 20f;
+    private float cps;
 
     // FLAGS
     private boolean isShown = false;
@@ -66,13 +69,32 @@ public class Dialogue extends InputAdapter {
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    public void show(int startTileX, int startTileY, int widthInTiles, int heightInTiles, Array<String> messages) {
+    /**
+     *
+     * @param startTileX start pos in tiles
+     * @param startTileY start pos in tiles
+     * @param widthInTiles Width in tiles
+     * @param heightInTiles Height in tiles
+     * @param messages The message(s) to be displayed
+     * @param showPressEnter Display the "press enter" message after the message completes
+     * @param cps Characters per second
+     */
+    public void show(int startTileX,
+                     int startTileY,
+                     int widthInTiles,
+                     int heightInTiles,
+                     Array<String> messages,
+                     boolean showPressEnter,
+                     float cps) {
 
         this.startX = startTileX * World.PIXELS_PER_TILE;
         this.startY = startTileY * World.PIXELS_PER_TILE;
         this.width = widthInTiles * World.PIXELS_PER_TILE;
         this.height = heightInTiles * World.PIXELS_PER_TILE;
         this.messages = messages;
+        this.showPressEnter = showPressEnter;
+        this.cps = cps;
+
 
         this.fontDrawX = this.startX + MARGIN;
         this.fontDrawTopY = this.startY + this.height - MARGIN;
@@ -92,6 +114,16 @@ public class Dialogue extends InputAdapter {
         updateTime = 0f;
         pressEnterTime = 0f;
 
+    }
+    public void show(int startTileX, int startTileY, int widthInTiles, int heightInTiles, Array<String> messages) {
+        show(
+                startTileX,
+                startTileY,
+                widthInTiles,
+                heightInTiles,
+                messages,
+                SHOW_PRESS_ENTER_DEFAULT,
+                CPS_DEFAULT);
     }
 
     private void hide() {
@@ -221,19 +253,17 @@ public class Dialogue extends InputAdapter {
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    private float pressEnterAlpha;
-
     public void render(SpriteBatch batch) {
 
         if (this.isShown) {
 
-            batch.setColor(1, 1, 1, this.alpha);
+            batch.setColor(1, 1, 1, BACKGROUND_ALPHA);
             batch.draw(BLACK, this.startX, this.startY, this.width, this.height);
             batch.setColor(1, 1, 1, 1);
 
             // If we're complete, show the "press enter"
-            if (atEndOfMessage) {
-                pressEnterAlpha = Math.abs(MathUtils.sin(pressEnterTime * 2.5f));
+            if (atEndOfMessage && showPressEnter) {
+                float pressEnterAlpha = Math.abs(MathUtils.sin(pressEnterTime * 2.5f));
                 Assets.font8pt.setColor(1, 1, 1, pressEnterAlpha);
                 Assets.font8pt.draw(batch, "PRESS ENTER...", pressEnterX, pressEnterY);
                 Assets.font8pt.setColor(1,1,1,1);
@@ -255,7 +285,7 @@ public class Dialogue extends InputAdapter {
         this.updateTime += dt;
 
         int totalCharsToShow;
-        totalCharsToShow = MathUtils.floor(this.updateTime * CPS);
+        totalCharsToShow = MathUtils.floor(this.updateTime * cps);
 
         // If we get to show more than we currently are:
         if (totalCharsToShow > this.currentMessageCharIndex) {
