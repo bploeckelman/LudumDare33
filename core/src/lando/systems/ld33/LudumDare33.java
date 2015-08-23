@@ -12,6 +12,7 @@ import lando.systems.ld33.accessors.ColorAccessor;
 import lando.systems.ld33.accessors.RectangleAccessor;
 import lando.systems.ld33.accessors.Vector2Accessor;
 import lando.systems.ld33.accessors.Vector3Accessor;
+import lando.systems.ld33.screens.ChapterScreen;
 import lando.systems.ld33.utils.Assets;
 import lando.systems.ld33.utils.StoryManager;
 

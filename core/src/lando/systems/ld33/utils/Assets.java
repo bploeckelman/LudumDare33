@@ -25,6 +25,7 @@ public class Assets {
 
     public static Texture testTexture;
     public static Texture blackTexture;
+    public static Texture whiteTexture;
     public static Texture marioTilesetTexture;
 
     public static TextureRegion testTextureRegion;
@@ -67,6 +68,7 @@ public class Assets {
 
         testTexture = new Texture("badlogic.jpg");
         blackTexture = new Texture("black.png");
+        whiteTexture = new Texture("white.png");
         testTextureRegion = new TextureRegion(testTexture, testTexture.getWidth(), testTexture.getHeight());
         marioTilesetTexture = new Texture("maps/mario-tileset.png");
 
