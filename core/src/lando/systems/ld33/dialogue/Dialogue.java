@@ -208,56 +208,6 @@ public class Dialogue extends InputAdapter {
 
             return processedLines;
 
-//
-//            int wrapIndex = givenLine.length() - 1;
-//            String wrappedString = givenLine.substring(0, wrapIndex);
-//            this.measuringLayout.setText(Assets.font, wrappedString);
-//            while (this.measuringLayout.width > this.fontDrawWidth) {
-//                // It still didn't fit.  Shorten it.
-//                wrapIndex--;
-//                if (wrapIndex <= 2) {
-//                    Gdx.app.log("ERROR",
-//                            "Wrapping has gone horribly horribly wrong.  GivenLine='" +
-//                                    givenLine + "' and text area width='" + String.valueOf(this.fontDrawWidth) + "'");
-//                    Gdx.app.exit();
-//                }
-//                wrappedString = givenLine.substring(0, wrapIndex);
-//                this.measuringLayout.setText(Assets.font, wrappedString);
-//            }
-//
-//            // We have a string that'll fit now.  Let's make some decisions on how to split up the lines though.
-//            char lastChar = wrappedString.charAt(wrappedString.length() - 1);
-//            char secondToLastChar = wrappedString.charAt(wrappedString.length() - 2);
-//            char firstChar = givenLine.charAt(wrapIndex);
-//            String newLine;
-//            if (lastChar != SPACE && secondToLastChar != SPACE && firstChar != SPACE) {
-//
-//                // We're splitting up a word.  Use the '-'
-//                processedLines.add(wrappedString.substring(0, wrappedString.length() - 1) + "-");
-//                newLine = lastChar + givenLine.substring(wrapIndex, givenLine.length());
-//
-//            } else if (secondToLastChar == SPACE && lastChar != SPACE && firstChar != SPACE) {
-//
-//                // Push the word onto the next line
-//                processedLines.add(wrappedString.substring(0, wrappedString.length() - 1));
-//                newLine = lastChar + givenLine.substring(wrapIndex, givenLine.length());
-//
-//            } else {
-//
-//                processedLines.add(wrappedString);
-//                newLine = givenLine.substring(wrapIndex, givenLine.length());
-//
-//            }
-//
-//            // The new line might need wrapping...
-//            newLine = newLine.trim();
-//            Array<String> wrapResult = wrapLine(newLine);
-//            for (int i = 0; i < wrapResult.size; i++) {
-//                processedLines.add(wrapResult.get(i));
-//            }
-//
-//            return processedLines;
-
         }
     }
 
