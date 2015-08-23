@@ -88,6 +88,6 @@ public class MarioAI extends EntityBase {
         }
         velocity.x = 8 * dir;
 
-        facesRight = dir > 1;
+        facesRight = dir > 0;
     }
 }
