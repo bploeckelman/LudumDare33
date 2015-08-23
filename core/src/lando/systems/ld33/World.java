@@ -329,10 +329,16 @@ public class World {
                         break;
                     // TODO: wife walks out with kids
                     case 1:
-                        if (player.getBounds().x < 9) {
+                        if (player.getBounds().x < 12) {
                             Array<String> messages = new Array<String>();
-                            messages.add(Assets.playerName +":\"I don't have time for this. I need to get up early tomorrow for work again.\"");
+                            messages.add(Assets.playerName + ":\"I don't have time for this. I need to get up early tomorrow for work again.\"");
                             dialogue.show(1, 10, 18, 4, messages);
+                            player.getBounds().x = 12;
+                            segment++;
+                        }
+                        break;
+                    case 2:
+                        if (player.getBounds().x < 9) {
                             player.getBounds().x = 9;
                             segment++;
                             player.moveDelay = EntityBase.PIPEDELAY;
