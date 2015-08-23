@@ -22,6 +22,9 @@ import com.badlogic.gdx.utils.Pools;
 import lando.systems.ld33.accessors.RectangleAccessor;
 import lando.systems.ld33.dialogue.Dialogue;
 import lando.systems.ld33.entities.*;
+import lando.systems.ld33.entities.items.ItemEntity;
+import lando.systems.ld33.entities.mapobjects.ObjectBase;
+import lando.systems.ld33.entities.mapobjects.QuestionBlock;
 import lando.systems.ld33.utils.Assets;
 
 import java.util.Iterator;
@@ -134,7 +137,8 @@ public class World {
                 loadObjects();
 
                 messages = new Array<String>();
-                messages.add(Assets.wifeName + ":\"What the hell, injured on the job again?! That's it, I'm taking the kids and going to my mother's house!\"");
+                messages.add(Assets.wifeName +
+                             ":\"What the hell, injured on the job again?! That's it, I'm taking the kids and going to my mother's house!\"");
                 messages.add(Assets.playerName + "\"... wait, but... I ... don't go!\"");
                 dialogue.show(1, 10, 18, 4, messages);
                 wife = new WifeGoomba(this, new Vector2(9, 2));

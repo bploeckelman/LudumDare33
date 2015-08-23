@@ -1,4 +1,4 @@
-package lando.systems.ld33.entities;
+package lando.systems.ld33.entities.items;
 
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.equations.Linear;

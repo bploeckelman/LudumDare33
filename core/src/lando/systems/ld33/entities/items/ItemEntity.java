@@ -1,7 +1,8 @@
-package lando.systems.ld33.entities;
+package lando.systems.ld33.entities.items;
 
 import com.badlogic.gdx.math.Rectangle;
 import lando.systems.ld33.World;
+import lando.systems.ld33.entities.EntityBase;
 
 /**
  * Created by dsgraham on 8/22/15.

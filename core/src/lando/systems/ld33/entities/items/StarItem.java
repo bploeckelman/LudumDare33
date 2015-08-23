@@ -1,8 +1,7 @@
-package lando.systems.ld33.entities;
+package lando.systems.ld33.entities.items;
 
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.equations.Linear;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import lando.systems.ld33.LudumDare33;
 import lando.systems.ld33.World;
 import lando.systems.ld33.accessors.RectangleAccessor;

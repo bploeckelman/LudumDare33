@@ -6,9 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.GdxRuntimeException;
-import lando.systems.ld33.entities.QuestionBlock;
-
-import java.util.Arrays;
+import lando.systems.ld33.entities.mapobjects.QuestionBlock;
 
 /**
  * Brian Ploeckelman created on 8/22/2015.

@@ -1,4 +1,4 @@
-package lando.systems.ld33.entities;
+package lando.systems.ld33.entities.mapobjects;
 
 import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Rectangle;
 import lando.systems.ld33.LudumDare33;
 import lando.systems.ld33.World;
 import lando.systems.ld33.accessors.RectangleAccessor;
+import lando.systems.ld33.entities.items.*;
 import lando.systems.ld33.utils.Assets;
 
 /**

@@ -1,4 +1,4 @@
-package lando.systems.ld33.entities;
+package lando.systems.ld33.entities.mapobjects;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
