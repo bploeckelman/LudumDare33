@@ -2,6 +2,7 @@ package lando.systems.ld33.entities;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -14,7 +15,7 @@ import lando.systems.ld33.utils.Assets;
 public class EntityBase {
     protected static final float PIPEDELAY = 2f;
 
-    protected Texture texture;
+    protected TextureRegion keyframe;
     protected Rectangle bounds;
     protected Vector2 velocity;
     protected boolean facesRight;
@@ -36,7 +37,7 @@ public class EntityBase {
         tiles = new Array<Rectangle>();
         world = w;
         state = State.Standing;
-        texture = Assets.testTexture;
+        keyframe = Assets.testTextureRegion;
         bounds = new Rectangle(3,0,1,1);
         velocity = new Vector2();
     }
@@ -177,9 +178,9 @@ public class EntityBase {
 
         // TODO make this some sort of animation?
         if (facesRight) {
-            batch.draw(texture, bounds.x, bounds.y, bounds.width, bounds.height);
+            batch.draw(keyframe, bounds.x, bounds.y, bounds.width, bounds.height);
         } else {
-            batch.draw(texture, bounds.x + bounds.width, bounds.y, - bounds.width, bounds.height);
+            batch.draw(keyframe, bounds.x + bounds.width, bounds.y, - bounds.width, bounds.height);
         }
     }
 }

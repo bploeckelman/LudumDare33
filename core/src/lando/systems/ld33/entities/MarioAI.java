@@ -1,5 +1,6 @@
 package lando.systems.ld33.entities;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld33.World;
@@ -15,11 +16,14 @@ public class MarioAI extends EntityBase {
     private boolean skipMushroom;
     private float delay;
 
+    Animation animation;
+    float stateTime;
+
     public MarioAI(World w, Vector2 pos, boolean skipMushroom) {
         super(w);
         this.skipMushroom = skipMushroom;
         bounds = new Rectangle(pos.x, pos.y, 1, 1);
-        texture = Assets.testTexture;
+        animation = Assets.marioSmallWalkAnimation;
         dir = 1;
         segment = 0;
     }
@@ -35,6 +39,11 @@ public class MarioAI extends EntityBase {
 
     public void update(float dt){
         super.update(dt);
+        velocity.x = 8 * dir;
+
+        stateTime += dt;
+        keyframe = animation.getKeyFrame(stateTime);
+
         switch(segment) {
             case 0:
                 if (bounds.x > 25) {

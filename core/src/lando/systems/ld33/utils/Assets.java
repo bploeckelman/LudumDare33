@@ -23,9 +23,11 @@ public class Assets {
     public static BitmapFont  font32pt;
 
     public static Texture testTexture;
+    public static TextureRegion testTextureRegion;
     public static Texture marioTilesetTexture;
 
     public static Animation questionBlockAnimation;
+    public static Animation marioSmallWalkAnimation;
 
     public static void load() {
         batch = new SpriteBatch();
@@ -42,6 +44,7 @@ public class Assets {
         font = font16pt;
 
         testTexture = new Texture("badlogic.jpg");
+        testTextureRegion = new TextureRegion(testTexture, testTexture.getWidth(), testTexture.getHeight());
         marioTilesetTexture = new Texture("maps/mario-tileset.png");
 
         TextureRegion[][] tilesetRegions = TextureRegion.split(marioTilesetTexture, 16, 16);
@@ -53,6 +56,12 @@ public class Assets {
                                                tilesetRegions[0][25],
                                                tilesetRegions[0][26]);
         questionBlockAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+
+        marioSmallWalkAnimation = new Animation(.15f,
+            atlas.findRegion("mario-small-walk1"),
+            atlas.findRegion("mario-small-walk2"),
+            atlas.findRegion("mario-small-walk3"));
+        marioSmallWalkAnimation.setPlayMode(Animation.PlayMode.LOOP);
     }
 
     public static void dispose() {
