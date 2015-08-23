@@ -186,6 +186,10 @@ public class EntityBase {
 
         velocity.scl(1 / dt);
 
+        if (bounds.x < -1 || bounds.x > world.foregroundLayer.getWidth() + 1 ||
+                bounds.y < -1){
+            dead = true;
+        }
 
 
     }

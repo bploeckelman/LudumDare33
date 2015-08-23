@@ -5,10 +5,12 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import lando.systems.ld33.World;
 import lando.systems.ld33.entities.items.MushroomItem;
 import lando.systems.ld33.entities.mapobjects.ObjectBase;
 import lando.systems.ld33.utils.Assets;
+import lando.systems.ld33.utils.GameText;
 
 /**
  * Created by dsgraham on 8/22/15.
@@ -20,10 +22,11 @@ public class PlayerGoomba extends EntityBase {
 
 
     public boolean raged = false;
+    private Array<Vector2> lastSafePos;
 
     public PlayerGoomba(World w, Vector2 p) {
         super(w);
-
+        lastSafePos = new Array<Vector2>();
         bounds = new Rectangle(p.x, p.y, 1, 1);
         setNormalMode();
     }
@@ -64,12 +67,26 @@ public class PlayerGoomba extends EntityBase {
         moveDelay = 3;
     }
 
-
+    public void respawn(){
+        Vector2 safe = lastSafePos.first();
+        bounds.x = safe.x;
+        bounds.y = safe.y;
+        dead = false;
+        Array<String> messages = new Array<String>();
+        messages.add(GameText.getText("respawn"));
+        world.dialogue.show(1,10,18,4,messages);
+    }
 
     @Override
     public void update(float dt){
-
+        if (grounded) {
+            lastSafePos.add(new Vector2(bounds.x, bounds.y));
+            if (lastSafePos.size > 10){
+                lastSafePos.removeIndex(0);
+            }
+        }
         super.update(dt);
+
 
 
         if (moveDelay <= 0 && world.allowPolling()) {

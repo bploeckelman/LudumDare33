@@ -42,6 +42,9 @@ public class GameText {
 
         //Factory
         strings.put("intoFactory", ":\"What... what [RED]is[] this place?\"");
+
+        // Respawn
+        strings.put("respawn", "Please be more careful, this is Ludum Dare so we won't make you start again.");
     }
 
     public static String getText(String key){

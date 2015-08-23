@@ -104,13 +104,19 @@ public class World {
         while(iterator.hasNext()) {
             EntityBase entity = iterator.next();
             entity.update(dt);
-            if (entity.dead)
-                iterator.remove();
+            if (entity.dead) {
+                if (entity == player){
+                    player.respawn();
+                } else {
+                    iterator.remove();
+                }
+            }
         }
 
         for (ObjectBase object : mapObjects) {
             object.update(dt);
         }
+
 
         handlePhaseUpdate(dt);
 
