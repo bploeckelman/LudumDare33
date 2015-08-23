@@ -4,6 +4,7 @@ import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.equations.Linear;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapLayer;
@@ -117,6 +118,8 @@ public class World {
                      .start(LudumDare33.tween);
                 break;
             case Second:
+                Gdx.gl.glClearColor(Assets.NIGHT_SKY_R, Assets.NIGHT_SKY_G, Assets.NIGHT_SKY_B, 1f);
+
                 map = mapLoader.load("maps/enterhome.tmx");
                 loadObjects();
 
@@ -164,6 +167,10 @@ public class World {
         camera.update();
     }
 
+
+    public boolean allowPolling(){
+        return !dialogue.isActive();
+    }
 
     public void getTiles (int startX, int startY, int endX, int endY, Array<Rectangle> tiles) {
         rectPool.freeAll(tiles);

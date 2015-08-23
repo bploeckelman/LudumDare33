@@ -58,6 +58,14 @@ public class Assets {
 
     public static String playerName;
 
+    public static final float BLUE_SKY_R = 107f / 255f;
+    public static final float BLUE_SKY_G = 140f / 255f;
+    public static final float BLUE_SKY_B = 255f / 255f;
+
+    public static final float NIGHT_SKY_R = BLUE_SKY_R /2;
+    public static final float NIGHT_SKY_G = BLUE_SKY_G /2;
+    public static final float NIGHT_SKY_B = BLUE_SKY_B /2;
+
     public static void load() {
         batch = new SpriteBatch();
         playerName = "Billy";

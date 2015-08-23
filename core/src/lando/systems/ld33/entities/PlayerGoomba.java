@@ -57,13 +57,15 @@ public class PlayerGoomba extends EntityBase {
         moveDelay = 3;
     }
 
+
+
     @Override
     public void update(float dt){
 
         super.update(dt);
 
 
-        if (moveDelay <= 0) {
+        if (moveDelay <= 0 && world.allowPolling()) {
 
             if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && canJump && grounded) {
                 velocity.y += jumpVelocity;

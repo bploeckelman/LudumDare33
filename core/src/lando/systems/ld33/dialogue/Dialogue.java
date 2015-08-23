@@ -23,7 +23,7 @@ public class Dialogue extends InputAdapter {
     private static final float LINE_HEIGHT = 20f;
     private static final float CPS = 20f;
     private static final char SPACE = ' ';
-    private static final float DEBOUNCETIME = .2f;
+    private static final float DEBOUNCETIME = .5f;
 
     // SETTINGS
     private float alpha = 0.7f;
@@ -93,26 +93,28 @@ public class Dialogue extends InputAdapter {
     // -----------------------------------------------------------------------------------------------------------------
 
     @Override
-    public boolean keyUp(int keycode) {
-        if (keyDeBounce > 0) return false;
-        keyDeBounce = DEBOUNCETIME;
-        Gdx.app.log("DEBUG", "keyUp");
+    public boolean keyDown(int keycode) {
+
+//        Gdx.app.log("DEBUG", "keyUp");
 
         if (!isShown) {
-            Gdx.app.log("DEBUG", "keyUp | not shown");
+//            Gdx.app.log("DEBUG", "keyUp | not shown");
             // Don't block if we're hidden.
             return false;
         }
 
+        if (keyDeBounce > 0) return false;
+        keyDeBounce = DEBOUNCETIME;
+
         if (atEndOfMessage) {
 
-            Gdx.app.log("DEBUG", "keyUp | at and... go to next.");
+//            Gdx.app.log("DEBUG", "keyUp | at and... go to next.");
             // Get the next message going.
             nextMessage();
 
         } else {
 
-            Gdx.app.log("DEBUG", "keyUp | FF");
+            //Gdx.app.log("DEBUG", "keyUp | FF");
             // Fast forward to the end of the message.
             this.fastForward = true;
 

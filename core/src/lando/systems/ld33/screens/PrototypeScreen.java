@@ -10,16 +10,12 @@ import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import lando.systems.ld33.Config;
 import lando.systems.ld33.LudumDare33;
 import lando.systems.ld33.World;
+import lando.systems.ld33.utils.Assets;
 
 /**
  * Brian Ploeckelman created on 8/22/2015.
  */
 public class PrototypeScreen extends LDScreen {
-
-    private static final float BLUE_SKY_R = 107f / 255f;
-    private static final float BLUE_SKY_G = 140f / 255f;
-    private static final float BLUE_SKY_B = 255f / 255f;
-
 
     OrthographicCamera         uiCamera;
     FrameBuffer                sceneFrameBuffer;
@@ -29,6 +25,7 @@ public class PrototypeScreen extends LDScreen {
 
     public PrototypeScreen(LudumDare33 game, World.Phase worldPhase) {
         super(game);
+        Gdx.gl.glClearColor(Assets.BLUE_SKY_R, Assets.BLUE_SKY_G, Assets.BLUE_SKY_B, 1f);
 
         world = new World(camera, worldPhase, batch);
 
@@ -44,7 +41,6 @@ public class PrototypeScreen extends LDScreen {
         camera.update();
 
 
-        Gdx.gl.glClearColor(BLUE_SKY_R, BLUE_SKY_G, BLUE_SKY_B, 1f);
     }
 
     @Override
