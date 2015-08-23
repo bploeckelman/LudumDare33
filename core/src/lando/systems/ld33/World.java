@@ -190,7 +190,7 @@ public class World {
                             player.moveDelay = 6;
 
                             Array<String> messages = new Array<String>();
-                            messages.add("\"All right everyone!  Here we go!\"");
+                            messages.add("\"All right everyone! Here we go!\"");
                             dialogue.show(1,10,18,4,messages);
 
                             MarioAI mario = new MarioAI(this, new Vector2(10, 2), true);
@@ -198,6 +198,15 @@ public class World {
                         }
                         break;
                     case 1:
+                        if (player.moveDelay <= 0){
+                            segment++;
+                            Array<String> messages = new Array<String>();
+                            messages.add("\"Good Work!  Head on home to your family.\"");
+                            dialogue.show(1,10,18,4,messages);
+                        }
+                        break;
+                    case 2:
+
                         if (player.getBounds().x <= 5.5){
                             Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
                                     .target(3.5f)

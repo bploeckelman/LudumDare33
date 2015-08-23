@@ -55,7 +55,7 @@ public class PlayerGoomba extends EntityBase {
 
     public void stomped() {
         state = State.Smashed;
-        moveDelay = 4;
+        moveDelay = 3;
     }
 
     @Override
