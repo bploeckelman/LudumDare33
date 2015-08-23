@@ -32,7 +32,7 @@ public class StoryManager {
         storySequence.add(new StoryObject(this, null, World.Phase.HEADING_HOME));
         storySequence.add(new StoryObject(this, null, World.Phase.MEET_THE_WIFE));
         storySequence.add(new StoryObject(this, null, World.Phase.LEAVING_HOME));
-        storySequence.add(new StoryObject(this, null, World.Phase.DAY_ONE));
+        storySequence.add(new StoryObject(this, null, World.Phase.BACK_TO_WORK));
         storySequence.add(new StoryObject(this, null, World.Phase.HEADING_HOME));
         storySequence.add(new StoryObject(this, null, World.Phase.EMPTY_HOUSE));
         storySequence.add(new StoryObject(this, null, World.Phase.LEAVING_HOME));

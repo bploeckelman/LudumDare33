@@ -4,6 +4,7 @@ import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.equations.Linear;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -293,7 +294,7 @@ public class World {
                      .start(LudumDare33.tween);
 
                 messages = new Array<String>();
-                messages.add(Assets.playerName + ":\"Here we go again. Maybe I can impress the boss today!\"");
+                messages.add(GameText.getText("playerName") + GameText.getText("impressBoss"));
                 dialogue.show(1, 10, 18, 4, messages);
                 break;
             case EMPTY_HOUSE:
@@ -309,11 +310,11 @@ public class World {
                 player.moveDelay = EntityBase.PIPEDELAY;
                 Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
                      .target(player.getBounds().x - 1f)
-                     .ease(Linear.INOUT)
+                        .ease(Linear.INOUT)
                      .start(LudumDare33.tween);
 
                 messages = new Array<String>();
-                messages.add(Assets.playerName + ":\"... ... I guess she's really not coming back. *sigh*\"");
+                messages.add(GameText.getText("playerName") + GameText.getText("notComingBack"));
                 dialogue.show(1, 10, 18, 4, messages);
                 break;
         }
@@ -335,7 +336,7 @@ public class World {
                             player.moveDelay = 6;
 
                             Array<String> messages = new Array<String>();
-                            messages.add("\"All right everyone! Here he comes, look sharp;!\"");
+                            messages.add(GameText.getText("hereComesMario"));
                             dialogue.show(1,10,18,4,messages);
 
                             MarioAI mario = new MarioAI(this, new Vector2(10, 2));
@@ -346,8 +347,7 @@ public class World {
                         if (player.moveDelay <= 0){
                             segment++;
                             Array<String> messages = new Array<String>();
-                            messages.add("\"Looks like you took a nasty knock there... "
-                                         + "Why don't you head on home to your family.\"");
+                            messages.add(GameText.getText("headHome"));
                             dialogue.show(1, 10, 18, 4, messages);
                             player.setWounded();
                         }
@@ -442,7 +442,7 @@ public class World {
                         // Go to the bed
                         if (player.getBounds().x < 12) {
                             Array<String> messages = new Array<String>();
-                            messages.add(Assets.playerName + ":\"I don't have time for this. I need to get up early tomorrow for work again.\"");
+                            messages.add(GameText.getText("playerName") + GameText.getText("noTimeForThis"));
                             dialogue.show(1, 10, 18, 4, messages);
                             player.getBounds().x = 12;
                             segment++;

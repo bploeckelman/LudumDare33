@@ -54,9 +54,6 @@ public class Assets {
     public static Animation starAnimation;
     public static Animation mushroomAnimation;
 
-    public static String playerName;
-    public static String wifeName;
-
     public static final float BLUE_SKY_R = 107f / 255f;
     public static final float BLUE_SKY_G = 140f / 255f;
     public static final float BLUE_SKY_B = 255f / 255f;
@@ -68,8 +65,6 @@ public class Assets {
     public static void load() {
         batch = new SpriteBatch();
         GameText.load();
-        playerName = "Billy";
-        wifeName = "Misty";
         atlas = new TextureAtlas(Gdx.files.internal("sprites.atlas"));
 
         font8pt = new BitmapFont(Gdx.files.internal("fonts/emulogic-8pt.fnt"));
