@@ -45,7 +45,7 @@ public class PlayerGoomba extends EntityBase {
     protected void setNormalMode() {
         walkingAnimation = Assets.goombaNormalWalkAnimation;
         smashedAnimation = Assets.goombaSmashedAnimation;
-        standingAnimation = Assets.goombaNormalWalkAnimation;
+        standingAnimation = Assets.goombaNormalStandingAnimation;
         jumpingAnimation = Assets.goombaNormalWalkAnimation;
     }
     protected void setRageMode() {
@@ -83,6 +83,8 @@ public class PlayerGoomba extends EntityBase {
                 if (grounded) state = State.Walking;
                 facesRight = true;
             }
+        } else {
+            state = State.Standing;
         }
 
         Rectangle intersectRect = new Rectangle();

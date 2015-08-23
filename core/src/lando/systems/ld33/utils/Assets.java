@@ -40,6 +40,7 @@ public class Assets {
     public static Animation marioBigStandingAnimation;
     public static Animation marioBigJumpingAnimation;
     public static Animation goombaNormalWalkAnimation;
+    public static Animation goombaNormalStandingAnimation;
     public static Animation goombaWalkAnimation;
     public static Animation goombaSmashedAnimation;
     public static Animation goombaWifeAnimation;
@@ -105,6 +106,9 @@ public class Assets {
             atlas.findRegion("goomba-normal-walk1"),
             atlas.findRegion("goomba-normal-walk2"));
         goombaNormalWalkAnimation.setPlayMode(Animation.PlayMode.LOOP);
+
+        goombaNormalStandingAnimation = new Animation(.15f, atlas.findRegion("goomba-straight-on"));
+
         goombaWalkAnimation = new Animation(.15f,
             atlas.findRegion("goomba-walk1"),
             atlas.findRegion("goomba-walk2"));
