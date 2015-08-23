@@ -14,7 +14,7 @@ import lando.systems.ld33.utils.Assets;
 /**
  * Brian Ploeckelman created on 8/22/2015.
  */
-public class Coin extends ItemEntity {
+public class CoinItem extends ItemEntity {
 
     private static final float BOUNCE_HEIGHT = 4.0f;
 
@@ -22,11 +22,12 @@ public class Coin extends ItemEntity {
     float     stateTime;
     boolean   isUsed;
 
-    public Coin(final World world, float px, float py) {
+    public CoinItem(final World world, float px, float py) {
         super(world, px, py);
         animation = Assets.coinAnimation;
         stateTime = 0f;
         isUsed = false;
+        type = ItemType.COIN;
 
         Tween.to(bounds, RectangleAccessor.Y, 0.3f)
                 .target(py + BOUNCE_HEIGHT)
@@ -36,7 +37,7 @@ public class Coin extends ItemEntity {
                     @Override
                     public void onEvent(int i, BaseTween<?> baseTween) {
                         isUsed = true;
-                        world.gameEntities.removeValue(Coin.this, true);
+                        world.gameEntities.removeValue(CoinItem.this, true);
                     }
                 })
                 .start(LudumDare33.tween);
@@ -55,8 +56,5 @@ public class Coin extends ItemEntity {
         if (isUsed) return;
         super.render(batch);
     }
-
-    @Override
-    protected void hitHorizontal() {}
 
 }

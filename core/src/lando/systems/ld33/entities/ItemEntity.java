@@ -1,12 +1,7 @@
 package lando.systems.ld33.entities;
 
-import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.equations.Linear;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-import lando.systems.ld33.LudumDare33;
 import lando.systems.ld33.World;
-import lando.systems.ld33.accessors.RectangleAccessor;
 
 /**
  * Created by dsgraham on 8/22/15.
@@ -38,6 +33,6 @@ public abstract class ItemEntity extends EntityBase {
         bounds = new Rectangle(px, py, 1, 1);
     }
 
-    protected abstract void hitHorizontal();
+    protected void hitHorizontal() {}
 
 }

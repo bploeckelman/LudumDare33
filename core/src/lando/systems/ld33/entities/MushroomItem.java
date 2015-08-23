@@ -2,7 +2,6 @@ package lando.systems.ld33.entities;
 
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.equations.Linear;
-import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld33.LudumDare33;
 import lando.systems.ld33.World;
 import lando.systems.ld33.accessors.RectangleAccessor;
@@ -16,6 +15,7 @@ public class MushroomItem extends ItemEntity {
     public MushroomItem(World w, float px, float py) {
         super(w, px, py);
         keyframe = Assets.bigMushroom;
+        type = ItemType.MUSHROOM;
         Tween.to(bounds, RectangleAccessor.Y, ITEMDELAY)
              .target(py + 1.1f)
              .ease(Linear.INOUT)
