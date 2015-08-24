@@ -68,6 +68,7 @@ public class Mario extends EntityBase {
         for (int i = 0; i < world.gameEntities.size; i ++){
             EntityBase entity = world.gameEntities.get(i);
             if (entity == this) continue;
+            if (entity.immuneTime > 0) continue;
             if (Intersector.intersectRectangles(bounds, entity.getBounds(), intersectRect)){
                 if (entity instanceof MushroomItem) {
                     world.addScore(250);

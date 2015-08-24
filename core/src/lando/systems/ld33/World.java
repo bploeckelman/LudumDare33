@@ -143,19 +143,23 @@ public class World {
     public void update(float dt) {
         dialogue.update(dt);
         particles.update(dt);
-        if (score != null) score.update(dt);
-        Iterator<EntityBase> iterator = gameEntities.iterator();
-        while(iterator.hasNext()) {
-            EntityBase entity = iterator.next();
-            entity.update(dt);
-            if (entity.dead) {
-                if (entity == player){
-                    player.respawn();
-                } else {
-                    iterator.remove();
+        if (!dialogue.isActive()) {
+            if (score != null) score.update(dt);
+        }
+            Iterator<EntityBase> iterator = gameEntities.iterator();
+            while (iterator.hasNext()) {
+                EntityBase entity = iterator.next();
+                if (!(dialogue.isActive() && (entity instanceof Mario)))
+                    entity.update(dt);
+                if (entity.dead) {
+                    if (entity == player) {
+                        player.respawn();
+                    } else {
+                        iterator.remove();
+                    }
                 }
             }
-        }
+
 
         for (ObjectBase object : mapObjects) {
             object.update(dt);
@@ -405,20 +409,6 @@ public class World {
                 messages = new Array<String>();
                 messages.add(GameText.getText("impressBoss"));
                 dialogue.show(1, 10, 18, 4, messages);
-                break;
-            case HEADING_HOME_SAD:
-                Gdx.gl.glClearColor(Assets.NIGHT_SKY_R, Assets.NIGHT_SKY_G, Assets.NIGHT_SKY_B, 1f);
-
-                loadMap("maps/enterhome.tmx");
-
-                player = new PlayerGoomba(this, new Vector2(17, 2));
-                player.canJump = false;
-                player.canRight = false;
-                player.setWounded();
-                player.moveDelay = EntityBase.PIPEDELAY;
-
-                TweenHelper.tweenPipeTravel(player, RectangleAccessor.X, player.getBounds().x - 1f)
-                           .start(LudumDare33.tween);
                 break;
             case EMPTY_HOUSE:
                 Gdx.gl.glClearColor(0f, 0f, 0f, 1f);

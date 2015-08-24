@@ -1,9 +1,11 @@
 package lando.systems.ld33.entities;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -38,6 +40,7 @@ public class EntityBase {
     public float stateTime;
     public Thought thought;
     public boolean drawOnTop;
+    public float immuneTime;
 
 
     enum State {
@@ -46,6 +49,7 @@ public class EntityBase {
 
 
     public EntityBase (World w){
+        immuneTime = 0;
         tiles = new Array<Rectangle>();
         world = w;
         state = State.Standing;
@@ -72,6 +76,8 @@ public class EntityBase {
     }
 
     public void update(float dt){
+        if (immuneTime>=0) immuneTime -=dt;
+
         if (thought != null) {
             thought.update(dt);
             if (thought.timeToLive < 0) thought = null;
@@ -242,12 +248,17 @@ public class EntityBase {
                 break;
         }
 
-
+        float alpha = 1;
+        if (immuneTime > 0){
+            alpha = Math.abs(MathUtils.sin(immuneTime * 6));
+        }
+        batch.setColor(1,1,1,alpha);
         if (facesRight) {
             batch.draw(keyframe, bounds.x, bounds.y, bounds.width, bounds.height);
         } else {
-            batch.draw(keyframe, bounds.x + bounds.width, bounds.y, - bounds.width, bounds.height);
+            batch.draw(keyframe, bounds.x + bounds.width, bounds.y, -bounds.width, bounds.height);
         }
+        batch.setColor(Color.WHITE);
     }
 
     public void renderUI(SpriteBatch batch, OrthographicCamera gameCam, OrthographicCamera uiCam){

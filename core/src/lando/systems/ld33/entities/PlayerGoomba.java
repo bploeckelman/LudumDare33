@@ -28,7 +28,7 @@ public class PlayerGoomba extends EntityBase {
     public PlayerGoomba(World w, Vector2 p) {
         super(w);
         lastSafePos = new Array<Vector2>();
-        bounds = new Rectangle(p.x, p.y, 1, 1);
+        bounds = new Rectangle(p.x, p.y, .95f, 1);
         setNormalMode();
     }
 
@@ -70,10 +70,11 @@ public class PlayerGoomba extends EntityBase {
     }
 
     public void stomped() {
+        immuneTime = 4f;
         world.addScore(100);
         world.shake.shake(1f);
         state = State.Smashed;
-        moveDelay = 3;
+        moveDelay = 2;
         addThought("OOF");
         Assets.soundManager.playSound(SoundManager.SoundOptions.GOOMBA_SQUASH);
     }

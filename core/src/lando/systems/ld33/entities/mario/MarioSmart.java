@@ -31,10 +31,10 @@ public class MarioSmart extends Mario {
 
 
         //Lets keep it simple, only do smart things on the ground
-        if (!grounded) return;
+        if (!grounded || moveDelay > 0) return;
 
         // Kill the PLAYER!!
-        if (pRect.contains(new Vector2(bounds.x + (dir * 5) , bounds.y + .5f))){
+        if (pRect.contains(new Vector2(bounds.x + .5f + (dir * 4) , bounds.y + .5f))){
             jump();
         }
 
