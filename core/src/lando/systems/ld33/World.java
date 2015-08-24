@@ -631,7 +631,7 @@ public class World {
                          @Override
                          public void onEvent(int i, BaseTween<?> baseTween) {
                              Array<String> messages = new Array<String>();
-                             messages.add(GameText.getText("level2Intro"));
+                             messages.add(GameText.getText("level3Intro"));
                              dialogue.show(1, 10, 18, 4, messages);
                          }
                      })
@@ -1138,7 +1138,10 @@ public class World {
                             cameraLock = true;
                             segment++;
                             Array<String> messages = new Array<String>();
-                            messages.add(GameText.getText("gotMushroom"));
+                            messages.add(GameText.getText("gotMushroom1"));
+                            messages.add(GameText.getText("gotMushroom2"));
+                            messages.add(GameText.getText("gotMushroom3"));
+                            messages.add(GameText.getText("gotMushroom4"));
                             dialogue.show(1, 10, 18, 4, messages);
                         }
                         break;

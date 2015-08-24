@@ -35,7 +35,7 @@ public class GameText {
         strings.put("missMisty", strings.get("playerName") + ":\"... ... I miss Misty.\"");
 
         // Day 2
-        strings.put("impressBoss", strings.get("playerName") + ":\"Here we go again. Maybe I can impress the boss today!\"");
+        strings.put("impressBoss", strings.get("playerName") + ":\"If I impress the boss today and get a raise, Misty is sure to come home then!\"");
         strings.put("injuredAgain", "Foreman:\"Injured again? Alright, head home and see your family.\"");
 
         // Heading to empty house
@@ -46,7 +46,10 @@ public class GameText {
         strings.put("notComingBack", strings.get("playerName") + ":\"I guess she's really not coming back this time.\"");
 
         // Get Mushroom Day
-        strings.put("gotMushroom", "What is this?!? There is more to life than just moving left!");
+        strings.put("gotMushroom1", strings.get("playerName") + ":\"What's happening?!?\"");
+        strings.put("gotMushroom2", strings.get("playerName") + ":\"I feel strange, but also good.\"");
+        strings.put("gotMushroom3", strings.get("playerName") + ":\"The world seems so different. My feet feel so much stronger!\"");
+        strings.put("gotMushroom4", strings.get("playerName") + ":\"I wonder if I can move to the right now? Maybe I can even jump!\"");
         strings.put("noGoingBack", strings.get("playerName") + ":\"There is nothing left for me to go home to.  I want to use my new powers to explore, where does this other tube go?\"");
 
         //BridgeLevel
@@ -64,12 +67,13 @@ public class GameText {
 
         // Level Intros
         strings.put("level2Intro", strings.get("playerName") + ":\"Well now, this is... different.\"");
+        strings.put("level3Intro", strings.get("playerName") + ":\"Where am I?\"");
         strings.put("level4Intro", strings.get("playerName") + ":\"What a strange place.\"");
         strings.put("level5Intro", strings.get("playerName") + ":\"I must be getting close to something important by now.\"");
 
         // Cult room
         strings.put("cultFlavor", "  [Sounds of Chanting in Latin]");
-        strings.put("cultEnter", strings.get("playerName") + ":\"This is creepy...\"");
+        strings.put("cultEnter", strings.get("playerName") + ":\"Now this is rather creepy...\"");
         strings.put("cultChant", "Cultists (chanting): \"LUDUM DARE... LUDUM DARE... LUDUM DARE... LUDUM DARE...\"");
 
         strings.put("cultCenter1", "Gannon: \"You made it to our inner sanctum and now you know our secrets.\"");
