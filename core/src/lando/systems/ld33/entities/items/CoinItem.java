@@ -18,23 +18,32 @@ public class CoinItem extends ItemEntity {
 
     private static final float BOUNCE_HEIGHT = 4.0f;
 
+    public boolean bouncer;
 
     public CoinItem(final World world, float px, float py) {
+        this(world, px, py, true);
+    }
+
+    public CoinItem(final World world, float px, float py, boolean bouncer) {
         super(world, px, py);
         walkingAnimation = smashedAnimation = jumpingAnimation = standingAnimation = Assets.coinAnimation;
-        type = ItemType.COIN;
-        Tween.to(bounds, RectangleAccessor.Y, 0.3f)
-                .target(py + BOUNCE_HEIGHT)
-                .repeatYoyo(1, 0f)
-                .ease(Linear.INOUT)
-                .setCallback(new TweenCallback() {
-                    @Override
-                    public void onEvent(int i, BaseTween<?> baseTween) {
-                        CoinItem.this.dead = true;
-                    }
-                })
-                .start(LudumDare33.tween);
-        Assets.soundManager.playSound(SoundManager.SoundOptions.COIN_GET);
+        this.type = ItemType.COIN;
+        this.bouncer = bouncer;
+        if (bouncer) {
+            drawOnTop = true;
+            bounds.y += 1f;
+            Tween.to(bounds, RectangleAccessor.Y, 0.3f)
+                 .target(bounds.y + BOUNCE_HEIGHT)
+                 .repeatYoyo(1, 0f)
+                 .ease(Linear.INOUT)
+                 .setCallback(new TweenCallback() {
+                     @Override
+                     public void onEvent(int i, BaseTween<?> baseTween) {
+                         CoinItem.this.dead = true;
+                     }
+                 })
+                 .start(LudumDare33.tween);
+        }
     }
 
     @Override
@@ -44,7 +53,6 @@ public class CoinItem extends ItemEntity {
 
     @Override
     public void render(SpriteBatch batch) {
-
         super.render(batch);
     }
 

@@ -10,6 +10,7 @@ import lando.systems.ld33.World;
 import lando.systems.ld33.accessors.RectangleAccessor;
 import lando.systems.ld33.entities.EntityBase;
 import lando.systems.ld33.entities.PlayerGoomba;
+import lando.systems.ld33.entities.items.CoinItem;
 import lando.systems.ld33.entities.items.MushroomItem;
 import lando.systems.ld33.entities.mapobjects.ObjectBase;
 import lando.systems.ld33.utils.Assets;
@@ -79,7 +80,13 @@ public class Mario extends EntityBase {
                     growBig();
                     entity.dead = true;
                 }
-                if (entity instanceof PlayerGoomba){
+                else if (entity instanceof CoinItem) {
+                    if (!((CoinItem) entity).bouncer) {
+                        world.addCoin(1);
+                        entity.dead = true;
+                    }
+                }
+                else if (entity instanceof PlayerGoomba){
                     if (velocity.y < 0 && intersectRect.width > intersectRect.height){
                         velocity.y = jumpVelocity;
                         entity.stomped();
