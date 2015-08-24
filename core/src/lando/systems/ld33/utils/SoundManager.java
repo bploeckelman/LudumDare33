@@ -21,6 +21,7 @@ public class SoundManager{
     public enum SoundOptions {
         COIN_GET,
         GLASS_JAR_BREAK,
+        GOOMBA_2ND_CHANCE,
         GOOMBA_JUMP,
         GOOMBA_MUSHROOM_GET,
         GOOMBA_SQUASH,
@@ -63,18 +64,19 @@ public class SoundManager{
     // -----------------------------------------------------------------------------------------------------------------
 
     private void load() {
-        soundMap.put(SoundOptions.COIN_GET, Gdx.audio.newSound(Gdx.files.internal("sounds/effects/coin-get.wav")));
-        soundMap.put(SoundOptions.GLASS_JAR_BREAK, Gdx.audio.newSound(Gdx.files.internal("sounds/effects/glass-jar-break.wav")));
-        soundMap.put(SoundOptions.GOOMBA_JUMP, Gdx.audio.newSound(Gdx.files.internal("sounds/effects/goomba-jump.wav")));
-        soundMap.put(SoundOptions.GOOMBA_MUSHROOM_GET, Gdx.audio.newSound(Gdx.files.internal("sounds/effects/goomba-mushroom-get.wav")));
-        soundMap.put(SoundOptions.GOOMBA_SQUASH, Gdx.audio.newSound(Gdx.files.internal("sounds/effects/goomba-squash.wav")));
-        soundMap.put(SoundOptions.MARIO_DEATH, Gdx.audio.newSound(Gdx.files.internal("sounds/effects/mario-death.wav")));
-        soundMap.put(SoundOptions.MARIO_JUMP, Gdx.audio.newSound(Gdx.files.internal("sounds/effects/mario-jump.wav")));
-        soundMap.put(SoundOptions.MARIO_RECLAIMATION, Gdx.audio.newSound(Gdx.files.internal("sounds/effects/mario-reclaimation.wav")));
-        soundMap.put(SoundOptions.MUSHROOM_GET, Gdx.audio.newSound(Gdx.files.internal("sounds/effects/mushroom-get.wav")));
-        soundMap.put(SoundOptions.MUSHROOM_REVEAL, Gdx.audio.newSound(Gdx.files.internal("sounds/effects/mushroom-reveal.wav")));
-        soundMap.put(SoundOptions.PIPE_TRAVEL, Gdx.audio.newSound(Gdx.files.internal("sounds/effects/pipe-travel.wav")));
-        soundMap.put(SoundOptions.SPIKE_STAB, Gdx.audio.newSound(Gdx.files.internal("sounds/effects/spike-stab.wav")));
+        soundMap.put(SoundOptions.COIN_GET, Gdx.audio.newSound(Gdx.files.internal("sounds/effects/coin-get.mp3")));
+        soundMap.put(SoundOptions.GLASS_JAR_BREAK, Gdx.audio.newSound(Gdx.files.internal("sounds/effects/glass-jar-break.mp3")));
+        soundMap.put(SoundOptions.GOOMBA_2ND_CHANCE, Gdx.audio.newSound(Gdx.files.internal("sounds/effects/goomba-2nd-chance.mp3")));
+        soundMap.put(SoundOptions.GOOMBA_JUMP, Gdx.audio.newSound(Gdx.files.internal("sounds/effects/goomba-jump.mp3")));
+        soundMap.put(SoundOptions.GOOMBA_MUSHROOM_GET, Gdx.audio.newSound(Gdx.files.internal("sounds/effects/goomba-mushroom-get.mp3")));
+        soundMap.put(SoundOptions.GOOMBA_SQUASH, Gdx.audio.newSound(Gdx.files.internal("sounds/effects/goomba-squash.mp3")));
+        soundMap.put(SoundOptions.MARIO_DEATH, Gdx.audio.newSound(Gdx.files.internal("sounds/effects/mario-death.mp3")));
+        soundMap.put(SoundOptions.MARIO_JUMP, Gdx.audio.newSound(Gdx.files.internal("sounds/effects/mario-jump.mp3")));
+        soundMap.put(SoundOptions.MARIO_RECLAIMATION, Gdx.audio.newSound(Gdx.files.internal("sounds/effects/mario-reclaimation.mp3")));
+        soundMap.put(SoundOptions.MUSHROOM_GET, Gdx.audio.newSound(Gdx.files.internal("sounds/effects/mushroom-get.mp3")));
+        soundMap.put(SoundOptions.MUSHROOM_REVEAL, Gdx.audio.newSound(Gdx.files.internal("sounds/effects/mushroom-reveal.mp3")));
+        soundMap.put(SoundOptions.PIPE_TRAVEL, Gdx.audio.newSound(Gdx.files.internal("sounds/effects/pipe-travel.mp3")));
+        soundMap.put(SoundOptions.SPIKE_STAB, Gdx.audio.newSound(Gdx.files.internal("sounds/effects/spike-stab.mp3")));
 
         musicMap.put(MusicPieces.DNUORGREDNU, Gdx.audio.newSound(Gdx.files.internal("sounds/music/dnuorgrednu.mp3")));
         musicMap.put(MusicPieces.MARIO_MAJOR_INTRO, Gdx.audio.newSound(Gdx.files.internal("sounds/music/mario-major-intro.mp3")));
