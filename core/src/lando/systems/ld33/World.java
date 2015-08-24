@@ -368,9 +368,8 @@ public class World {
                 player.canRight = false;
                 player.moveDelay = EntityBase.PIPEDELAY;
                 player.setSadMode();
-                Tween.to(player.getBounds(), RectangleAccessor.Y, EntityBase.PIPEDELAY)
-                     .target(player.getBounds().y + 1f)
-                     .ease(Linear.INOUT)
+
+                TweenHelper.tweenPipeTravel(player, RectangleAccessor.Y, player.getBounds().y + 1f)
                      .start(LudumDare33.tween);
 
                 messages = new Array<String>();
@@ -406,9 +405,8 @@ public class World {
                 player.canRight = false;
                 player.moveDelay = EntityBase.PIPEDELAY;
                 player.setSadMode();
-                Tween.to(player.getBounds(), RectangleAccessor.Y, EntityBase.PIPEDELAY)
-                        .target(player.getBounds().y + 1f)
-                        .ease(Linear.INOUT)
+
+                TweenHelper.tweenPipeTravel(player, RectangleAccessor.Y, player.getBounds().y + 1f)
                         .start(LudumDare33.tween);
 
                 messages = new Array<String>();
@@ -814,11 +812,9 @@ public class World {
                     case 4:
                         // Enter home pipe
                         if (player.getBounds().x <= 5.5){
+                            segment++;
                             fadeOut();
-                            Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
-                                    .target(3.5f)
-                                    .ease(Linear.INOUT)
-
+                            TweenHelper.tweenPipeTravel(player, RectangleAccessor.X, 3.5f)
                                     .start(LudumDare33.tween);
                         }
                 }
@@ -945,12 +941,11 @@ public class World {
                         break;
                     case 5:
                         // Head to Factory
-                        if (player.getBounds().x <= 2.5 && player.getBounds().x > 1 && player.getBounds().y < 5.1){
+                        if (player.getBounds().x <= 2.5 && player.getBounds().x > 1 && player.getBounds().y < 5.1) {
+                            segment++;
                             player.getBounds().x = 1.7f;
                             player.moveDelay = EntityBase.PIPEDELAY;
-                            Tween.to(player.getBounds(), RectangleAccessor.Y, EntityBase.PIPEDELAY)
-                                    .target(3)
-                                    .ease(Linear.INOUT)
+                            TweenHelper.tweenPipeTravel(player, RectangleAccessor.Y, 3)
                                     .setCallback(new TweenCallback() {
                                         @Override
                                         public void onEvent(int i, BaseTween<?> baseTween) {
