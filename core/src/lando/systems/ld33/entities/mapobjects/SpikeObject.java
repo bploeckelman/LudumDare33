@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld33.World;
 import lando.systems.ld33.utils.Assets;
+import lando.systems.ld33.utils.SoundManager;
 
 /**
  * Brian Ploeckelman created on 8/23/2015.
@@ -36,6 +37,7 @@ public class SpikeObject extends ObjectBase {
         isUsed = true;
         world.particles.addBlood(new Vector2(bounds.x, bounds.y));
         // TODO: launch blood spurt particle effect and kill the player?
+        Assets.soundManager.playSound(SoundManager.SoundOptions.SPIKE_STAB);
     }
 
 }

@@ -248,6 +248,7 @@ public class World {
                 player.canJump = false;
                 player.canRight = false;
                 player.moveDelay = EntityBase.PIPEDELAY;
+                Assets.soundManager.playSound(SoundManager.SoundOptions.PIPE_TRAVEL);
                 Tween.to(player.getBounds(), RectangleAccessor.Y, EntityBase.PIPEDELAY)
                      .target(player.getBounds().y + 1f)
                         .ease(Linear.INOUT)
@@ -863,6 +864,7 @@ public class World {
                     case 2:
                         // Just picked up the Mushroom
                         if (player.raged){
+                            Assets.soundManager.playSound(SoundManager.SoundOptions.GOOMBA_MUSHROOM_GET);
                             segment++;
                             player.moveDelay = 3f;
                             cameraLock = false;

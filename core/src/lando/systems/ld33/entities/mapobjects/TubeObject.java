@@ -13,6 +13,7 @@ import lando.systems.ld33.LudumDare33;
 import lando.systems.ld33.World;
 import lando.systems.ld33.entities.MarioDumb;
 import lando.systems.ld33.utils.Assets;
+import lando.systems.ld33.utils.SoundManager;
 
 public class TubeObject extends ObjectBase {
 
@@ -113,6 +114,7 @@ public class TubeObject extends ObjectBase {
             (contents == TubeContents.small || contents == TubeContents.large) &&
             MathUtils.random() >= .5f)
         {
+            Assets.soundManager.playSound(SoundManager.SoundOptions.GLASS_JAR_BREAK);
             isExploding = true;
             stateTime = 0f;
             isBroken = true;
