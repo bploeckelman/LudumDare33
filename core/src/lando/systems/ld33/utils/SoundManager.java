@@ -86,6 +86,7 @@ public class SoundManager{
     // -----------------------------------------------------------------------------------------------------------------
 
     public void playSound(SoundOptions soundOption) {
+        Gdx.app.log("DEBUG", "SoundManager.playSound | soundOption='" + String.valueOf(soundOption) + "'");
         soundMap.get(soundOption).play();
     }
 
@@ -94,6 +95,8 @@ public class SoundManager{
     private Sound currentLoopSound;
 
     public void playMusic(MusicOptions musicOption) {
+
+        Gdx.app.log("DEBUG", "SoundManager.playMusic | musicOption='" + String.valueOf(musicOption) + "'");
 
         currentOption = musicOption;
         // Kill any currently play loop

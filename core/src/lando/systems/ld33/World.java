@@ -557,12 +557,16 @@ public class World {
                     case 4:
                         // Enter home pipe
                         if (player.getBounds().x <= 5.5){
+                            segment++;
                             fadeOut();
+                            Assets.soundManager.playSound(SoundManager.SoundOptions.PIPE_TRAVEL);
                             Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
                                     .target(3.5f)
                                     .ease(Linear.INOUT)
                                     .start(LudumDare33.tween);
                         }
+                        break;
+                    case 5:
                         break;
                 }
                 break;
@@ -662,6 +666,7 @@ public class World {
                         if (player.moveDelay <= 0){
                             player.moveDelay = 2f;
                             segment++;
+                            Assets.soundManager.playMusic(SoundManager.MusicOptions.MARIO_MINOR);
                             Tween.to(transitionColor, ColorAccessor.A, 1f)
                                     .target(1)
                                     .ease(Linear.INOUT)
@@ -669,14 +674,12 @@ public class World {
                                     .setCallback(new TweenCallback() {
                                         @Override
                                         public void onEvent(int i, BaseTween<?> baseTween) {
-
                                             // WAKE UP
                                             World.this.player.setSadMode();
                                             Array<String> messages = new Array<String>();
                                             messages.add(GameText.getText("tooOld"));
                                             messages.add(GameText.getText("missMisty"));
                                             dialogue.show(1, 10, 18, 4, messages);
-                                            Assets.soundManager.playMusic(SoundManager.MusicOptions.MARIO_MINOR);
                                         }
                                     })
                                     .start(LudumDare33.tween);
