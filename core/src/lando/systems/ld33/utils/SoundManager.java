@@ -104,7 +104,7 @@ public class SoundManager{
                         }
                     }
                 })
-                        .delay(3.2f)
+                        .delay(2.7f)
                         .start(LudumDare33.tween);
                 break;
             case MARIO_MINOR:

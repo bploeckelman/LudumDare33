@@ -18,7 +18,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -235,7 +234,7 @@ public class World {
 
         switch (phase) {
             case DAY_ONE:
-                Assets.soundManager.playMusic(SoundManager.MusicOptions.MARIO_MINOR);
+
                 loadMap("maps/level1.tmx");
                 cameraLock = false;
 
@@ -653,6 +652,7 @@ public class World {
                         }
                         break;
                     case 4:
+                        // Going to sleep
                         if (player.moveDelay <= 0){
                             player.moveDelay = 2f;
                             segment++;
@@ -663,12 +663,14 @@ public class World {
                                     .setCallback(new TweenCallback() {
                                         @Override
                                         public void onEvent(int i, BaseTween<?> baseTween) {
-                                            World.this.player.setSadMode();
 
+                                            // WAKE UP
+                                            World.this.player.setSadMode();
                                             Array<String> messages = new Array<String>();
                                             messages.add(GameText.getText("tooOld"));
                                             messages.add(GameText.getText("missMisty"));
                                             dialogue.show(1, 10, 18, 4, messages);
+                                            Assets.soundManager.playMusic(SoundManager.MusicOptions.MARIO_MINOR);
                                         }
                                     })
                                     .start(LudumDare33.tween);

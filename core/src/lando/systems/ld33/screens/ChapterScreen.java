@@ -15,6 +15,7 @@ import lando.systems.ld33.LudumDare33;
 import lando.systems.ld33.World;
 import lando.systems.ld33.accessors.ColorAccessor;
 import lando.systems.ld33.utils.Assets;
+import lando.systems.ld33.utils.SoundManager;
 
 public class ChapterScreen extends LDScreen  {
 
@@ -81,6 +82,7 @@ public class ChapterScreen extends LDScreen  {
         camera.update();
 
         if (chapter == 0) {
+            Assets.soundManager.playMusic(SoundManager.MusicOptions.MARIO_MAJOR);
             titles = Assets.titleScreenTexture;
             promptPulse = new Color(1f, 0.6f, 0f, 1f);
             Tween.to(promptPulse, ColorAccessor.RGB, 0.33f)
@@ -133,6 +135,9 @@ public class ChapterScreen extends LDScreen  {
         }
 
         Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
+
+        isComplete = true;
+
     }
 
     // -----------------------------------------------------------------------------------------------------------------
