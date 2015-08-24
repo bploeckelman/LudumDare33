@@ -12,7 +12,7 @@ public class Luigi extends EntityBase {
 
     public Luigi(World w, Vector2 p) {
         super(w);
-        bounds = new Rectangle(p.x, p.y, 2, 4);
+        bounds = new Rectangle(p.x, p.y, 2, 5);
         standingAnimation = walkingAnimation = jumpingAnimation = Assets.luigiAnimation;
     }
 
