@@ -284,6 +284,7 @@ public class World {
                 player.canRight = false;
                 player.setWounded();
                 player.moveDelay = EntityBase.PIPEDELAY;
+                Assets.soundManager.playSound(SoundManager.SoundOptions.PIPE_TRAVEL);
                 Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
                      .target(player.getBounds().x - 1f)
                      .ease(Linear.INOUT)
@@ -666,7 +667,6 @@ public class World {
                         if (player.moveDelay <= 0){
                             player.moveDelay = 2f;
                             segment++;
-                            Assets.soundManager.playMusic(SoundManager.MusicOptions.MARIO_MINOR);
                             Tween.to(transitionColor, ColorAccessor.A, 1f)
                                     .target(1)
                                     .ease(Linear.INOUT)
@@ -686,6 +686,7 @@ public class World {
                             Tween.call(new TweenCallback() {
                                 @Override
                                 public void onEvent(int i, BaseTween<?> baseTween) {
+                                    Assets.soundManager.playMusic(SoundManager.MusicOptions.MARIO_MINOR);
                                     player.setSadMode();
                                 }
                             })
