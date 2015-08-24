@@ -27,6 +27,10 @@ public class PrototypeScreen extends LDScreen {
         super(game);
         Gdx.gl.glClearColor(Assets.BLUE_SKY_R, Assets.BLUE_SKY_G, Assets.BLUE_SKY_B, 1f);
 
+        // Show a tile portion of the map
+        camera.setToOrtho(false, world.SCREEN_TILES_WIDE, world.SCREEN_TILES_HIGH);
+        camera.update();
+
         world = new World(camera, worldPhase, batch);
 
         uiCamera = new OrthographicCamera();
@@ -37,9 +41,7 @@ public class PrototypeScreen extends LDScreen {
         sceneRegion.flip(false, true);
 
 
-        // Show a tile portion of the map
-        camera.setToOrtho(false, world.SCREEN_TILES_WIDE, world.SCREEN_TILES_HIGH);
-        camera.update();
+
 
 
     }

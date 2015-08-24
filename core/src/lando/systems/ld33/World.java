@@ -89,11 +89,6 @@ public class World {
 
         initPhase();
 
-
-        gameWidth = backgroundLayer.getWidth();
-        cameraLeftEdge = SCREEN_TILES_WIDE / 2;
-        cameraRightEdge = gameWidth - cameraLeftEdge;
-
         tileRects = new Array<Rectangle>();
         rectPool = Pools.get(Rectangle.class);
 
@@ -109,6 +104,10 @@ public class World {
 
         foregroundLayer = (TiledMapTileLayer) map.getLayers().get("foreground");
         backgroundLayer = (TiledMapTileLayer) map.getLayers().get("background");
+
+        gameWidth = backgroundLayer.getWidth();
+        cameraLeftEdge = SCREEN_TILES_WIDE / 2;
+        cameraRightEdge = gameWidth - cameraLeftEdge;
     }
 
     public void update(float dt) {
@@ -134,12 +133,13 @@ public class World {
 
         handlePhaseUpdate(dt);
 
-        float playerX = player.getBounds().x;
-        if (playerX < camera.position.x - 3) camera.position.x = playerX + 3;
-        if (playerX > camera.position.x + 2) camera.position.x = playerX - 2;
-
         // keep the map in view always
         if (cameraLock) {
+            float playerX = player.getBounds().x;
+            if (playerX < camera.position.x - 3) camera.position.x = playerX + 3;
+            if (playerX > camera.position.x + 2) camera.position.x = playerX - 2;
+
+
             camera.position.x = Math.min(cameraRightEdge, Math.max(cameraLeftEdge, camera.position.x));
         }
         camera.update();
@@ -220,6 +220,8 @@ public class World {
         switch (phase) {
             case DAY_ONE:
                 loadMap("maps/level1.tmx");
+                cameraLock = false;
+
 
                 player = new PlayerGoomba(this, new Vector2(33.5f, 3f));
                 player.canJump = false;
@@ -227,8 +229,25 @@ public class World {
                 player.moveDelay = EntityBase.PIPEDELAY;
                 Tween.to(player.getBounds(), RectangleAccessor.Y, EntityBase.PIPEDELAY)
                      .target(player.getBounds().y + 1f)
-                     .ease(Linear.INOUT)
+                        .ease(Linear.INOUT)
                      .start(LudumDare33.tween);
+
+                float initY = camera.position.y;
+                float initZoom = camera.zoom;
+                camera.position.x = player.getBounds().x + .5f;
+                camera.position.y = player.getBounds().y + .5f;
+                camera.zoom = .1f;
+                camera.update();
+                Tween.to(camera, CameraAccessor.XYZ, 1f)
+                        .target(cameraRightEdge, initY, initZoom)
+                        .ease(Linear.INOUT)
+                        .setCallback(new TweenCallback() {
+                            @Override
+                            public void onEvent(int i, BaseTween<?> baseTween) {
+                                cameraLock = true;
+                            }
+                        })
+                        .start(LudumDare33.tween);
 
                 Array<String> messages = new Array<String>();
                 messages.add(GameText.getText("foremanLate"));
