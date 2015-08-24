@@ -106,6 +106,12 @@ public class SoundManager{
     private long currentLoopID;
     private Sound currentLoopSound;
 
+    public void setMusicVolume(float level){
+        if (currentLoopSound != null){
+            currentLoopSound.setVolume(currentLoopID, level);
+        }
+    }
+
     public void playMusic(MusicOptions musicOption) {
 
         Gdx.app.log("DEBUG", "SoundManager.playMusic | musicOption='" + String.valueOf(musicOption) + "'");
