@@ -734,7 +734,7 @@ public class World {
 
     /**
      * Progress through each phase one scripted segment at a time
-     * @param dt
+     * @param dt the Fucking Delta what else? Intellij Complaining
      */
     private void handlePhaseUpdate(float dt){
         switch (phase){
@@ -1364,55 +1364,79 @@ public class World {
                         if (!dialogue.isActive()){
                             drWily.chant(false);
                             segment++;
-                            endDelay = 5;
+                            endDelay = 1000;
                             cape.moveDelay = 10000;
                             transitionColor = new Color(1,1,1,0);
                             capeFloatingTween.kill();
                             Timeline.createSequence()
                                     .push(Tween.to(cape.getBounds(), RectangleAccessor.Y, 1f)
-                                                .target(2))
+                                            .target(2))
                                     .beginParallel()
                                           .push(Tween.to(player.getBounds(), RectangleAccessor.Y, 2f)
-                                                .target(10))
+                                                  .target(10))
                                           .push(Tween.to(cape.getBounds(), RectangleAccessor.Y, 2f)
-                                                 .target(10))
+                                                  .target(10))
                                     .end()
                                     .pushPause(.1f)
                                     .beginParallel()
-                                        .push(Tween.to(player.getBounds(), RectangleAccessor.X, .25f)
+                                        .push(Tween.to(player.getBounds(), RectangleAccessor.X, .5f)
                                                 .target(9)
-                                                .ease(Sine.INOUT)
-                                                .repeatYoyo(4, 0))
-                                        .push(Tween.to(cape.getBounds(), RectangleAccessor.X, .25f)
+                                                .ease(Circ.INOUT)
+                                                .repeatYoyo(2, 0))
+                                        .push(Tween.to(cape.getBounds(), RectangleAccessor.X, .5f)
+                                                .target(9)
+                                                .ease(Circ.INOUT)
+                                                .repeatYoyo(2, 0))
+
+                                    .end()
+                                    .beginParallel()
+
+                                        .push(Tween.to(player.getBounds(), RectangleAccessor.X, .2f)
                                                 .target(10)
-                                                .ease(Sine.INOUT)
-                                                .repeatYoyo(4, 0))
-                                        .push(Tween.to(transitionColor, ColorAccessor.A, 1f)
+                                                .ease(Circ.INOUT)
+                                                .repeatYoyo(10, 0))
+                                        .push(Tween.to(cape.getBounds(), RectangleAccessor.X, .2f)
+                                                .target(8)
+                                                .ease(Circ.INOUT)
+                                                .repeatYoyo(10, 0))
+                                        .push(Tween.to(transitionColor, ColorAccessor.A, 2f)
                                                 .target(1))
                                     .end()
+                                    .pushPause(.25f)
+                                    .push(Tween.call(new TweenCallback() {
+                                        @Override
+                                        public void onEvent(int i, BaseTween<?> baseTween) {
+                                            player.setCaped();
+                                            cape.dead = true;
+                                            player.getBounds().x = 0f;
+                                            player.getBounds().y = 2;
+                                            ganon.getBounds().x = 1.4f;
+                                            kingHippo.getBounds().x = 2.85f;
+                                            endDelay = 5;
+                                            cameraLock = false;
+                                            camera.position.x = player.getBounds().x + 1.5f;
+                                            camera.position.y = player.getBounds().y + 1f;
+                                            camera.zoom = .1f;
+
+                                        }
+                                    }))
                                     .pushPause(.5f)
                                     .push(Tween.to(transitionColor, ColorAccessor.A, 1f)
                                             .target(0)
                                             .ease(Linear.INOUT))
+                                    .pushPause(.5f)
+                                    .push(Tween.to(camera, CameraAccessor.XYZ, 2f)
+                                            .target(cameraCenter.x, cameraCenter.y, 1)
+                                            .ease(Linear.INOUT))
                                     .start(LudumDare33.tween);
 
-                            Tween.call(new TweenCallback() {
-                                @Override
-                                public void onEvent(int i, BaseTween<?> baseTween) {
-                                    player.setCaped();
-                                    cape.dead = true;
-                                    player.getBounds().x = -.4f;
-                                    player.getBounds().y = 2;
-                                    ganon.getBounds().x = 1.4f;
-                                    kingHippo.getBounds().x = 2.85f;
-                                }})
-                                    .delay(4.5f)
-                                    .start(LudumDare33.tween);
+
                         }
                         break;
                     case 8:
                         endDelay -= dt;
                         if (endDelay < 0){
+                            endDelay = 2f;
                             segment++;
                             ganon.chant(true);
                             kingHippo.chant(true);
@@ -1458,41 +1482,43 @@ public class World {
                         }
                         break;
                     case 9:
-                        segment++;
-                        // Let's bring down the curtain.
-                        drawEndCurtain = true;
-                        endCurtainAnimationComplete = false;
+                        endDelay -= dt;
+                        if (endDelay <= 0) {
+                            segment++;
+                            // Let's bring down the curtain.
+                            drawEndCurtain = true;
+                            endCurtainAnimationComplete = false;
 
-                        endCurtainBottomY = new MutableFloat(Config.height);
-                        endCurtainFullY = new MutableFloat(Config.height + 32f);
-                        // Prep the tween to bring the full curtain just a bit past the bottom.
-                        final TweenCallback fullCurtainCompleteTC = new TweenCallback() {
-                            @Override
-                            public void onEvent(int i, BaseTween<?> baseTween) {
+                            endCurtainBottomY = new MutableFloat(Config.height);
+                            endCurtainFullY = new MutableFloat(Config.height + 32f);
+                            // Prep the tween to bring the full curtain just a bit past the bottom.
+                            final TweenCallback fullCurtainCompleteTC = new TweenCallback() {
+                                @Override
+                                public void onEvent(int i, BaseTween<?> baseTween) {
 //                                endCurtainAnimationComplete = true;
-                            }
-                        };
-                        TweenCallback fullCurtainTC = new TweenCallback() {
-                            @Override
-                            public void onEvent(int i, BaseTween<?> baseTween) {
-                                Tween.to(endCurtainFullY, -1, 0.35f)
-                                        .target(8f)
-                                        .ease(Sine.OUT)
-                                        .setCallback(fullCurtainCompleteTC)
-                                        .start(LudumDare33.tween);
-                            }
-                        };
-                        // Tween both curtains down together.
-                        // Bottom
-                        Tween.to(endCurtainBottomY, -1, 3f)
-                                .target(-8f)
-                                .ease(Linear.INOUT)
-                                .start(LudumDare33.tween);
-                        Tween.to(endCurtainFullY, -1, 3f)
-                                .target(24f)
-                                .ease(Linear.INOUT)
-                                .setCallback(fullCurtainTC)
-                                .start(LudumDare33.tween);
+                                }
+                            };
+                            TweenCallback fullCurtainTC = new TweenCallback() {
+                                @Override
+                                public void onEvent(int i, BaseTween<?> baseTween) {
+                                    Tween.to(endCurtainFullY, -1, 0.35f)
+                                            .target(8f)
+                                            .ease(Sine.OUT)
+                                            .setCallback(fullCurtainCompleteTC)
+                                            .start(LudumDare33.tween);
+                                }
+                            };
+                            // Tween both curtains down together.
+                            // Bottom
+                            Tween.to(endCurtainBottomY, -1, 3f)
+                                    .target(-8f)
+                                    .ease(Linear.INOUT)
+                                    .start(LudumDare33.tween);
+                            Tween.to(endCurtainFullY, -1, 3f)
+                                    .target(24f)
+                                    .ease(Linear.INOUT)
+                                    .setCallback(fullCurtainTC)
+                                    .start(LudumDare33.tween);
 
 //                        float endCurtainInitialDuration = 3f;
 //                        float endCurtainRuffleDuration = 0.35f;
@@ -1554,6 +1580,7 @@ public class World {
 //
 //                        // Start it up
 //                        curtainTimeline.start(LudumDare33.tween);
+                        }
                         break;
                     case 10:
                         // Wait for the curtain to be fully done.

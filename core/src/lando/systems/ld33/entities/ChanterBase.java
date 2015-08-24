@@ -16,6 +16,11 @@ public class ChanterBase extends EntityBase {
     }
 
     public void update(float dt){
+        if (thought != null) {
+            thought.update(dt);
+            if (thought.timeToLive < 0) thought = null;
+        }
+
         if (chanting) stateTime += dt;
         else stateTime = 0;
     }
