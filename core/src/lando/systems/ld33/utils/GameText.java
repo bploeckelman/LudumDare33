@@ -81,7 +81,7 @@ public class GameText {
         strings.put("cultCenter3", "Mother Brain:\"[bubble noise]\"");
         strings.put("cultCenter4", "Dracula: \"Blood tastes good!\"");
         strings.put("cultCenter5", "Luigi: \"Yes Dracula, we know...\"");
-        strings.put("cultCenter6", "Dr. Wily: \"Here take this cape and join us.\"");
+        strings.put("cultCenter6", "Dr. Wily: \"Here, take this cape and join us.\"");
 
         // The End
         strings.put("theEnd1", "Developers: \"Congratulations on becoming the ultimate monster, and thanks for playing!\"");
