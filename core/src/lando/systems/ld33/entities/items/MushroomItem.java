@@ -6,6 +6,7 @@ import lando.systems.ld33.LudumDare33;
 import lando.systems.ld33.World;
 import lando.systems.ld33.accessors.RectangleAccessor;
 import lando.systems.ld33.utils.Assets;
+import lando.systems.ld33.utils.SoundManager;
 
 /**
  * Brian Ploeckelman created on 8/22/2015.
@@ -20,6 +21,7 @@ public class MushroomItem extends ItemEntity {
              .target(py + 1.1f)
              .ease(Linear.INOUT)
              .start(LudumDare33.tween);
+        Assets.soundManager.playSound(SoundManager.SoundOptions.MUSHROOM_REVEAL);
         moveDelay = ITEMDELAY+ .1f;
         velocity.x = 4;
     }

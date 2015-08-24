@@ -1,8 +1,6 @@
 package lando.systems.ld33.entities;
 
-import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.equations.Back;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
@@ -13,6 +11,7 @@ import lando.systems.ld33.accessors.RectangleAccessor;
 import lando.systems.ld33.entities.items.MushroomItem;
 import lando.systems.ld33.entities.mapobjects.ObjectBase;
 import lando.systems.ld33.utils.Assets;
+import lando.systems.ld33.utils.SoundManager;
 
 /**
  * Created by dsgraham on 8/22/15.
@@ -32,9 +31,11 @@ public class Mario extends EntityBase {
     public void jump(){
         if (!grounded) return;
         velocity.y = jumpVelocity;
+        Assets.soundManager.playSound(SoundManager.SoundOptions.MARIO_JUMP);
     }
 
     public void growBig(){
+        Assets.soundManager.playSound(SoundManager.SoundOptions.MUSHROOM_GET);
         walkingAnimation = Assets.marioBigWalkAnimation;
         jumpingAnimation = Assets.marioBigJumpingAnimation;
         standingAnimation = Assets.marioBigStandingAnimation;

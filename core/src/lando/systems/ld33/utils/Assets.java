@@ -13,6 +13,7 @@ import lando.systems.ld33.entities.mapobjects.QuestionBlock;
  */
 public class Assets {
 
+    public static SoundManager soundManager;
     public static SpriteBatch  batch;
     public static TextureAtlas atlas;
 
@@ -236,6 +237,9 @@ public class Assets {
         draculaAnimation     = new Animation(0.15f, draculaRegion);
         luigiAnimation       = new Animation(0.15f, luigiRegion);
         drWilyAnimation      = new Animation(0.15f, drWilyRegion);
+
+        soundManager = new SoundManager();
+
     }
 
     public static void dispose() {
@@ -246,6 +250,7 @@ public class Assets {
         testTexture.dispose();
         marioTilesetTexture.dispose();
         atlas.dispose();
+        soundManager.dispose();
     }
 
     private static ShaderProgram compileShaderProgram(FileHandle vertSource, FileHandle fragSource) {

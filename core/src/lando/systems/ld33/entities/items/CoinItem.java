@@ -9,6 +9,7 @@ import lando.systems.ld33.LudumDare33;
 import lando.systems.ld33.World;
 import lando.systems.ld33.accessors.RectangleAccessor;
 import lando.systems.ld33.utils.Assets;
+import lando.systems.ld33.utils.SoundManager;
 
 /**
  * Brian Ploeckelman created on 8/22/2015.
@@ -33,6 +34,7 @@ public class CoinItem extends ItemEntity {
                     }
                 })
                 .start(LudumDare33.tween);
+        Assets.soundManager.playSound(SoundManager.SoundOptions.COIN_REVEAL);
     }
 
     @Override
