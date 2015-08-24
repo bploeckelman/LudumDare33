@@ -4,10 +4,8 @@ import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
-import aurelienribon.tweenengine.equations.Expo;
-import aurelienribon.tweenengine.equations.Linear;
-import aurelienribon.tweenengine.equations.Quad;
-import aurelienribon.tweenengine.equations.Sine;
+import aurelienribon.tweenengine.equations.*;
+import aurelienribon.tweenengine.primitives.MutableFloat;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -108,6 +106,19 @@ public class World {
     public float                      fireworkDelay;
     public MarioAI                    marioAI;
 
+    public boolean drawEndCurtain;
+    public boolean endCurtainAnimationComplete;
+    public MutableFloat endCurtainBottomY;
+    public MutableFloat endCurtainFullY;
+
+    public static final float END_CURTAIN_BOTTOM_HEIGHT = 40f;
+    public static final int END_CURTAIN_RUFFLES = 3;
+    public static final float END_CURTAIN_RUFFLE_OFFSET = 32f;
+    public static final float END_CURTAIN_BOTTOM_RUFFLE_END_Y = -8f;
+    public Array<MutableFloat> endCurtainPositions = new Array<MutableFloat>();
+    public int endCurtainCompleteRuffleCount = 0;
+
+
     public World(OrthographicCamera cam, Phase p, SpriteBatch batch) {
         this.batch = batch;
         shake = new Shake();
@@ -118,6 +129,7 @@ public class World {
         cameraLock = true;
         dialogue = new Dialogue();
         transitionColor = new Color(1,1,1,1);
+        drawEndCurtain = false;
 
         gameEntities = new Array<EntityBase>();
         camera = cam;
@@ -224,10 +236,38 @@ public class World {
             score.render(batch, uiCam);
         }
 
-        dialogue.render(batch);
+        // Speach bubbles
         for (EntityBase entity : gameEntities){
             entity.renderUI(batch, camera, uiCam);
         }
+
+        // End game curtain
+        if (drawEndCurtain) {
+//            float thisCurtainY;
+//            for (int i = 0; i < END_CURTAIN_RUFFLES; i++) {
+//
+//                // What's our target Y?
+//                if (i >= endCurtainCompleteRuffleCount) {
+//                    // We're still attached to the stack of ruffles.
+//                    thisCurtainY = endCurtainPositions.get(i).floatValue() + (END_CURTAIN_RUFFLE_OFFSET * (i - endCurtainCompleteRuffleCount));
+//                } else {
+//                    // Read only our own position
+//                    thisCurtainY = endCurtainPositions.get(i).floatValue();
+//                }
+//
+//                batch.draw(Assets.endCurtainBottomTexture, 0, thisCurtainY, Config.width, END_CURTAIN_BOTTOM_HEIGHT);
+//                if (i == (END_CURTAIN_RUFFLES - 1)) {
+//                    // Last ruffle - draw the rest of the curtain.
+//                    batch.draw(Assets.endCurtainFullTexture, 0, thisCurtainY + 40f, Config.width, Config.height);
+//                }
+//            }
+            batch.draw(Assets.endCurtainBottomTexture, 0, endCurtainBottomY.floatValue(), Config.width, END_CURTAIN_BOTTOM_HEIGHT);
+            batch.draw(Assets.endCurtainBottomTexture, 0, endCurtainFullY.floatValue(), Config.width, END_CURTAIN_BOTTOM_HEIGHT);
+            batch.draw(Assets.endCurtainFullTexture, 0, endCurtainFullY.floatValue() + 40f, Config.width, Config.height);
+
+        }
+
+        dialogue.render(batch);
 
         //TODO this is debug
 //        Assets.font.draw(batch, "X:" + (int)player.getBounds().x + " Y:" + (int) player.getBounds().y, 32, 32);
@@ -1240,6 +1280,7 @@ public class World {
                             messages.add(GameText.getText("cultCenter1"));
                             dialogue.show(1, 10, 18, 4, messages);
                         }
+                        segment = 5;
                         break;
                     case 1:
                         if (!dialogue.isActive()){
@@ -1348,7 +1389,115 @@ public class World {
                                     .start(LudumDare33.tween);
                         }
                         break;
+
                     case 5:
+
+                        segment++;
+                        // Let's bring down the curtain.
+                        drawEndCurtain = true;
+                        endCurtainAnimationComplete = false;
+
+                        endCurtainBottomY = new MutableFloat(Config.height);
+                        endCurtainFullY = new MutableFloat(Config.height + 32f);
+                        // Prep the tween to bring the full curtain just a bit past the bottom.
+                        final TweenCallback fullCurtainCompleteTC = new TweenCallback() {
+                            @Override
+                            public void onEvent(int i, BaseTween<?> baseTween) {
+//                                endCurtainAnimationComplete = true;
+                            }
+                        };
+                        TweenCallback fullCurtainTC = new TweenCallback() {
+                            @Override
+                            public void onEvent(int i, BaseTween<?> baseTween) {
+                                Tween.to(endCurtainFullY, -1, 0.35f)
+                                        .target(8f)
+                                        .ease(Sine.OUT)
+                                        .setCallback(fullCurtainCompleteTC)
+                                        .start(LudumDare33.tween);
+                            }
+                        };
+                        // Tween both curtains down together.
+                        // Bottom
+                        Tween.to(endCurtainBottomY, -1, 3f)
+                                .target(-8f)
+                                .ease(Linear.INOUT)
+                                .start(LudumDare33.tween);
+                        Tween.to(endCurtainFullY, -1, 3f)
+                                .target(24f)
+                                .ease(Linear.INOUT)
+                                .setCallback(fullCurtainTC)
+                                .start(LudumDare33.tween);
+
+//                        float endCurtainInitialDuration = 3f;
+//                        float endCurtainRuffleDuration = 0.35f;
+//                        endCurtainCompleteRuffleCount = 0;
+//                        int i;
+//                        float start;
+//                        float target;
+//
+//                        // Create the timeline
+//                        Timeline curtainTimeline = Timeline.createSequence();
+//
+//                        // Add the initial tweens to get everything to descend in a linear sequence.
+//                        curtainTimeline.beginParallel();
+//                        for (i = 0; i < END_CURTAIN_RUFFLES; i++) {
+//                            // We have to init the Mutables this time around
+//                            start = Config.height + (END_CURTAIN_RUFFLE_OFFSET * i);
+//                            endCurtainPositions.add(new MutableFloat(start));
+//                            target = END_CURTAIN_BOTTOM_RUFFLE_END_Y + (END_CURTAIN_RUFFLE_OFFSET * i);
+//                            curtainTimeline.push(
+//                                    Tween.to(endCurtainPositions.get(i), -1, endCurtainInitialDuration)
+//                                            .target(target)
+//                                            .ease(Linear.INOUT)
+//                            );
+//                        }
+//
+//                        // End that initial parallel
+//                        curtainTimeline.end();
+//
+//                        // When that parallel ends, we want to update our finished ruffle index
+//                        curtainTimeline.setCallback(new TweenCallback() {
+//                            @Override
+//                            public void onEvent(int i, BaseTween<?> baseTween) {
+//                                endCurtainCompleteRuffleCount = 1;
+//                            }
+//                        });
+//
+//                        // For each extra ruffle, add a new easing tween to bring down and stop the ruffle.
+//                        for (i = 1; i < END_CURTAIN_RUFFLES; i++) {
+//                            curtainTimeline.push(
+//                                    Tween.to(endCurtainPositions.get(i), -1, endCurtainRuffleDuration)
+//                                            .target(endCurtainPositions.get(i).floatValue() - 16f)
+//                                            .ease(Sine.OUT)
+//                                            .setCallback(new TweenCallback() {
+//                                                @Override
+//                                                public void onEvent(int i, BaseTween<?> baseTween) {
+//                                                    endCurtainCompleteRuffleCount++;
+//                                                }
+//                                            })
+//                            );
+//                        }
+//
+//                        // When it's all over, flip the complete flag
+//                        curtainTimeline.setCallback(new TweenCallback() {
+//                            @Override
+//                            public void onEvent(int i, BaseTween<?> baseTween) {
+//                                endCurtainAnimationComplete = true;
+//                            }
+//                        });
+//
+//                        // Start it up
+//                        curtainTimeline.start(LudumDare33.tween);
+
+                        break;
+
+                    case 6:
+                        // Wait for the curtain to be fully done.
+                        if (endCurtainAnimationComplete) {
+                            segment++;
+                        }
+
+                    case 7:
                         if (!dialogue.isActive()){
                             segment++;
                             Array<String> messages = new Array<String>();
@@ -1356,7 +1505,7 @@ public class World {
                             dialogue.show(1, 10, 18, 4, messages);
                         }
                         break;
-                    case 6:
+                    case 8:
                         if (!dialogue.isActive()){
                             segment++;
                             Array<String> messages = new Array<String>();
@@ -1364,6 +1513,8 @@ public class World {
                             dialogue.show(1, 10, 18, 4, messages, false, 100, false);
                         }
                         break;
+
+
                 }
                 break;
             case OVERWORLD_FIRST:

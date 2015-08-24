@@ -30,6 +30,9 @@ public class Assets {
 
     public static TextureRegion sparkleTexture;
 
+    public static Texture endCurtainFullTexture;
+    public static Texture endCurtainBottomTexture;
+
     public static TextureRegion     testTextureRegion;
     public static TextureRegion     deadQuestionBlockRegion;
     public static TextureRegion[][] mushrooms;
@@ -113,6 +116,8 @@ public class Assets {
         testTextureRegion = new TextureRegion(testTexture, testTexture.getWidth(), testTexture.getHeight());
         marioTilesetTexture = new Texture("maps/mario-tileset.png");
         titleScreenTexture = new Texture("title-screen.png");
+        endCurtainFullTexture = new Texture("end-curtain-full.png");
+        endCurtainBottomTexture = new Texture("end-curtain-bottom.png");
 
         sparkleTexture = atlas.findRegion("sparkle");
 
