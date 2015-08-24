@@ -15,7 +15,7 @@ import lando.systems.ld33.utils.Assets;
  * Created by dsgraham on 8/22/15.
  */
 public class EntityBase {
-    public static final float PIPEDELAY = 2f;
+    public static final float PIPEDELAY = 1.5f;
 
 //    protected TextureRegion keyframe;
     protected Rectangle bounds;
@@ -37,6 +37,7 @@ public class EntityBase {
     public Animation smashedAnimation;
     public float stateTime;
     public Thought thought;
+    public boolean drawOnTop;
 
 
     enum State {
@@ -57,7 +58,7 @@ public class EntityBase {
         walkingAnimation = Assets.goombaSmashedAnimation;
         jumpingAnimation = Assets.goombaSmashedAnimation;
         smashedAnimation = Assets.goombaSmashedAnimation;
-
+        drawOnTop = false;
         world.gameEntities.add(this);
 
     }

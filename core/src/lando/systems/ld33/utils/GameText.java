@@ -41,9 +41,10 @@ public class GameText {
 
         // Get Mushroom Day
         strings.put("gotMushroom", "What is this?!? There is more to life than just moving left!");
+        strings.put("noGoingBack", strings.get("playerName") + ":\"There is nothing left for me to go home to.  I want to use my new powers to explore, where does this other tube go?\"");
 
         //Factory
-        strings.put("intoFactory", strings.get("playerName") + ":\"What... what [RED]is[] this place?\"");
+        strings.put("intoFactory", strings.get("playerName") + ":\"What... what *is* this place?\"");
 
         // Respawn
         strings.put("respawn", "Please be more careful, this is Ludum Dare so we won't make you start again.");

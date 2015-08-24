@@ -101,7 +101,7 @@ public class PlayerGoomba extends EntityBase {
 
         if (moveDelay <= 0 && world.allowPolling()) {
 
-            if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && canJump && grounded) {
+            if ((Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.isKeyJustPressed(Input.Keys.W) || Gdx.input.isKeyJustPressed(Input.Keys.UP) )&& canJump && grounded) {
                 velocity.y += jumpVelocity;
                 state = State.Jumping;
                 grounded = false;

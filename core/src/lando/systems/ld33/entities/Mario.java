@@ -84,6 +84,7 @@ public class Mario extends EntityBase {
     }
 
     public void stomped(){
+        drawOnTop = true;
         standingAnimation = jumpingAnimation = walkingAnimation = Assets.marioSmallDieAnimation;
         moveDelay = 2f;
         Tween.to(bounds, RectangleAccessor.Y, 1f)

@@ -4,9 +4,9 @@ import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
+import aurelienribon.tweenengine.equations.Expo;
 import aurelienribon.tweenengine.equations.Linear;
 import aurelienribon.tweenengine.equations.Quad;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -18,6 +18,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -32,7 +33,6 @@ import lando.systems.ld33.entities.items.ItemEntity;
 import lando.systems.ld33.entities.mapobjects.*;
 import lando.systems.ld33.utils.Assets;
 import lando.systems.ld33.utils.GameText;
-import org.w3c.dom.css.Rect;
 
 import java.util.Iterator;
 
@@ -47,7 +47,7 @@ public class World {
     public static final int   PIXELS_PER_TILE   = Config.width / SCREEN_TILES_WIDE;
 
     public enum Phase {
-        DAY_ONE, HEADING_HOME, MEET_THE_WIFE, LEAVING_HOME, BACK_TO_WORK, INTO_THE_FACTORY, EMPTY_HOUSE,
+        DAY_ONE, HEADING_HOME, MEET_THE_WIFE, LEAVING_HOME, BACK_TO_WORK, DEEP_FACTORY, INTO_THE_FACTORY, EMPTY_HOUSE,
         CULT_ROOM,
         GET_MUSHROOM,
         LEVEL2
@@ -76,7 +76,8 @@ public class World {
     public boolean                    cameraLock;
     public SpriteBatch                batch;
     public float                      endDelay;
-    public Tween                      chant;
+    public Tween                      repeatingTween;
+    public Mario                      fallingMario;
 
     public World(OrthographicCamera cam, Phase p, SpriteBatch batch) {
         this.batch = batch;
@@ -167,7 +168,7 @@ public class World {
 
             mapRenderer.renderTileLayer(foregroundLayer);
             for (EntityBase entity : gameEntities){
-                if (entity instanceof Mario)
+                if (entity.drawOnTop)
                     entity.render(batch);
             }
         }
@@ -387,6 +388,22 @@ public class World {
                 dialogue.show(1, 10, 18, 4, messages);
                 break;
             case INTO_THE_FACTORY:
+                Gdx.gl.glClearColor(0.25f,0.25f,0.25f,1);
+                loadMap("maps/level-factoryintro.tmx");
+                player = new PlayerGoomba(this, new Vector2(97, 2));
+                player.setRageMode();
+                player.moveDelay = EntityBase.PIPEDELAY;
+                Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
+                        .target(player.getBounds().x - 1f)
+                        .ease(Linear.INOUT)
+                        .start(LudumDare33.tween);
+                messages = new Array<String>();
+                messages.add(GameText.getText("intoFactory"));
+                dialogue.show(1, 10, 18, 4, messages);
+                fallingMario = new Mario(this, new Vector2(0,0));
+                fallingMario.dead = true;
+                break;
+            case DEEP_FACTORY:
                 Gdx.gl.glClearColor(0.25f, 0.25f, 0.25f, 1f);
 
                 loadMap("maps/level-factory.tmx");
@@ -399,9 +416,7 @@ public class World {
                      .ease(Linear.INOUT)
                      .start(LudumDare33.tween);
 
-                messages = new Array<String>();
-                messages.add(GameText.getText("intoFactory"));
-                dialogue.show(1, 10, 18, 4, messages);
+
                 break;
             case CULT_ROOM:
                 Gdx.gl.glClearColor(220f / 255f, 20f / 255f, 60f / 255f, 1f);
@@ -423,7 +438,7 @@ public class World {
                 luigi.addThought("LUDUM DARE");
                 drWily.addThought("LUDUM DARE");
 
-                chant = Tween.call(new TweenCallback() {
+                repeatingTween = Tween.call(new TweenCallback() {
                             @Override
                             public void onEvent(int i, BaseTween<?> baseTween) {
                                 ganon.addThought("LUDUM DARE");
@@ -765,20 +780,18 @@ public class World {
                                         player.addThought("* sigh *");
                                     }
                                 })
-                                    .delay(1f)
+                                    .delay(1.1f)
                                     .start(LudumDare33.tween);
 
                             Tween.to(transitionColor, ColorAccessor.A, 1f)
                                  .target(1)
                                  .ease(Linear.INOUT)
-                                 .repeatYoyo(1, 0)
-                                 .setCallback(new TweenCallback() {
-                                     @Override
-                                     public void onEvent(int i, BaseTween<?> baseTween) {
-                                         World.this.player.setSadMode();
-                                     }
-                                 })
                                  .start(LudumDare33.tween);
+                            Tween.to(transitionColor, ColorAccessor.A, 1f)
+                                    .target(0)
+                                    .delay(1.5f)
+                                    .ease(Linear.INOUT)
+                                    .start(LudumDare33.tween);
                         }
                         break;
                     case 2:
@@ -852,11 +865,20 @@ public class World {
                         }
                         break;
                     case 4:
+                        if (player.getBounds().x < 9){
+                            segment++;
+                            Array<String> messages = new Array<String>();
+                            messages.add(GameText.getText("noGoingBack"));
+                            dialogue.show(1, 10, 18, 4, messages);
+                        }
+                        break;
+                    case 5:
                         // Head to Factory
-                        if (player.getBounds().x <= .5){
+                        if (player.getBounds().x <= 2.5 && player.getBounds().x > 1 && player.getBounds().y < 5.1){
+                            player.getBounds().x = 1.7f;
                             player.moveDelay = EntityBase.PIPEDELAY;
-                            Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
-                                    .target(-2f)
+                            Tween.to(player.getBounds(), RectangleAccessor.Y, EntityBase.PIPEDELAY)
+                                    .target(3)
                                     .ease(Linear.INOUT)
                                     .setCallback(new TweenCallback() {
                                         @Override
@@ -869,9 +891,35 @@ public class World {
                 }
                 break;
             case INTO_THE_FACTORY:
+                switch (segment){
+                    case 0:
+                        if (fallingMario.dead){
+                            fallingMario = new Mario(this, new Vector2(22.5f,14));
+                            repeatingTween = Tween.to(fallingMario.getBounds(), RectangleAccessor.Y, 2f)
+                                    .target(6)
+                                    .repeat(-1, 2)
+                                    .ease(Expo.IN)
+                                    .start(LudumDare33.tween);
+                            fallingMario.moveDelay = 100000f;
+                        }
+                        if (player.getBounds().x < 2.5f && player.getBounds().y < 4.1) {
+                            player.getBounds().x = 2.5f;
+                            player.getBounds().y = 4f;
+                            player.moveDelay = EntityBase.PIPEDELAY;
+                            repeatingTween.kill();
+                            fadeOut();
+                            Tween.to(player.getBounds(), RectangleAccessor.Y, EntityBase.PIPEDELAY)
+                                    .target(player.getBounds().y - 1f)
+                                    .ease(Linear.INOUT)
+                                    .start(LudumDare33.tween);
+                        }
+                        break;
+                }
+                break;
+            case DEEP_FACTORY:
                 switch (segment) {
                     case 0:
-                        if (player.getBounds().x < 2.5f && player.getBounds().y < 4.5) {
+                        if (player.getBounds().x < 2.5f && player.getBounds().y < 4.1) {
                             player.getBounds().x = 2.5f;
                             player.getBounds().y = 4f;
                             player.moveDelay = EntityBase.PIPEDELAY;
@@ -888,7 +936,7 @@ public class World {
                 switch (segment) {
                     case 0:
                         if (player.getBounds().x < 10){
-                            chant.kill();
+                            repeatingTween.kill();
                             player.moveDelay = 10000;
                             segment++;
                             Array<String> messages = new Array<String>();
