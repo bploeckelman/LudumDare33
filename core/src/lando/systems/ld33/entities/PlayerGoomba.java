@@ -29,7 +29,7 @@ public class PlayerGoomba extends EntityBase {
     public PlayerGoomba(World w, Vector2 p) {
         super(w);
         lastSafePos = new Array<Vector2>();
-        bounds = new Rectangle(p.x, p.y, .95f, 1);
+        bounds = new Rectangle(p.x, p.y, .9f, 1);
         setNormalMode();
     }
 
