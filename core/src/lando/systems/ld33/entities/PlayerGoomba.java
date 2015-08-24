@@ -11,6 +11,7 @@ import lando.systems.ld33.entities.items.MushroomItem;
 import lando.systems.ld33.entities.mapobjects.ObjectBase;
 import lando.systems.ld33.utils.Assets;
 import lando.systems.ld33.utils.GameText;
+import lando.systems.ld33.utils.SoundManager;
 
 /**
  * Created by dsgraham on 8/22/15.
@@ -72,7 +73,7 @@ public class PlayerGoomba extends EntityBase {
         state = State.Smashed;
         moveDelay = 3;
         addThought("OOF");
-
+        Assets.soundManager.playSound(SoundManager.SoundOptions.GOOMBA_SQUASH);
     }
 
     public void respawn(){

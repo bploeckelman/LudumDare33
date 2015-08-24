@@ -34,7 +34,7 @@ public class CoinItem extends ItemEntity {
                     }
                 })
                 .start(LudumDare33.tween);
-        Assets.soundManager.playSound(SoundManager.SoundOptions.COIN_REVEAL);
+        Assets.soundManager.playSound(SoundManager.SoundOptions.COIN_GET);
     }
 
     @Override
