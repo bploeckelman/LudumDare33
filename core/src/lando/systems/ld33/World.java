@@ -6,7 +6,6 @@ import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.equations.Linear;
 import aurelienribon.tweenengine.equations.Quad;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -32,7 +31,7 @@ import lando.systems.ld33.entities.items.ItemEntity;
 import lando.systems.ld33.entities.mapobjects.*;
 import lando.systems.ld33.utils.Assets;
 import lando.systems.ld33.utils.GameText;
-import org.w3c.dom.css.Rect;
+import lando.systems.ld33.utils.SoundManager;
 
 import java.util.Iterator;
 
@@ -227,6 +226,7 @@ public class World {
 
         switch (phase) {
             case DAY_ONE:
+                Assets.soundManager.playMusic(SoundManager.MusicOptions.MARIO_MINOR);
                 loadMap("maps/level1.tmx");
                 cameraLock = false;
 
