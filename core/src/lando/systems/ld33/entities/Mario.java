@@ -68,7 +68,7 @@ public class Mario extends EntityBase {
             if (entity == this) continue;
             if (Intersector.intersectRectangles(bounds, entity.getBounds(), intersectRect)){
                 if (entity instanceof MushroomItem) {
-                    world.score.addScore(250);
+                    world.addScore(250);
                     growBig();
                     entity.dead = true;
                 }
@@ -86,7 +86,7 @@ public class Mario extends EntityBase {
 
     public void stomped(){
         drawOnTop = true;
-        world.score.addScore(-300);
+        world.addScore(-300);
         standingAnimation = jumpingAnimation = walkingAnimation = Assets.marioSmallDieAnimation;
         moveDelay = 2f;
         Assets.soundManager.playSound(SoundManager.SoundOptions.MARIO_DEATH);

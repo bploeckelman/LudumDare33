@@ -242,6 +242,14 @@ public class World {
         return !dialogue.isActive();
     }
 
+    public void addScore(int s){
+        if (score != null) score.addScore(s);
+    }
+
+    public void addCoin(int c){
+        if (score != null) score.addCoin(c);
+    }
+
     public void doShake(float time){
         shake.shake(time);
     }

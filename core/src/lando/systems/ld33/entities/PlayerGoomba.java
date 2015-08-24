@@ -70,7 +70,7 @@ public class PlayerGoomba extends EntityBase {
     }
 
     public void stomped() {
-        world.score.addScore(100);
+        world.addScore(100);
         world.shake.shake(1f);
         state = State.Smashed;
         moveDelay = 3;
