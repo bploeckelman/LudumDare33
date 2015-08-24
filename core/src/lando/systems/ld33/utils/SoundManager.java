@@ -26,6 +26,7 @@ public class SoundManager{
         GOOMBA_SQUASH,
         MARIO_DEATH,
         MARIO_JUMP,
+        MARIO_RECLAIMATION,
         MUSHROOM_GET,
         MUSHROOM_REVEAL,
         PIPE_TRAVEL,
@@ -69,6 +70,7 @@ public class SoundManager{
         soundMap.put(SoundOptions.GOOMBA_SQUASH, Gdx.audio.newSound(Gdx.files.internal("sounds/effects/goomba-squash.wav")));
         soundMap.put(SoundOptions.MARIO_DEATH, Gdx.audio.newSound(Gdx.files.internal("sounds/effects/mario-death.wav")));
         soundMap.put(SoundOptions.MARIO_JUMP, Gdx.audio.newSound(Gdx.files.internal("sounds/effects/mario-jump.wav")));
+        soundMap.put(SoundOptions.MARIO_RECLAIMATION, Gdx.audio.newSound(Gdx.files.internal("sounds/effects/mario-reclaimation.wav")));
         soundMap.put(SoundOptions.MUSHROOM_GET, Gdx.audio.newSound(Gdx.files.internal("sounds/effects/mushroom-get.wav")));
         soundMap.put(SoundOptions.MUSHROOM_REVEAL, Gdx.audio.newSound(Gdx.files.internal("sounds/effects/mushroom-reveal.wav")));
         soundMap.put(SoundOptions.PIPE_TRAVEL, Gdx.audio.newSound(Gdx.files.internal("sounds/effects/pipe-travel.wav")));
