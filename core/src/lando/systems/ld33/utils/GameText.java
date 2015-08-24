@@ -14,23 +14,25 @@ public class GameText {
         strings.put("playerName", "Billy");
         strings.put("wifeName", "Misty");
         // First Day
-        strings.put("foremanLate", "Foreman:\"You're late again! Move left and get into position!\"");
+        strings.put("foremanLate", "Foreman:\"Late again Billy! Move left and get into position!\"");
         strings.put("hereComesMario", "Foreman:\"All right everyone! Here he comes, look sharp\"");
         strings.put("headHome", "Foreman:\"Looks like you took a nasty knock there... "
-                + "Why don't you head on home to your family.\"");
+                + "Why don't you head home to your family.\"");
 
         // Getting Home
-        strings.put("playerLate", strings.get("playerName") + ": \"Damn it I'm late getting home again, Misty is going to be furious.\"");
+        strings.put("playerLate", strings.get("playerName") + ": \"Damn it! I'm late getting home again. Misty is going to be furious!\"");
 
         // See the Wife
-        strings.put("wifeBitching", strings.get("wifeName") + ":\"What the hell, injured on the job again?! "
-                + "That's it, I'm taking the kids and going to my mother's house!\"");
-        strings.put("playerDontGo", strings.get("playerName") + ":\"... wait, but... I ... don't go!\"");
+        strings.put("wifeBitching", strings.get("wifeName") + ":\"What the hell! Injured on the job and late again?! "
+                + "That's it, I'm leaving with the kids!\"");
+        strings.put("playerStammer", strings.get("playerName") + ":\"but... but I...\"");
+        strings.put("playerDontGo", strings.get("playerName") + ":\"Wait! Don't leave!\"");
         strings.put("wrangleKids", strings.get("wifeName") + ":\"Come here kids!\"");
-        strings.put("noTimeForThis", strings.get("playerName") + ":\"I don't have time for this. I need to get up early tomorrow for work again.\"");
+        strings.put("noTimeForThis", strings.get("playerName") + ":\"Fine, I don't have time for this anyway. I need to get up early tomorrow for work again.\"");
 
         // Leave home
         strings.put("tooOld", strings.get("playerName") + ":\"6 am already?! God dammit... I'm getting too old for this shit.\"");
+        strings.put("missMisty", strings.get("playerName") + ":\"... ... I miss Misty.\"");
 
         // Day 2
         strings.put("impressBoss", strings.get("playerName") + ":\"Here we go again. Maybe I can impress the boss today!\"");

@@ -321,7 +321,7 @@ public class World {
 
                 messages = new Array<String>();
                 messages.add(GameText.getText("wifeBitching"));
-                messages.add(GameText.getText("playerDontGo"));
+                messages.add(GameText.getText("playerStammer"));
                 dialogue.show(1, 10, 18, 4, messages);
                 break;
             case LEAVING_HOME:
@@ -540,6 +540,14 @@ public class World {
                             messages.add(GameText.getText("headHome"));
                             dialogue.show(1, 10, 18, 4, messages);
                             player.setWounded();
+                            Tween.call(new TweenCallback() {
+                                     @Override
+                                     public void onEvent(int i, BaseTween<?> baseTween) {
+                                         player.addThought("Good idea");
+                                     }
+                                 })
+                                 .delay(2f)
+                                 .start(LudumDare33.tween);
                         }
                         break;
                     case 3:
@@ -585,9 +593,11 @@ public class World {
                             player.moveDelay = 2f;
                             Array<String> messages = new Array<String>();
                             messages.add(GameText.getText("wrangleKids"));
-                            dialogue.show(1,10,18,4,messages);
+                            messages.add(GameText.getText("playerDontGo"));
+                            dialogue.show(1, 10, 18, 4, messages);
                             Tween.to(kids.getBounds(), RectangleAccessor.X, 2f)
                                     .target(wife.getBounds().x + 1f)
+                                    .delay(0.75f)
                                     .ease(Linear.INOUT)
                                     .start(LudumDare33.tween);
                         }
@@ -657,6 +667,7 @@ public class World {
 
                                             Array<String> messages = new Array<String>();
                                             messages.add(GameText.getText("tooOld"));
+                                            messages.add(GameText.getText("missMisty"));
                                             dialogue.show(1, 10, 18, 4, messages);
                                         }
                                     })
