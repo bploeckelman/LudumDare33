@@ -47,6 +47,7 @@ public class Assets {
     public static Animation tubeMarioSmallAnimation;
     public static Animation tubeMarioEmbryoAnimation;
     public static Animation tubeMarioLargeAnimation;
+    public static Animation marioScreenAnimation;
     public static Animation goombaNormalWalkAnimation;
     public static Animation goombaNormalStandingAnimation;
     public static Animation goombaSadWalkAnimation;
@@ -156,6 +157,10 @@ public class Assets {
         tubeMarioLargeAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
         tubeBg = atlas.findRegion("tube-bg");
+
+        marioScreenAnimation = new Animation(.2f,
+            atlas.findRegion("mario-screen").split(32, 32)[0]);
+        marioScreenAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
         goombaNormalWalkAnimation = new Animation(.15f,
             atlas.findRegion("goomba-normal-walk1"),

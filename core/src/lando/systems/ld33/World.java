@@ -28,10 +28,7 @@ import lando.systems.ld33.accessors.RectangleAccessor;
 import lando.systems.ld33.dialogue.Dialogue;
 import lando.systems.ld33.entities.*;
 import lando.systems.ld33.entities.items.ItemEntity;
-import lando.systems.ld33.entities.mapobjects.ObjectBase;
-import lando.systems.ld33.entities.mapobjects.QuestionBlock;
-import lando.systems.ld33.entities.mapobjects.SpikeObject;
-import lando.systems.ld33.entities.mapobjects.TubeObject;
+import lando.systems.ld33.entities.mapobjects.*;
 import lando.systems.ld33.utils.Assets;
 import lando.systems.ld33.utils.GameText;
 
@@ -926,6 +923,10 @@ public class World {
                 mapObjects.add(new TubeObject(
                     this, new Rectangle(x / w, (y / 16) + 2, 1, 2),
                     TubeObject.TubeContents.valueOf((String) props.get("contains"))));
+            }
+            else if(type.equals("marioscreen")) {
+                mapObjects.add(new MarioScreenObject(
+                    this, new Rectangle(x / 16, (y / 16) + 2, 2, 2)));
             }
 //            else if (type.equals("...")) {
 //
