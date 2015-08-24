@@ -32,6 +32,7 @@ public class Assets {
     public static TextureRegion[][] mushrooms;
     public static TextureRegion     bigMushroom;
     public static TextureRegion     tubeBg;
+    public static TextureRegion     tubeBroken;
     public static NinePatch         thoughtBubble;
 
     public static Animation questionBlockAnimation;
@@ -48,6 +49,7 @@ public class Assets {
     public static Animation tubeMarioSmallAnimation;
     public static Animation tubeMarioEmbryoAnimation;
     public static Animation tubeMarioLargeAnimation;
+    public static Animation tubeExplosionAnimation;
     public static Animation marioScreenAnimation;
     public static Animation goombaNormalWalkAnimation;
     public static Animation goombaNormalStandingAnimation;
@@ -158,8 +160,25 @@ public class Assets {
         tubeMarioLargeAnimation = new Animation(.15f,
             atlas.findRegion("tube-mario-large").split(16, 32)[0]);
         tubeMarioLargeAnimation.setPlayMode(Animation.PlayMode.LOOP);
+        TextureRegion[][] scifiFx = atlas.findRegion("scifi-fx").split(32, 32);
+        tubeExplosionAnimation = new Animation(.05f,
+            scifiFx[0][3],
+            scifiFx[0][2],
+            scifiFx[0][5],
+            scifiFx[0][4],
+            scifiFx[9][3],
+            scifiFx[9][2],
+            scifiFx[1][0],
+            scifiFx[1][1],
+            scifiFx[1][6],
+            scifiFx[1][7],
+            scifiFx[2][5],
+            scifiFx[10][6],
+            scifiFx[10][7]);
+        tubeExplosionAnimation.setPlayMode(Animation.PlayMode.NORMAL);
 
         tubeBg = atlas.findRegion("tube-bg");
+        tubeBroken = atlas.findRegion("tube-broken");
 
         marioScreenAnimation = new Animation(.2f,
             atlas.findRegion("mario-screen").split(32, 32)[0]);

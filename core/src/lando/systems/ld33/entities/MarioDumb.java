@@ -12,8 +12,15 @@ public class MarioDumb extends Mario {
     boolean isJumper;
 
     public MarioDumb(World w, Vector2 pos) {
+        this(w, pos, false);
+    }
+
+    public MarioDumb(World w, Vector2 pos, boolean large) {
         super(w, pos);
         isJumper = MathUtils.random(100) < 25;
+        if(large) {
+            growBig();
+        }
     }
 
     public void update(float dt){

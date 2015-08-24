@@ -133,6 +133,7 @@ public class EntityBase {
         for (ObjectBase tile : objTiles) {
             if (entityRect.overlaps(tile.getBounds())) {
 
+                tile.touch();
                 hitHorizontal();
                 break;
             }
@@ -174,6 +175,8 @@ public class EntityBase {
 
         for (ObjectBase obj : objTiles){
             if (entityRect.overlaps(obj.getBounds())) {
+                obj.touch();
+
                  if (velocity.y > 0){
                      bounds.y = obj.getBounds().y - bounds.height;
                      hitBlockFromBelow(obj);
