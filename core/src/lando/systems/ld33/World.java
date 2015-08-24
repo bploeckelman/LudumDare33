@@ -1,6 +1,7 @@
 package lando.systems.ld33;
 
 import aurelienribon.tweenengine.BaseTween;
+import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.equations.Linear;
@@ -74,10 +75,13 @@ public class World {
     public Color transitionColor;
     public boolean                    cameraLock;
     public SpriteBatch                batch;
+    public float                      endDelay;
+    public Tween                      chant;
 
     public World(OrthographicCamera cam, Phase p, SpriteBatch batch) {
         this.batch = batch;
         phase = p;
+        endDelay = 0;
         done = false;
         cameraLock = true;
         dialogue = new Dialogue();
@@ -419,7 +423,7 @@ public class World {
                 luigi.addThought("LUDUM DARE");
                 drWily.addThought("LUDUM DARE");
 
-                final Tween chant = Tween.call(new TweenCallback() {
+                chant = Tween.call(new TweenCallback() {
                             @Override
                             public void onEvent(int i, BaseTween<?> baseTween) {
                                 ganon.addThought("LUDUM DARE");
@@ -434,14 +438,6 @@ public class World {
                      .repeat(-1, 3.5f)
                      .start(LudumDare33.tween);
 
-                Tween.call(new TweenCallback() {
-                            @Override
-                            public void onEvent(int i, BaseTween<?> baseTween) {
-                                chant.kill();
-                            }
-                        })
-                        .delay(12f)
-                        .start(LudumDare33.tween);
 
                 player = new PlayerGoomba(this, new Vector2(17.5f, 7f));
                 player.canRight = true;
@@ -890,7 +886,82 @@ public class World {
                 break;
             case CULT_ROOM:
                 switch (segment) {
-                    // TODO: handle segment changes here
+                    case 0:
+                        if (player.getBounds().x < 10){
+                            chant.kill();
+                            player.moveDelay = 10000;
+                            segment++;
+                            Array<String> messages = new Array<String>();
+                            messages.add(GameText.getText("cultCenter1"));
+                            dialogue.show(1, 10, 18, 4, messages);
+                        }
+                        break;
+                    case 1:
+                        if (!dialogue.isActive()){
+                            segment++;
+                            Array<String> messages = new Array<String>();
+                            messages.add(GameText.getText("cultCenter2"));
+                            dialogue.show(1, 10, 18, 4, messages);
+                        }
+                        break;
+                    case 2:
+                        if (!dialogue.isActive()){
+                            segment++;
+                            Array<String> messages = new Array<String>();
+                            messages.add(GameText.getText("cultCenter3"));
+                            dialogue.show(1, 10, 18, 4, messages);
+                        }
+                        break;
+                    case 3:
+                        if (!dialogue.isActive()){
+                            segment++;
+                            endDelay = 5;
+                            Timeline.createSequence()
+                                    .push( Tween.to(transitionColor, ColorAccessor.A, 1f)
+                                        .target(1)
+                                        .ease(Linear.INOUT))
+                                    .pushPause(.5f)
+                                    .push(Tween.to(transitionColor, ColorAccessor.A, 1f)
+                                        .target(0)
+                                        .ease(Linear.INOUT))
+                                    .start(LudumDare33.tween);
+
+                            Tween.call(new TweenCallback() {
+                                        @Override
+                                        public void onEvent(int i, BaseTween<?> baseTween) {
+                                            player.setCaped();
+                                            player.getBounds().x = 5f;
+                                        }
+                                    })
+                                    .delay(1.1f)
+                                    .start(LudumDare33.tween);
+                        }
+                        break;
+                    case 4:
+                        endDelay -= dt;
+                        if (endDelay < 0){
+                            segment++;
+                            Array<String> messages = new Array<String>();
+                            messages.add(GameText.getText("theEnd1"));
+                            dialogue.show(1, 10, 18, 4, messages);
+                        }
+                        break;
+                    case 5:
+                        if (!dialogue.isActive()){
+                            segment++;
+                            Array<String> messages = new Array<String>();
+                            messages.add(GameText.getText("theEnd2"));
+                            dialogue.show(1, 10, 18, 4, messages);
+                        }
+                        break;
+                    case 6:
+                        if (!dialogue.isActive()){
+                            segment++;
+                            Array<String> messages = new Array<String>();
+                            messages.add(GameText.getText("gameOver"));
+                            dialogue.show(1, 10, 18, 4, messages, false, 100, false);
+                        }
+                        break;
                 }
                 break;
             case LEVEL2:

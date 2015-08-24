@@ -31,6 +31,7 @@ public class Dialogue extends InputAdapter {
     private boolean showPressEnter;
     private static final float CPS_DEFAULT = 20f;
     private float cps;
+    private boolean allowClose;
 
     // FLAGS
     private boolean isShown = false;
@@ -79,14 +80,37 @@ public class Dialogue extends InputAdapter {
      * @param showPressEnter Display the "press enter" message after the message completes
      * @param cps Characters per second
      */
+    public void show(    int startTileX,
+                         int startTileY,
+                         int widthInTiles,
+                         int heightInTiles,
+                         Array<String> messages,
+                         boolean showPressEnter,
+                         float cps) {
+
+        show(startTileX, startTileY, widthInTiles, heightInTiles, messages, showPressEnter, cps, true);
+    }
+
+    /**
+     *
+     * @param startTileX start pos in tiles
+     * @param startTileY start pos in tiles
+     * @param widthInTiles Width in tiles
+     * @param heightInTiles Height in tiles
+     * @param messages The message(s) to be displayed
+     * @param showPressEnter Display the "press enter" message after the message completes
+     * @param cps Characters per second
+     * @param allowClose should we allow the User to close it
+     */
     public void show(int startTileX,
                      int startTileY,
                      int widthInTiles,
                      int heightInTiles,
                      Array<String> messages,
                      boolean showPressEnter,
-                     float cps) {
-
+                     float cps,
+                     boolean allowClose) {
+        this.allowClose = allowClose;
         this.startX = startTileX * World.PIXELS_PER_TILE;
         this.startY = startTileY * World.PIXELS_PER_TILE;
         this.width = widthInTiles * World.PIXELS_PER_TILE;
@@ -126,6 +150,19 @@ public class Dialogue extends InputAdapter {
                 CPS_DEFAULT);
     }
 
+    public void show(int startTileX, int startTileY, int widthInTiles, int heightInTiles, Array<String> messages, boolean allowClose) {
+        show(
+                startTileX,
+                startTileY,
+                widthInTiles,
+                heightInTiles,
+                messages,
+                SHOW_PRESS_ENTER_DEFAULT,
+                CPS_DEFAULT,
+                allowClose);
+    }
+
+
     private void hide() {
         this.isShown = false;
     }
@@ -150,6 +187,7 @@ public class Dialogue extends InputAdapter {
         // Listen for a specific key(s)
         if (keycode == Input.Keys.ENTER) {
             if (atEndOfMessage) {
+                if (!allowClose) return false;
                 // Get the next message going.
                 nextMessage();
             } else {
