@@ -255,7 +255,7 @@ public class World {
                 camera.position.y = player.getBounds().y + .5f;
                 camera.zoom = .1f;
                 camera.update();
-                Tween.to(camera, CameraAccessor.XYZ, 1f)
+                Tween.to(camera, CameraAccessor.XYZ, EntityBase.PIPEDELAY)
                         .target(cameraRightEdge, initY, initZoom)
                         .ease(Linear.INOUT)
                         .setCallback(new TweenCallback() {
