@@ -1297,13 +1297,34 @@ public class World {
                             segment++;
                             Array<String> messages = new Array<String>();
                             messages.add(GameText.getText("cultCenter3"));
-                            messages.add(GameText.getText("cultCenter4"));
-                            messages.add(GameText.getText("cultCenter5"));
-                            messages.add(GameText.getText("cultCenter6"));
                             dialogue.show(1, 10, 18, 4, messages);
                         }
                         break;
                     case 3:
+                        if (!dialogue.isActive()){
+                            segment++;
+                            Array<String> messages = new Array<String>();
+                            messages.add(GameText.getText("cultCenter4"));
+                            dialogue.show(1, 10, 18, 4, messages);
+                        }
+                        break;
+                    case 4:
+                        if (!dialogue.isActive()){
+                            segment++;
+                            Array<String> messages = new Array<String>();
+                            messages.add(GameText.getText("cultCenter5"));
+                            dialogue.show(1, 10, 18, 4, messages);
+                        }
+                        break;
+                    case 5:
+                        if (!dialogue.isActive()){
+                            segment++;
+                            Array<String> messages = new Array<String>();
+                            messages.add(GameText.getText("cultCenter6"));
+                            dialogue.show(1, 10, 18, 4, messages);
+                        }
+                        break;
+                    case 6:
                         if (!dialogue.isActive()){
                             segment++;
                             endDelay = 5;
@@ -1350,7 +1371,7 @@ public class World {
 
                         }
                         break;
-                    case 4:
+                    case 7:
                         endDelay -= dt;
                         if (endDelay < 0){
                             segment++;
@@ -1391,9 +1412,7 @@ public class World {
                                     .start(LudumDare33.tween);
                         }
                         break;
-
-                    case 5:
-
+                    case 8:
                         segment++;
                         // Let's bring down the curtain.
                         drawEndCurtain = true;
@@ -1490,16 +1509,14 @@ public class World {
 //
 //                        // Start it up
 //                        curtainTimeline.start(LudumDare33.tween);
-
                         break;
-
-                    case 6:
+                    case 9:
                         // Wait for the curtain to be fully done.
                         if (endCurtainAnimationComplete) {
                             segment++;
                         }
-
-                    case 7:
+                        break;
+                    case 10:
                         if (!dialogue.isActive()){
                             segment++;
                             Array<String> messages = new Array<String>();
@@ -1507,7 +1524,7 @@ public class World {
                             dialogue.show(1, 10, 18, 4, messages);
                         }
                         break;
-                    case 8:
+                    case 11:
                         if (!dialogue.isActive()){
                             segment++;
                             Array<String> messages = new Array<String>();
@@ -1515,8 +1532,6 @@ public class World {
                             dialogue.show(1, 10, 18, 4, messages, false, 100, false);
                         }
                         break;
-
-
                 }
                 break;
             case OVERWORLD_FIRST:

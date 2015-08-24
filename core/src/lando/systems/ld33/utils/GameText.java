@@ -73,18 +73,18 @@ public class GameText {
 
         // Cult room
         strings.put("cultFlavor", "  [Sounds of Chanting in Latin]");
-        strings.put("cultEnter", strings.get("playerName") + ":\"Now this is rather creepy...\"");
+        strings.put("cultEnter", strings.get("playerName") + ":\"This is rather creepy...\"");
         strings.put("cultChant", "Cultists (chanting): \"LUDUM DARE... LUDUM DARE... LUDUM DARE... LUDUM DARE...\"");
 
         strings.put("cultCenter1", "Gannon: \"You made it to our inner sanctum and now you know our secrets.\"");
         strings.put("cultCenter2", "King Hippo: \"Now you can never return to your family.\"");
         strings.put("cultCenter3", "Mother Brain:\"[bubble noise]\"");
         strings.put("cultCenter4", "Dracula: \"Blood tastes good!\"");
-        strings.put("cultCenter5", "Dr. Wily: \"Yes Dracula, we know... ...\"");
-        strings.put("cultCenter6", "Luigi: \"Here take this cape and join us.\"");
+        strings.put("cultCenter5", "Luigi: \"Yes Dracula, we know...\"");
+        strings.put("cultCenter6", "Dr. Wily: \"Here take this cape and join us.\"");
 
         // The End
-        strings.put("theEnd1", "Developers: \"Congratulations on becoming the ultimate monster, and THANK YOU for playing our game.\"");
+        strings.put("theEnd1", "Developers: \"Congratulations on becoming the ultimate monster, and thanks for playing!\"");
         strings.put("theEnd2", "Created for LD33 by:  Brian Ploeckelman, Doug Graham, Colin Kennedy and Ian McNamara ");
         strings.put("gameOver", "GAME OVER");
     }
