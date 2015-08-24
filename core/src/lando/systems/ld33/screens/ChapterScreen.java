@@ -135,9 +135,6 @@ public class ChapterScreen extends LDScreen  {
         }
 
         Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
-
-        isComplete = true;
-
     }
 
     // -----------------------------------------------------------------------------------------------------------------
