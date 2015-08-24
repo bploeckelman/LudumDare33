@@ -25,9 +25,12 @@ public class SoundManager{
         MUSHROOM_REVEAL
     }
     public enum MusicOptions {
+        MARIO_MAJOR,
         MARIO_MINOR
     }
     private enum MusicPieces {
+        MARIO_MAJOR_INTRO,
+        MARIO_MAJOR_LOOP,
         MARIO_MINOR_INTRO,
         MARIO_MINOR_LOOP
     }
@@ -51,6 +54,8 @@ public class SoundManager{
         soundMap.put(SoundOptions.MUSHROOM_GET, Gdx.audio.newSound(Gdx.files.internal("sounds/effects/mushroom-get.wav")));
         soundMap.put(SoundOptions.MUSHROOM_REVEAL, Gdx.audio.newSound(Gdx.files.internal("sounds/effects/mushroom-reveal.wav")));
 
+        musicMap.put(MusicPieces.MARIO_MAJOR_INTRO, Gdx.audio.newSound(Gdx.files.internal("sounds/music/mario-major-intro.mp3")));
+        musicMap.put(MusicPieces.MARIO_MAJOR_LOOP, Gdx.audio.newSound(Gdx.files.internal("sounds/music/mario-major-loop.mp3")));
         musicMap.put(MusicPieces.MARIO_MINOR_INTRO, Gdx.audio.newSound(Gdx.files.internal("sounds/music/mario-minor-intro.mp3")));
         musicMap.put(MusicPieces.MARIO_MINOR_LOOP, Gdx.audio.newSound(Gdx.files.internal("sounds/music/mario-minor-loop.mp3")));
     }
@@ -87,20 +92,39 @@ public class SoundManager{
         }
 
         switch (musicOption) {
+            case MARIO_MAJOR:
+                musicMap.get(MusicPieces.MARIO_MAJOR_INTRO).play();
+                Tween.call(new TweenCallback() {
+                    @Override
+                    public void onEvent(int i, BaseTween<?> baseTween) {
+                        // Are we still in this case?
+                        if (currentOption == MusicOptions.MARIO_MAJOR) {
+                            currentLoopID = musicMap.get(MusicPieces.MARIO_MAJOR_LOOP).loop();
+                            currentLoopSound = musicMap.get(MusicPieces.MARIO_MAJOR_LOOP);
+                        }
+                    }
+                })
+                        .delay(3.2f)
+                        .start(LudumDare33.tween);
+                break;
             case MARIO_MINOR:
                 musicMap.get(MusicPieces.MARIO_MINOR_INTRO).play();
                 Tween.call(new TweenCallback() {
-                        @Override
-                        public void onEvent(int i, BaseTween<?> baseTween) {
-                            // Are we still in this case?
-                            if (currentOption == MusicOptions.MARIO_MINOR) {
-                                currentLoopID = musicMap.get(MusicPieces.MARIO_MINOR_LOOP).loop();
-                                currentLoopSound = musicMap.get(MusicPieces.MARIO_MINOR_LOOP);
-                            }
+                    @Override
+                    public void onEvent(int i, BaseTween<?> baseTween) {
+                        // Are we still in this case?
+                        if (currentOption == MusicOptions.MARIO_MINOR) {
+                            currentLoopID = musicMap.get(MusicPieces.MARIO_MINOR_LOOP).loop();
+                            currentLoopSound = musicMap.get(MusicPieces.MARIO_MINOR_LOOP);
                         }
-                        })
+                    }
+                })
                         .delay(3.2f)
                         .start(LudumDare33.tween);
+                break;
+            default:
+                Gdx.app.log("ERROR", "SoundManager.playMusic | Unrecognized music option.");
+
         }
     }
 
