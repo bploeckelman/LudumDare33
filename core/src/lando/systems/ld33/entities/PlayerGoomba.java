@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.ld33.World;
+import lando.systems.ld33.entities.items.CoinItem;
 import lando.systems.ld33.entities.items.MushroomItem;
 import lando.systems.ld33.entities.mapobjects.ObjectBase;
 import lando.systems.ld33.utils.Assets;
@@ -136,8 +137,13 @@ public class PlayerGoomba extends EntityBase {
                     setRageMode();
                     entity.dead = true;
                 }
-            }
-        }
+                else if (entity instanceof CoinItem) {
+                    if (!((CoinItem) entity).bouncer) {
+                        world.addCoin(-1);
+                        entity.dead = true;
+                    }
+                }
+            } }
 
         velocity.x *= damping;
 

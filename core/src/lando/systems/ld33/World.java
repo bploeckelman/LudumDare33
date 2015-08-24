@@ -29,6 +29,7 @@ import lando.systems.ld33.accessors.ColorAccessor;
 import lando.systems.ld33.accessors.RectangleAccessor;
 import lando.systems.ld33.dialogue.Dialogue;
 import lando.systems.ld33.entities.*;
+import lando.systems.ld33.entities.items.CoinItem;
 import lando.systems.ld33.entities.items.ItemEntity;
 import lando.systems.ld33.entities.mapobjects.*;
 import lando.systems.ld33.entities.mario.Mario;
@@ -261,6 +262,7 @@ public class World {
 
     public void addCoin(int c){
         if (score != null) score.addCoin(c);
+        Assets.soundManager.playSound(SoundManager.SoundOptions.COIN_GET);
     }
 
     public void doShake(float time){
@@ -1361,6 +1363,9 @@ public class World {
             else if(type.equals("marioscreen")) {
                 mapObjects.add(new MarioScreenObject(
                     this, new Rectangle(x / 16, (y / 16) + 2, 2, 2)));
+            }
+            else if (type.equals("coin")) {
+                new CoinItem(this, x / 16, (y / 16) + 1, false);
             }
 //            else if (type.equals("...")) {
 //
