@@ -154,14 +154,19 @@ public class World {
         {
             mapRenderer.renderTileLayer(backgroundLayer);
 
-            for (EntityBase entity : gameEntities) {
-                entity.render(batch);
-            }
+            player.render(batch);
+//            for (EntityBase entity : gameEntities) {
+//                entity.render(batch);
+//            }
             for (ObjectBase object : mapObjects) {
                 object.render(batch);
             }
 
             mapRenderer.renderTileLayer(foregroundLayer);
+            for (EntityBase entity : gameEntities){
+                if (entity == player) continue;
+                entity.render(batch);
+            }
         }
         batch.end();
 

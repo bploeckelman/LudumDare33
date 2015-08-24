@@ -1,9 +1,15 @@
 package lando.systems.ld33.entities;
 
+import aurelienribon.tweenengine.BaseTween;
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
+import aurelienribon.tweenengine.equations.Back;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import lando.systems.ld33.LudumDare33;
 import lando.systems.ld33.World;
+import lando.systems.ld33.accessors.RectangleAccessor;
 import lando.systems.ld33.entities.items.MushroomItem;
 import lando.systems.ld33.entities.mapobjects.ObjectBase;
 import lando.systems.ld33.utils.Assets;
@@ -48,6 +54,7 @@ public class Mario extends EntityBase {
 
     public void update(float dt){
         super.update(dt);
+        if (moveDelay > 0 ) return;
         velocity.x = 8 * dir;
 
         velocity.x = 8 * dir;
@@ -68,11 +75,19 @@ public class Mario extends EntityBase {
                         velocity.y = jumpVelocity;
                         entity.stomped();
                     } else {
-                        // TODO kill mario
-                        dead = true;
+                        stomped();
                     }
                 }
             }
         }
+    }
+
+    public void stomped(){
+        standingAnimation = jumpingAnimation = walkingAnimation = Assets.marioSmallDieAnimation;
+        moveDelay = 2f;
+        Tween.to(bounds, RectangleAccessor.Y, 1f)
+                .target(-2)
+                .ease(Back.IN)
+                .start(LudumDare33.tween);
     }
 }

@@ -42,6 +42,7 @@ public class Assets {
     public static Animation marioBigWalkAnimation;
     public static Animation marioBigStandingAnimation;
     public static Animation marioBigJumpingAnimation;
+    public static Animation marioSmallDieAnimation;
     public static Animation tubeEmptyAnimation;
     public static Animation tubeMarioSmallAnimation;
     public static Animation tubeMarioEmbryoAnimation;
@@ -130,6 +131,7 @@ public class Assets {
 
         marioSmallStandingAnimation = new Animation(.15f, atlas.findRegion("mario-small-straight-on"));
         marioSmallJumpingAnimation = new Animation(.15f, atlas.findRegion("mario-small-jump"));
+        marioSmallDieAnimation = new Animation(.15f, atlas.findRegion("mario-small-die"));
 
         marioBigWalkAnimation = new Animation(.15f,
                 atlas.findRegion("mario-big-walk1"),
