@@ -30,10 +30,12 @@ public class SoundManager{
         SPIKE_STAB
     }
     public enum MusicOptions {
+        DNUORGREDNU,
         MARIO_MAJOR,
         MARIO_MINOR
     }
     private enum MusicPieces {
+        DNUORGREDNU,
         MARIO_MAJOR_INTRO,
         MARIO_MAJOR_LOOP,
         MARIO_MINOR_INTRO,
@@ -64,6 +66,7 @@ public class SoundManager{
         soundMap.put(SoundOptions.PIPE_TRAVEL, Gdx.audio.newSound(Gdx.files.internal("sounds/effects/pipe-travel.wav")));
         soundMap.put(SoundOptions.SPIKE_STAB, Gdx.audio.newSound(Gdx.files.internal("sounds/effects/spike-stab.wav")));
 
+        musicMap.put(MusicPieces.DNUORGREDNU, Gdx.audio.newSound(Gdx.files.internal("sounds/music/dnuorgrednu.mp3")));
         musicMap.put(MusicPieces.MARIO_MAJOR_INTRO, Gdx.audio.newSound(Gdx.files.internal("sounds/music/mario-major-intro.mp3")));
         musicMap.put(MusicPieces.MARIO_MAJOR_LOOP, Gdx.audio.newSound(Gdx.files.internal("sounds/music/mario-major-loop.mp3")));
         musicMap.put(MusicPieces.MARIO_MINOR_INTRO, Gdx.audio.newSound(Gdx.files.internal("sounds/music/mario-minor-intro.mp3")));
@@ -105,6 +108,12 @@ public class SoundManager{
         }
 
         switch (musicOption) {
+
+            case DNUORGREDNU:
+                currentLoopID = musicMap.get(MusicPieces.DNUORGREDNU).loop();
+                currentLoopSound = musicMap.get(MusicPieces.DNUORGREDNU);
+                break;
+
             case MARIO_MAJOR:
                 musicMap.get(MusicPieces.MARIO_MAJOR_INTRO).play();
                 Tween.call(new TweenCallback() {
@@ -120,6 +129,7 @@ public class SoundManager{
                         .delay(2.7f)
                         .start(LudumDare33.tween);
                 break;
+
             case MARIO_MINOR:
                 musicMap.get(MusicPieces.MARIO_MINOR_INTRO).play();
                 Tween.call(new TweenCallback() {
@@ -135,6 +145,7 @@ public class SoundManager{
                         .delay(3.2f)
                         .start(LudumDare33.tween);
                 break;
+
             default:
                 Gdx.app.log("ERROR", "SoundManager.playMusic | Unrecognized music option.");
 

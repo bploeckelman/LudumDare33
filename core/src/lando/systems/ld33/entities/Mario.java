@@ -87,6 +87,7 @@ public class Mario extends EntityBase {
         drawOnTop = true;
         standingAnimation = jumpingAnimation = walkingAnimation = Assets.marioSmallDieAnimation;
         moveDelay = 2f;
+        Assets.soundManager.playSound(SoundManager.SoundOptions.MARIO_DEATH);
         Tween.to(bounds, RectangleAccessor.Y, 1f)
                 .target(-2)
                 .ease(Back.IN)
