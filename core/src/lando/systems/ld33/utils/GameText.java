@@ -49,6 +49,9 @@ public class GameText {
         strings.put("gotMushroom", "What is this?!? There is more to life than just moving left!");
         strings.put("noGoingBack", strings.get("playerName") + ":\"There is nothing left for me to go home to.  I want to use my new powers to explore, where does this other tube go?\"");
 
+        //BridgeLevel
+        strings.put("atCastle", strings.get("playerName") + ": \"So this is the end of the road.");
+
         //Factory
         strings.put("intoFactory", strings.get("playerName") + ":\"What... what is this place?\"");
         strings.put("factoryNoise", strings.get("playerName") + ":\"...and what is that shaking?\"");

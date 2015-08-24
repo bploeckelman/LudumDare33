@@ -9,15 +9,12 @@ import lando.systems.ld33.World;
  */
 public class MarioDumb extends Mario {
 
-    boolean isJumper;
-
     public MarioDumb(World w, Vector2 pos) {
         this(w, pos, false);
     }
 
     public MarioDumb(World w, Vector2 pos, boolean large) {
         super(w, pos);
-        isJumper = MathUtils.random(100) < 25;
         if(large) {
             growBig();
         }
@@ -36,6 +33,16 @@ public class MarioDumb extends Mario {
         int endY = startY + 2;
         world.getTiles(startX, startY, endX, endY, tiles);
         if (tiles.size == 0) {
+            dir *= -1;
+            return;
+        }
+
+        // It's a wall
+        startX = endX = (int)(bounds.x + .5f + (dir));
+        startY = (int)bounds.y;
+        endY = startY + 2;
+        world.getTiles(startX, startY, endX, endY, tiles);
+        if (tiles.size >= 1){
                 dir *= -1;
         }
     }

@@ -34,6 +34,7 @@ import lando.systems.ld33.entities.items.ItemEntity;
 import lando.systems.ld33.entities.mapobjects.*;
 import lando.systems.ld33.entities.mario.Mario;
 import lando.systems.ld33.entities.mario.MarioAI;
+import lando.systems.ld33.entities.mario.MarioDumb;
 import lando.systems.ld33.entities.mario.MarioSmart;
 import lando.systems.ld33.utils.*;
 
@@ -224,6 +225,9 @@ public class World {
             entity.renderUI(batch, camera, uiCam);
         }
 
+        //TODO this is debug
+        Assets.font.draw(batch, "X:" + (int)player.getBounds().x + " Y:" + (int) player.getBounds().y, 32, 32);
+
         batch.setColor(transitionColor);
         batch.draw(Assets.whiteTexture, 0, 0, uiCam.viewportWidth, uiCam.viewportHeight);
         batch.setColor(Color.WHITE);
@@ -234,6 +238,11 @@ public class World {
             int t = startX;
             startX = endX;
             endX = t;
+        }
+        if (startY > endY){
+            int t = startY;
+            startY = endY;
+            endY = t;
         }
         rectPool.freeAll(tiles);
         tiles.clear();
@@ -599,6 +608,12 @@ public class World {
                 loadMap("maps/level5.tmx");
 
                 Assets.soundManager.playMusic(SoundManager.MusicOptions.ZELDA_BK);
+
+                new MarioDumb(this, new Vector2(56, 5));
+                new MarioDumb(this, new Vector2(35, 8));
+                new MarioDumb(this, new Vector2(10, 2));
+
+                new MarioSmart(this, new Vector2(76, 5));
 
                 player = new PlayerGoomba(this, new Vector2(97f, 2f));
                 player.moveDelay = EntityBase.PIPEDELAY;
@@ -1037,7 +1052,7 @@ public class World {
                         }
                         break;
                     case 5:
-                        // Head to Factory
+                        // Head to new world
                         if (player.getBounds().x <= 2.5 && player.getBounds().x > 1 && player.getBounds().y < 5.1) {
                             segment++;
                             player.getBounds().x = 1.7f;
@@ -1332,6 +1347,25 @@ public class World {
                             segment++;
                             // TODO: script all the things! (or at least an exit handler)
                         }
+                        break;
+                    case 1:
+                        if (player.getBounds().x < 8){
+                            segment++;
+                            Array<String> messages = new Array<String>();
+                            messages.add(GameText.getText("atCastle"));
+                            dialogue.show(1, 10, 18, 4, messages);
+                        }
+                        break;
+                    case 2:
+                        if (player.getBounds().x < 3.1 && player.getBounds().y < 3.1){
+                            player.moveDelay = EntityBase.PIPEDELAY;
+                            fadeOut();
+                            Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
+                                    .target(1)
+                                    .ease(Linear.INOUT)
+                                    .start(LudumDare33.tween);
+                        }
+                        break;
                 }
                 break;
         }
