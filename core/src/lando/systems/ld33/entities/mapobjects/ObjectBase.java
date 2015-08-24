@@ -26,6 +26,10 @@ public abstract class ObjectBase {
 
     public abstract void hit();
 
+    public void touch() {
+
+    }
+
     public void render(SpriteBatch batch) {
         batch.draw(keyframe, bounds.x, bounds.y, bounds.width, bounds.height);
     }

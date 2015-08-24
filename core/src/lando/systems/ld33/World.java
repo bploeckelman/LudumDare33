@@ -33,6 +33,7 @@ import lando.systems.ld33.entities.items.ItemEntity;
 import lando.systems.ld33.entities.mapobjects.*;
 import lando.systems.ld33.utils.Assets;
 import lando.systems.ld33.utils.GameText;
+import lando.systems.ld33.utils.SoundManager;
 
 import java.util.Iterator;
 
@@ -72,10 +73,16 @@ public class World {
     public int                        segment;
     public boolean                    done;
     public Dialogue                   dialogue;
-    public Color transitionColor;
+    public Color                      transitionColor;
     public boolean                    cameraLock;
     public SpriteBatch                batch;
     public float                      endDelay;
+    public Ganon                      ganon;
+    public KingHippo                  kingHippo;
+    public MotherBrain                motherBrain;
+    public Dracula                    dracula;
+    public Luigi                      luigi;
+    public DrWily                     drWily;
     public Tween                      repeatingTween;
     public Mario                      fallingMario;
 
@@ -228,6 +235,7 @@ public class World {
 
         switch (phase) {
             case DAY_ONE:
+                Assets.soundManager.playMusic(SoundManager.MusicOptions.MARIO_MINOR);
                 loadMap("maps/level1.tmx");
                 cameraLock = false;
 
@@ -424,12 +432,12 @@ public class World {
                 loadMap("maps/cadreroom.tmx");
 
                 // Spawn cultist members
-                final Ganon ganon = new Ganon(this, new Vector2(0.5f, 2));
-                final KingHippo kingHippo = new KingHippo(this, new Vector2(2.5f, 2));
-                final MotherBrain motherBrain = new MotherBrain(this, new Vector2(6, 2));
-                final Dracula dracula = new Dracula(this, new Vector2(13, 2));
-                final Luigi luigi = new Luigi(this, new Vector2(16, 2));
-                final DrWily drWily = new DrWily(this, new Vector2(18, 2));
+                ganon       = new Ganon(this, new Vector2(0.5f, 2));
+                kingHippo   = new KingHippo(this, new Vector2(2.5f, 2));
+                motherBrain = new MotherBrain(this, new Vector2(6, 2));
+                dracula     = new Dracula(this, new Vector2(13, 2));
+                luigi       = new Luigi(this, new Vector2(16, 2));
+                drWily      = new DrWily(this, new Vector2(18, 2));
 
                 ganon.addThought("LUDUM DARE");
                 kingHippo.addThought("LUDUM DARE");
@@ -453,7 +461,6 @@ public class World {
                      .repeat(-1, 3.5f)
                      .start(LudumDare33.tween);
 
-
                 player = new PlayerGoomba(this, new Vector2(17.5f, 7f));
                 player.canRight = true;
                 player.canJump = true;
@@ -472,6 +479,11 @@ public class World {
                 Gdx.gl.glClearColor(Assets.BLUE_SKY_R, Assets.BLUE_SKY_G, Assets.BLUE_SKY_B, 1f);
 
                 loadMap("maps/level2.tmx");
+
+                new MarioDumb(this, new Vector2(75f, 3f));
+                new MarioDumb(this, new Vector2(47f, 3f));
+                new MarioDumb(this, new Vector2(17f, 10f));
+                new MarioDumb(this, new Vector2(3f, 3f));
 
                 player = new PlayerGoomba(this, new Vector2(97f, 2f));
                 player.moveDelay = EntityBase.PIPEDELAY;
@@ -978,7 +990,9 @@ public class World {
                                         @Override
                                         public void onEvent(int i, BaseTween<?> baseTween) {
                                             player.setCaped();
-                                            player.getBounds().x = 5f;
+                                            player.getBounds().x = -0.4f;
+                                            ganon.getBounds().x = 1.4f;
+                                            kingHippo.getBounds().x = 2.85f;
                                         }
                                     })
                                     .delay(1.1f)
