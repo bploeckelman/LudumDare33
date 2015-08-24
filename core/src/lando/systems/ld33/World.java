@@ -1057,7 +1057,8 @@ public class World {
                 if (fallingMario.dead){
                     fallingMario = new Mario(this, new Vector2(22.5f,14));
                     fallingMario.setDeadAnimations();
-                    repeatingTween = Tween.to(fallingMario.getBounds(), RectangleAccessor.Y, 2f)
+                    final Rectangle fallingMarioBounds = fallingMario.getBounds();
+                    repeatingTween = Tween.to(fallingMarioBounds, RectangleAccessor.Y, 2f)
                                           .target(7)
                                           .repeat(-1, 2)
                                           .ease(Expo.IN)
@@ -1066,6 +1067,10 @@ public class World {
                                               public void onEvent(int i, BaseTween<?> baseTween) {
                                                   shake.shake(.5f);
                                                   particles.addLargeBlood(new Vector2(22.5f, 8.5f));
+                                                  Vector2 dist = new Vector2(fallingMarioBounds.x - player.getBounds().x, fallingMarioBounds.y - player.getBounds().y);
+                                                  Assets.soundManager.playSound3D(
+                                                          SoundManager.SoundOptions.MARIO_RECLAIMATION,
+                                                          dist);
                                               }
                                           })
                                           .setCallbackTriggers(TweenCallback.END)
