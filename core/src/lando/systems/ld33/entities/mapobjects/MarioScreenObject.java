@@ -1,6 +1,7 @@
 package lando.systems.ld33.entities.mapobjects;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import lando.systems.ld33.World;
 import lando.systems.ld33.utils.Assets;

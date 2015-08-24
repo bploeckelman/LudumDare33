@@ -39,7 +39,8 @@ public class GameText {
         strings.put("injuredAgain", "Foreman:\"Injured again? Alright, head home and see your family.\"");
 
         // Empty Nest
-        strings.put("notComingBack", strings.get("playerName") + ":\"... ... I guess she's really not coming back.\"");
+        strings.put("ellipses", strings.get("playerName") + ":\"... ... ...\"");
+        strings.put("notComingBack", strings.get("playerName") + ":\"I guess she's really not coming back this time.\"");
 
         // Get Mushroom Day
         strings.put("gotMushroom", "What is this?!? There is more to life than just moving left!");
@@ -47,6 +48,9 @@ public class GameText {
 
         //Factory
         strings.put("intoFactory", strings.get("playerName") + ":\"What... what *is* this place?\"");
+        strings.put("marioScreenWTF", strings.get("playerName") + ":\"Now that is damn strange.\"");
+        strings.put("marioTubesWTF", strings.get("playerName") + ":\"Just when I thought I'd seen everything.\"");
+        strings.put("marioGrinderWTF", strings.get("playerName") + ":\"I think I'm going to be sick.\"");
 
         // Respawn
         strings.put("respawn", "Please be more careful, this is Ludum Dare so we won't make you start again.");

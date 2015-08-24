@@ -182,7 +182,7 @@ public class Assets {
         tubeBg = atlas.findRegion("tube-bg");
         tubeBroken = atlas.findRegion("tube-broken");
 
-        marioScreenAnimation = new Animation(.2f,
+        marioScreenAnimation = new Animation(.5f,
             atlas.findRegion("mario-screen").split(32, 32)[0]);
         marioScreenAnimation.setPlayMode(Animation.PlayMode.LOOP);
 

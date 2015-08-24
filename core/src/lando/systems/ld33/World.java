@@ -373,6 +373,7 @@ public class World {
                      .start(LudumDare33.tween);
 
                 messages = new Array<String>();
+                messages.add(GameText.getText("ellipses"));
                 messages.add(GameText.getText("notComingBack"));
                 dialogue.show(1, 10, 18, 4, messages);
                 break;
@@ -539,17 +540,15 @@ public class World {
                             messages.add(GameText.getText("headHome"));
                             dialogue.show(1, 10, 18, 4, messages);
                             player.setWounded();
-                            Tween.call(new TweenCallback() {
-                                     @Override
-                                     public void onEvent(int i, BaseTween<?> baseTween) {
-                                         player.addThought("Good idea");
-                                     }
-                                 })
-                                 .delay(2f)
-                                 .start(LudumDare33.tween);
                         }
                         break;
                     case 3:
+                        if (!dialogue.isActive()) {
+                            segment++;
+                            player.addThought("Good idea");
+                        }
+                        break;
+                    case 4:
                         // Enter home pipe
                         if (player.getBounds().x <= 5.5){
                             fadeOut();
@@ -558,6 +557,7 @@ public class World {
                                     .ease(Linear.INOUT)
                                     .start(LudumDare33.tween);
                         }
+                        break;
                 }
                 break;
             case HEADING_HOME:
@@ -738,14 +738,12 @@ public class World {
                             Array<String> messages = new Array<String>();
                             messages.add(GameText.getText("hereComesMario"));
                             dialogue.show(1,10,18,4,messages);
-
                         }
                         break;
                     case 1:
                         if (!dialogue.isActive()){
                             segment++;
                             MarioAI mario = new MarioAI(this, new Vector2(10, 2));
-
                         }
                         break;
                     case 2:
@@ -756,17 +754,15 @@ public class World {
                             messages.add(GameText.getText("injuredAgain"));
                             dialogue.show(1, 10, 18, 4, messages);
                             player.setWounded();
-                            Tween.call(new TweenCallback() {
-                                    @Override
-                                    public void onEvent(int i, BaseTween<?> baseTween) {
-                                        player.addThought("yeah ... family ...");
-                                    }
-                                })
-                                 .delay(2f)
-                                 .start(LudumDare33.tween);
                         }
                         break;
                     case 3:
+                        if (!dialogue.isActive()) {
+                            segment++;
+                            player.addThought("yeah ... family ...");
+                        }
+                        break;
+                    case 4:
                         // Enter home pipe
                         if (player.getBounds().x <= 5.5){
                             fadeOut();
@@ -849,14 +845,14 @@ public class World {
                             Array<String> messages = new Array<String>();
                             messages.add(GameText.getText("hereComesMario"));
                             dialogue.show(1,10,18,4,messages);
-
                         }
                         break;
                     case 1:
                         if (!dialogue.isActive()){
                             segment++;
                             MarioAI mario = new MarioAI(this, new Vector2(10, 2));
-
+                            player.getBounds().x = 27;
+                            player.moveDelay = 6;
                         }
                         break;
                     case 2:
@@ -916,17 +912,63 @@ public class World {
                 }
                 break;
             case INTO_THE_FACTORY:
+                if (fallingMario.dead){
+                    fallingMario = new Mario(this, new Vector2(22.5f,14));
+                    repeatingTween = Tween.to(fallingMario.getBounds(), RectangleAccessor.Y, 2f)
+                                          .target(6)
+                                          .repeat(-1, 2)
+                                          .ease(Expo.IN)
+                                          .start(LudumDare33.tween);
+                    fallingMario.moveDelay = 100000f;
+                }
                 switch (segment){
                     case 0:
-                        if (fallingMario.dead){
-                            fallingMario = new Mario(this, new Vector2(22.5f,14));
-                            repeatingTween = Tween.to(fallingMario.getBounds(), RectangleAccessor.Y, 2f)
-                                    .target(6)
-                                    .repeat(-1, 2)
-                                    .ease(Expo.IN)
-                                    .start(LudumDare33.tween);
-                            fallingMario.moveDelay = 100000f;
+                        if (!dialogue.isActive()) {
+                            segment++;
                         }
+                        break;
+                    case 1:
+                        if (player.getBounds().x < 80.5f) {
+                            player.getBounds().x = 80.5f;
+                            segment++;
+
+                            Array<String> messages = new Array<String>();
+                            messages.add(GameText.getText("marioScreenWTF"));
+                            dialogue.show(1, 10, 18, 4, messages);
+                        }
+                        break;
+                    case 2:
+                        if (!dialogue.isActive()) {
+                            segment++;
+                        }
+                        break;
+                    case 3:
+                        if (player.getBounds().x < 45.5f) {
+                            player.getBounds().x = 45.5f;
+                            segment++;
+
+                            Array<String> messages = new Array<String>();
+                            messages.add(GameText.getText("marioTubesWTF"));
+                            dialogue.show(1, 10, 18, 4, messages);
+                        }
+                        break;
+                    case 4:
+                        if (!dialogue.isActive()) {
+                            segment++;
+                        }
+                        break;
+                    case 5:
+                        if (player.getBounds().x < 22.5f) {
+                            player.getBounds().x = 22.5f;
+                            segment++;
+
+                            Array<String> messages = new Array<String>();
+                            messages.add(GameText.getText("ellipses"));
+                            messages.add(GameText.getText("marioGrinderWTF"));
+                            dialogue.show(1, 10, 18, 4, messages);
+                        }
+                        break;
+                    case 6:
                         if (player.getBounds().x < 2.5f && player.getBounds().y < 4.1) {
                             player.getBounds().x = 2.5f;
                             player.getBounds().y = 4f;
