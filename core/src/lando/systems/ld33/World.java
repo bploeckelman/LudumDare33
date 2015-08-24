@@ -19,6 +19,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -103,6 +104,7 @@ public class World {
     public Shake                      shake;
     public Vector2                    cameraCenter;
     public Score                      score;
+    public float                      fireworkDelay;
 
     public World(OrthographicCamera cam, Phase p, SpriteBatch batch) {
         this.batch = batch;
@@ -615,6 +617,7 @@ public class World {
 
                 new MarioSmart(this, new Vector2(76, 5));
 
+                fireworkDelay = 0;
                 player = new PlayerGoomba(this, new Vector2(97f, 2f));
                 player.moveDelay = EntityBase.PIPEDELAY;
                 player.setRageMode();
@@ -1346,6 +1349,12 @@ public class World {
                 }
                 break;
             case BRIDGES_TO_FACTORY:
+                // Always be shooting fireworks
+                fireworkDelay-= dt;
+                if (fireworkDelay <= 0) {
+                    shootCastleFireworks();
+                }
+
                 switch (segment) {
                     case 0:
                         if (!dialogue.isActive()) {
@@ -1440,6 +1449,31 @@ public class World {
 //
 //            }
         }
+    }
+
+    private void shootCastleFireworks(){
+        fireworkDelay = .5f;
+
+        int rand = MathUtils.random(4);
+        switch(rand) {
+            case 0:
+                particles.addFirework(new Vector2(4.1f, 11), 90);
+                break;
+            case 1:
+                particles.addFirework(new Vector2(2.1f, 11), 90);
+                break;
+            case 2:
+                particles.addFirework(new Vector2(5.1f, 9), 45);
+                break;
+            case 3:
+                particles.addFirework(new Vector2(6.1f, 7), 30);
+                break;
+            case 4:
+                particles.addFirework(new Vector2(4.1f, 7), 45);
+                break;
+        }
+
+
     }
 
 }
