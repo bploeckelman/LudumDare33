@@ -71,7 +71,7 @@ public class Mario extends EntityBase {
                     entity.dead = true;
                 }
                 if (entity instanceof PlayerGoomba){
-                    if (intersectRect.width > intersectRect.height){
+                    if (velocity.y < 0 && intersectRect.width > intersectRect.height){
                         velocity.y = jumpVelocity;
                         entity.stomped();
                     } else {
