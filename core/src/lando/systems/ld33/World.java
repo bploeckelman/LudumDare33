@@ -451,8 +451,9 @@ public class World {
                 dialogue.show(1, 10, 18, 4, messages);
                 break;
             case INTO_THE_FACTORY:
-                Gdx.gl.glClearColor(0.25f,0.25f,0.25f,1);
+                Gdx.gl.glClearColor(0.25f, 0.25f, 0.25f, 1);
                 loadMap("maps/level-factoryintro.tmx");
+                Assets.soundManager.playMusic(SoundManager.MusicOptions.ZELDA_BK);
                 player = new PlayerGoomba(this, new Vector2(97, 2));
                 player.setRageMode();
                 player.moveDelay = EntityBase.PIPEDELAY;
@@ -485,6 +486,7 @@ public class World {
             case CULT_ROOM:
                 Gdx.gl.glClearColor(220f / 255f, 20f / 255f, 60f / 255f, 1f);
 
+                Assets.soundManager.playMusic(SoundManager.MusicOptions.METRIOD_BK);
                 loadMap("maps/cadreroom.tmx");
 
                 // Spawn cultist members
