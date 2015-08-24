@@ -89,6 +89,7 @@ public class PlayerGoomba extends EntityBase {
         dead = false;
         Array<String> messages = new Array<String>();
         messages.add(GameText.getText("respawn"));
+        Assets.soundManager.playSound(SoundManager.SoundOptions.GOOMBA_2ND_CHANCE);
         world.dialogue.show(1,10,18,4,messages,true,600);
     }
 
