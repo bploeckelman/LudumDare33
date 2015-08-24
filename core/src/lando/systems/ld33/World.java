@@ -99,6 +99,7 @@ public class World {
     public DrWily                     drWily;
     public Cape                       cape;
     public Tween                      repeatingTween;
+    public Tween                      capeFloatingTween;
     public Mario fallingMario;
     public Shake                      shake;
     public Vector2                    cameraCenter;
@@ -567,6 +568,13 @@ public class World {
                 drWily      = new DrWily(this, new Vector2(18, 2));
                 drWily.facesRight = true;
                 cape        = new Cape(this, new Vector2(9, 2));
+
+                capeFloatingTween = Tween.to(cape.getBounds(), RectangleAccessor.Y, 1f)
+                                        .target(4)
+                                        .ease(Sine.INOUT)
+                                        .repeatYoyo(-1, 0)
+                                        .start(LudumDare33.tween);
+                cape.moveDelay = 100000;
 
                 ganon.addThought("LUDUM DARE");
                 kingHippo.addThought("LUDUM DARE");
@@ -1346,7 +1354,10 @@ public class World {
                             endDelay = 5;
                             cape.moveDelay = 10000;
                             transitionColor = new Color(1,1,1,0);
+                            capeFloatingTween.kill();
                             Timeline.createSequence()
+                                    .push(Tween.to(cape.getBounds(), RectangleAccessor.Y, 1f)
+                                                .target(2))
                                     .beginParallel()
                                           .push(Tween.to(player.getBounds(), RectangleAccessor.Y, 2f)
                                                 .target(10))
@@ -1382,7 +1393,7 @@ public class World {
                                     ganon.getBounds().x = 1.4f;
                                     kingHippo.getBounds().x = 2.85f;
                                 }})
-                                    .delay(3.5f)
+                                    .delay(4.5f)
                                     .start(LudumDare33.tween);
 
                         }
