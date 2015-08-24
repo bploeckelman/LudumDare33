@@ -145,8 +145,15 @@ public class ChapterScreen extends LDScreen  {
 
         if (chapter == 0) {
             batch.draw(titles, 0f, 0f, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+            batch.setColor(1f, 1f, 1f, 0.3f);
+            batch.draw(Assets.blackTexture, 80f, 0, Gdx.graphics.getWidth() - 160f, 30f);
+            batch.setColor(1f, 1f, 1f, 1f);
             Assets.font.setColor(promptPulse);
             Assets.font.draw(batch, "[WHITE]Press[] ENTER", 110f, 150f);
+            Assets.font.setColor(0f, 0f, 0f, 1f);
+            Assets.font.draw(batch, "Ludum Dare 33 - Jam Entry", 118f, 23f);
+            Assets.font.setColor(1f, 1f, 0f, 1f);
+            Assets.font.draw(batch, "Ludum Dare 33 - Jam Entry", 115f, 25f);
             Assets.font.setColor(1f, 1f, 1f, 1f);
             return;
         }
