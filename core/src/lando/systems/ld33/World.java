@@ -537,12 +537,13 @@ public class World {
 //                new MarioDumb(this, new Vector2(17f, 10f));
 //                new MarioDumb(this, new Vector2(3f, 3f));
 
+                Assets.soundManager.playMusic(SoundManager.MusicOptions.DNUORGREDNU);
+
                 player = new PlayerGoomba(this, new Vector2(97.5f, 7f));
                 player.moveDelay = EntityBase.PIPEDELAY;
                 player.setRageMode();
-                Tween.to(player.getBounds(), RectangleAccessor.Y, EntityBase.PIPEDELAY)
-                     .target(player.getBounds().y - 1f)
-                     .ease(Linear.INOUT)
+
+                TweenHelper.tweenPipeTravel(player, RectangleAccessor.Y, player.getBounds().y - 1f)
                      .setCallback(new TweenCallback() {
                          @Override
                          public void onEvent(int i, BaseTween<?> baseTween) {
@@ -552,6 +553,7 @@ public class World {
                          }
                      })
                      .start(LudumDare33.tween);
+
                 break;
         }
     }
