@@ -27,6 +27,7 @@ public class StoryManager {
     private void initializeStorySequence() {
         storySequence = new Array<StoryObject>();
 
+        storySequence.add(new StoryObject(this, 0, null));
         storySequence.add(new StoryObject(this, 1, null));
         storySequence.add(new StoryObject(this, null, World.Phase.DAY_ONE));
         storySequence.add(new StoryObject(this, null, World.Phase.HEADING_HOME));

@@ -6,6 +6,7 @@ import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.equations.Linear;
 import aurelienribon.tweenengine.equations.Sine;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
@@ -49,6 +50,7 @@ public class ChapterScreen extends LDScreen  {
     FrameBuffer sceneFrameBuffer;
     TextureRegion sceneRegion;
 
+    private int chapter;
     private float time = 0;
     boolean isComplete = false;
 
@@ -60,12 +62,14 @@ public class ChapterScreen extends LDScreen  {
     private Color chapterCoverColor;
     private Color titleCoverColor;
     private Color coverAllColor;
+    private Color promptPulse;
 
     // -----------------------------------------------------------------------------------------------------------------
 
     public ChapterScreen(LudumDare33 game, int chapter) {
-
         super(game);
+
+        this.chapter = chapter;
 
         uiCamera.setToOrtho(false, Config.width, Config.height);
         sceneFrameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, Config.width, Config.height, false);
@@ -76,8 +80,17 @@ public class ChapterScreen extends LDScreen  {
         camera.setToOrtho(false, World.SCREEN_TILES_WIDE, World.SCREEN_TILES_HIGH);
         camera.update();
 
-        String titlesAsset = "chapters/chapter-" + String.valueOf(chapter) + ".png";
-        titles = new Texture(titlesAsset);
+        if (chapter == 0) {
+            titles = Assets.titleScreenTexture;
+            promptPulse = new Color(1f, 0.6f, 0f, 1f);
+            Tween.to(promptPulse, ColorAccessor.RGB, 0.33f)
+                    .target(1f, 1f, 0f)
+                    .repeatYoyo(-1, 0f)
+                    .start(LudumDare33.tween);
+        } else {
+            String titlesAsset = "chapters/chapter-" + String.valueOf(chapter) + ".png";
+            titles = new Texture(titlesAsset);
+        }
 
         curtainAlpha = 0;
         chapterAlpha = 0;
@@ -104,18 +117,20 @@ public class ChapterScreen extends LDScreen  {
                 .delay(3f)
                 .start(LudumDare33.tween);
 
-        coverAllColor = new Color(1, 1, 1, 0);
-        Tween.to(coverAllColor, ColorAccessor.A, 3f)
-                .target(1f)
-                .ease(Sine.INOUT)
-                .delay(6f)
-                .setCallback(new TweenCallback() {
-                    @Override
-                    public void onEvent(int i, BaseTween<?> baseTween) {
-                        isComplete = true;
-                    }
-                })
-                .start(LudumDare33.tween);
+        if (chapter != 0) {
+            coverAllColor = new Color(1, 1, 1, 0);
+            Tween.to(coverAllColor, ColorAccessor.A, 3f)
+                 .target(1f)
+                 .ease(Sine.INOUT)
+                 .delay(6f)
+                 .setCallback(new TweenCallback() {
+                     @Override
+                     public void onEvent(int i, BaseTween<?> baseTween) {
+                         isComplete = true;
+                     }
+                 })
+                 .start(LudumDare33.tween);
+        }
 
         Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
     }
@@ -125,6 +140,14 @@ public class ChapterScreen extends LDScreen  {
     private void renderChapter(float delta) {
         // Update the time
         time += delta;
+
+        if (chapter == 0) {
+            batch.draw(titles, 0f, 0f, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+            Assets.font.setColor(promptPulse);
+            Assets.font.draw(batch, "[WHITE]Press[] ENTER", 110f, 150f);
+            Assets.font.setColor(1f, 1f, 1f, 1f);
+            return;
+        }
 
         // Draw the curtain
         batch.setColor(curtainColor);
@@ -155,6 +178,10 @@ public class ChapterScreen extends LDScreen  {
     @Override
     public void update(float delta) {
         super.update(delta);
+        if (chapter == 0 &&
+            (Gdx.input.isKeyJustPressed(Input.Keys.ENTER) || Gdx.input.isKeyJustPressed(Input.Keys.SPACE))) {
+            isComplete = true;
+        }
     }
 
     @Override

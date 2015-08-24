@@ -26,6 +26,7 @@ public class Assets {
     public static Texture blackTexture;
     public static Texture whiteTexture;
     public static Texture marioTilesetTexture;
+    public static Texture titleScreenTexture;
 
     public static TextureRegion     testTextureRegion;
     public static TextureRegion     deadQuestionBlockRegion;
@@ -104,6 +105,7 @@ public class Assets {
         whiteTexture = new Texture("white.png");
         testTextureRegion = new TextureRegion(testTexture, testTexture.getWidth(), testTexture.getHeight());
         marioTilesetTexture = new Texture("maps/mario-tileset.png");
+        titleScreenTexture = new Texture("title-screen.png");
 
         thoughtBubble = new NinePatch(atlas.findRegion("thought"), 4, 5, 4, 9);
         //thoughtBubble.scale(1/16f, 1/16f);
@@ -268,6 +270,7 @@ public class Assets {
         font32pt.dispose();
         testTexture.dispose();
         marioTilesetTexture.dispose();
+        titleScreenTexture.dispose();
         atlas.dispose();
         soundManager.dispose();
     }
