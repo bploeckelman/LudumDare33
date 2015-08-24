@@ -41,6 +41,7 @@ public class StoryManager {
         storySequence.add(new StoryObject(this, null, World.Phase.GET_MUSHROOM));
         storySequence.add(new StoryObject(this, null, World.Phase.UNDERWORLD));
         storySequence.add(new StoryObject(this, null, World.Phase.OVERWORLD_FIRST));
+        storySequence.add(new StoryObject(this, null, World.Phase.SHROOM_LAND));
         storySequence.add(new StoryObject(this, null, World.Phase.BRIDGES_TO_FACTORY));
         storySequence.add(new StoryObject(this, 3, null));
         storySequence.add(new StoryObject(this, null, World.Phase.INTO_THE_FACTORY));

@@ -62,6 +62,7 @@ public class World {
         GET_MUSHROOM,
         OVERWORLD_FIRST,
         UNDERWORLD,
+        SHROOM_LAND,
         BRIDGES_TO_FACTORY,
         INTO_THE_FACTORY,
         DEEP_FACTORY,
@@ -559,6 +560,7 @@ public class World {
                          @Override
                          public void onEvent(int i, BaseTween<?> baseTween) {
                              Array<String> messages = new Array<String>();
+                             messages.add(GameText.getText("cultFlavor"));
                              messages.add(GameText.getText("cultEnter"));
                              dialogue.show(1, 10, 18, 4, messages);
                          }
@@ -566,8 +568,8 @@ public class World {
                      .start(LudumDare33.tween);
                 break;
             case OVERWORLD_FIRST:
-                Gdx.gl.glClearColor(Assets.BLUE_SKY_R, Assets.BLUE_SKY_G, Assets.BLUE_SKY_B, 1f);
-                score = new Score("F-D");
+                Gdx.gl.glClearColor(Assets.BLUE_SKY_R - 0.1f, Assets.BLUE_SKY_G - 0.1f, Assets.BLUE_SKY_B - 0.1f, 1f);
+                score = new Score("F-C");
 
                 loadMap("maps/level2.tmx");
                 Assets.soundManager.playMusic(SoundManager.MusicOptions.MARIO_MAJOR_BK);
@@ -596,7 +598,7 @@ public class World {
                 break;
             case UNDERWORLD:
                 Gdx.gl.glClearColor(Assets.UNDERGROUND_R, Assets.UNDERGROUND_G, Assets.UNDERGROUND_B, 1f);
-                score = new Score("F-E");
+                score = new Score("F-D");
 
                 loadMap("maps/level3.tmx");
 
@@ -616,6 +618,31 @@ public class World {
                          }
                      })
                      .start(LudumDare33.tween);
+                break;
+            case SHROOM_LAND:
+                Gdx.gl.glClearColor(Assets.NIGHT_SKY_R + 0.2f, Assets.NIGHT_SKY_G + 0.2f, Assets.NIGHT_SKY_B + 0.2f, 1f);
+
+                score = new Score("F-E");
+
+                loadMap("maps/level4.tmx");
+
+                Assets.soundManager.playMusic(SoundManager.MusicOptions.MARIO_MAJOR_BK);
+
+                // TODO: spawn them marios
+
+                player = new PlayerGoomba(this, new Vector2(97f, 2f));
+                player.moveDelay = EntityBase.PIPEDELAY;
+                player.setRageMode();
+                TweenHelper.tweenPipeTravel(player, RectangleAccessor.X, player.getBounds().x - 1f)
+                           .setCallback(new TweenCallback() {
+                               @Override
+                               public void onEvent(int i, BaseTween<?> baseTween) {
+                                   Array<String> messages = new Array<String>();
+                                   messages.add(GameText.getText("level4Intro"));
+                                   dialogue.show(1, 10, 18, 4, messages);
+                               }
+                           })
+                           .start(LudumDare33.tween);
                 break;
             case BRIDGES_TO_FACTORY:
                 Gdx.gl.glClearColor(Assets.NIGHT_SKY_R, Assets.NIGHT_SKY_G, Assets.NIGHT_SKY_B, 1f);
@@ -1123,8 +1150,8 @@ public class World {
                         }
                         break;
                     case 1:
-                        if (player.getBounds().x < 80.5f) {
-                            player.getBounds().x = 80.5f;
+                        if (player.getBounds().x < 84f) {
+                            player.getBounds().x = 84f;
                             segment++;
 
                             Array<String> messages = new Array<String>();
@@ -1219,6 +1246,9 @@ public class World {
                             segment++;
                             Array<String> messages = new Array<String>();
                             messages.add(GameText.getText("cultCenter3"));
+                            messages.add(GameText.getText("cultCenter4"));
+                            messages.add(GameText.getText("cultCenter5"));
+                            messages.add(GameText.getText("cultCenter6"));
                             dialogue.show(1, 10, 18, 4, messages);
                         }
                         break;
@@ -1366,6 +1396,24 @@ public class World {
                                         }
                                     })
                                     .start(LudumDare33.tween);
+                        }
+                }
+                break;
+            case SHROOM_LAND:
+                switch (segment) {
+                    case 0:
+                        if (!dialogue.isActive()) {
+                            segment++;
+                        }
+                        break;
+                    case 1:
+                        if (player.getBounds().x < 2.5f && player.getBounds().y < 2.1f) {
+                            player.moveDelay = EntityBase.PIPEDELAY;
+                            fadeOut();
+                            Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
+                                 .target(player.getBounds().x - 1)
+                                 .ease(Linear.INOUT)
+                                 .start(LudumDare33.tween);
                         }
                 }
                 break;
