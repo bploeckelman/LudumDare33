@@ -60,6 +60,7 @@ public class World {
         GET_MUSHROOM,
         OVERWORLD_FIRST,
         UNDERWORLD,
+        BRIDGES_TO_FACTORY,
         INTO_THE_FACTORY,
         DEEP_FACTORY,
         CULT_ROOM
@@ -539,9 +540,8 @@ public class World {
                      .start(LudumDare33.tween);
                 break;
             case OVERWORLD_FIRST:
-
                 Gdx.gl.glClearColor(Assets.BLUE_SKY_R, Assets.BLUE_SKY_G, Assets.BLUE_SKY_B, 1f);
-                score = new Score("F-E");
+                score = new Score("F-D");
 
                 loadMap("maps/level2.tmx");
                 Assets.soundManager.playMusic(SoundManager.MusicOptions.MARIO_MAJOR_BK);
@@ -570,14 +570,9 @@ public class World {
                 break;
             case UNDERWORLD:
                 Gdx.gl.glClearColor(Assets.UNDERGROUND_R, Assets.UNDERGROUND_G, Assets.UNDERGROUND_B, 1f);
-                score = new Score("F-F");
+                score = new Score("F-E");
 
                 loadMap("maps/level3.tmx");
-
-//                new MarioDumb(this, new Vector2(75f, 3f));
-//                new MarioDumb(this, new Vector2(47f, 3f));
-//                new MarioDumb(this, new Vector2(17f, 10f));
-//                new MarioDumb(this, new Vector2(3f, 3f));
 
                 Assets.soundManager.playMusic(SoundManager.MusicOptions.DNUORGREDNU);
 
@@ -595,7 +590,29 @@ public class World {
                          }
                      })
                      .start(LudumDare33.tween);
+                break;
+            case BRIDGES_TO_FACTORY:
+                Gdx.gl.glClearColor(Assets.NIGHT_SKY_R, Assets.NIGHT_SKY_G, Assets.NIGHT_SKY_B, 1f);
 
+                score = new Score("F-F");
+
+                loadMap("maps/level5.tmx");
+
+                Assets.soundManager.playMusic(SoundManager.MusicOptions.ZELDA_BK);
+
+                player = new PlayerGoomba(this, new Vector2(97f, 2f));
+                player.moveDelay = EntityBase.PIPEDELAY;
+                player.setRageMode();
+                TweenHelper.tweenPipeTravel(player, RectangleAccessor.X, player.getBounds().x - 1f)
+                           .setCallback(new TweenCallback() {
+                               @Override
+                               public void onEvent(int i, BaseTween<?> baseTween) {
+                                   Array<String> messages = new Array<String>();
+                                   messages.add(GameText.getText("level5Intro"));
+                                   dialogue.show(1, 10, 18, 4, messages);
+                               }
+                           })
+                           .start(LudumDare33.tween);
                 break;
         }
     }
@@ -1307,6 +1324,16 @@ public class World {
                                     .start(LudumDare33.tween);
                         }
                 }
+                break;
+            case BRIDGES_TO_FACTORY:
+                switch (segment) {
+                    case 0:
+                        if (!dialogue.isActive()) {
+                            segment++;
+                            // TODO: script all the things! (or at least an exit handler)
+                        }
+                }
+                break;
         }
     }
 

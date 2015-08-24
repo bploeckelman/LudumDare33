@@ -59,8 +59,9 @@ public class GameText {
         // Respawn
         strings.put("respawn", "Please be more careful, this is Ludum Dare so we won't make you start again.");
 
-        // Level2
+        // Level Intros
         strings.put("level2Intro", strings.get("playerName") + ":\"Well now, this is... different.\"");
+        strings.put("level5Intro", strings.get("playerName") + ":\"I must be getting close to something important by now.\"");
 
         // Cult room
         strings.put("cultEnter", strings.get("playerName") + ":\"This is creepy...\"");
