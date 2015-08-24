@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld33.LudumDare33;
 import lando.systems.ld33.World;
 import lando.systems.ld33.entities.mario.MarioDumb;
+import lando.systems.ld33.entities.mario.MarioSmart;
 import lando.systems.ld33.utils.Assets;
 import lando.systems.ld33.utils.SoundManager;
 
@@ -123,7 +124,7 @@ public class TubeObject extends ObjectBase {
                 public void onEvent(int type, BaseTween<?> source) {
                     isExploding = false;
 
-                    new MarioDumb(world, new Vector2(bounds.x + 1, bounds.y),
+                    new MarioSmart(world, new Vector2(bounds.x + 1, bounds.y),
                          contents == TubeContents.large);
                 }
             })
