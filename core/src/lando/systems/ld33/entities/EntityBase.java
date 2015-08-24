@@ -22,7 +22,7 @@ public class EntityBase {
 //    protected TextureRegion keyframe;
     protected Rectangle bounds;
     protected Vector2 velocity;
-    protected boolean facesRight;
+    public boolean facesRight;
     protected boolean grounded;
     protected State state;
     public float maxVelocity = 10;

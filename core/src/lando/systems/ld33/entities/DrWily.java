@@ -8,7 +8,7 @@ import lando.systems.ld33.utils.Assets;
 /**
  * Brian Ploeckelman created on 8/23/2015.
  */
-public class DrWily extends EntityBase {
+public class DrWily extends ChanterBase {
 
     public DrWily(World w, Vector2 p) {
         super(w);

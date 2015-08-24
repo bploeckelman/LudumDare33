@@ -561,8 +561,11 @@ public class World {
                 kingHippo   = new KingHippo(this, new Vector2(2.5f, 2));
                 motherBrain = new MotherBrain(this, new Vector2(6, 2));
                 dracula     = new Dracula(this, new Vector2(13, 2));
+                dracula.facesRight = true;
                 luigi       = new Luigi(this, new Vector2(16, 2));
+                luigi.facesRight = true;
                 drWily      = new DrWily(this, new Vector2(18, 2));
+                drWily.facesRight = true;
                 cape        = new Cape(this, new Vector2(9, 2));
 
                 ganon.addThought("LUDUM DARE");
@@ -1273,6 +1276,11 @@ public class World {
                 switch (segment) {
                     case 0:
                         if (player.getBounds().x < 10){
+                            kingHippo.chant(false);
+                            motherBrain.chant(false);
+                            dracula.chant(false);
+                            luigi.chant(false);
+                            drWily.chant(false);
                             repeatingTween.kill();
                             player.moveDelay = 10000;
                             segment++;
@@ -1283,6 +1291,8 @@ public class World {
                         break;
                     case 1:
                         if (!dialogue.isActive()){
+                            ganon.chant(false);
+                            kingHippo.chant(true);
                             segment++;
                             Array<String> messages = new Array<String>();
                             messages.add(GameText.getText("cultCenter2"));
@@ -1292,6 +1302,8 @@ public class World {
                     case 2:
                         if (!dialogue.isActive()){
                             segment++;
+                            kingHippo.chant(false);
+                            motherBrain.chant(true);
                             Array<String> messages = new Array<String>();
                             messages.add(GameText.getText("cultCenter3"));
                             dialogue.show(1, 10, 18, 4, messages);
@@ -1300,6 +1312,8 @@ public class World {
                     case 3:
                         if (!dialogue.isActive()){
                             segment++;
+                            motherBrain.chant(false);
+                            dracula.chant(true);
                             Array<String> messages = new Array<String>();
                             messages.add(GameText.getText("cultCenter4"));
                             dialogue.show(1, 10, 18, 4, messages);
@@ -1308,6 +1322,8 @@ public class World {
                     case 4:
                         if (!dialogue.isActive()){
                             segment++;
+                            dracula.chant(false);
+                            luigi.chant(true);
                             Array<String> messages = new Array<String>();
                             messages.add(GameText.getText("cultCenter5"));
                             dialogue.show(1, 10, 18, 4, messages);
@@ -1316,6 +1332,8 @@ public class World {
                     case 5:
                         if (!dialogue.isActive()){
                             segment++;
+                            luigi.chant(false);
+                            drWily.chant(true);
                             Array<String> messages = new Array<String>();
                             messages.add(GameText.getText("cultCenter6"));
                             dialogue.show(1, 10, 18, 4, messages);
@@ -1323,6 +1341,7 @@ public class World {
                         break;
                     case 6:
                         if (!dialogue.isActive()){
+                            drWily.chant(false);
                             segment++;
                             endDelay = 5;
                             cape.moveDelay = 10000;
@@ -1372,6 +1391,12 @@ public class World {
                         endDelay -= dt;
                         if (endDelay < 0){
                             segment++;
+                            ganon.chant(true);
+                            kingHippo.chant(true);
+                            motherBrain.chant(true);
+                            dracula.chant(true);
+                            luigi.chant(true);
+                            drWily.chant(true);
                             Array<String> messages = new Array<String>();
                             messages.add(GameText.getText("theEnd1"));
                             dialogue.show(1, 10, 18, 4, messages);

@@ -8,7 +8,7 @@ import lando.systems.ld33.utils.Assets;
 /**
  * Brian Ploeckelman created on 8/23/2015.
  */
-public class MotherBrain extends EntityBase {
+public class MotherBrain extends ChanterBase {
 
     public MotherBrain(World w, Vector2 p) {
         super(w);

@@ -45,7 +45,7 @@ public class ParticleManager {
     }
 
     public void addSparkles(Rectangle rect) {
-        for (int i = 0; i < 50; i++){
+        for (int i = 0; i < 30; i++){
             Color c = new Color(1, MathUtils.random(), 0, 1);
             Particle part = particlePool.obtain();
             float speed = MathUtils.random();

@@ -8,7 +8,7 @@ import lando.systems.ld33.utils.Assets;
 /**
  * Brian Ploeckelman created on 8/23/2015.
  */
-public class KingHippo extends EntityBase {
+public class KingHippo extends ChanterBase {
 
     public KingHippo(World w, Vector2 p) {
         super(w);

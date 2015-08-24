@@ -8,7 +8,7 @@ import lando.systems.ld33.utils.Assets;
 /**
  * Brian Ploeckelman created on 8/23/2015.
  */
-public class Ganon extends EntityBase {
+public class Ganon extends ChanterBase {
 
     public Ganon(World w, Vector2 p) {
         super(w);

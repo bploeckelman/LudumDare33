@@ -259,22 +259,35 @@ public class Assets {
             atlas.findRegion("star").split(16, 16)[0]);
         starAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
-        TextureRegion motherBrainRegion = atlas.findRegion("mother-brain");
-        TextureRegion kingHippoRegion   = atlas.findRegion("king-hippo");
-        TextureRegion ganonRegion       = atlas.findRegion("ganon");
-        TextureRegion draculaRegion     = atlas.findRegion("dracula");
-        TextureRegion luigiRegion       = atlas.findRegion("luigi");
-        TextureRegion drWilyRegion      = atlas.findRegion("dr-wily");
-        draculaRegion.flip(true, false);
-        luigiRegion.flip(true, false);
-        drWilyRegion.flip(true, false);
+        TextureRegion[] motherBrainRegion = atlas.findRegion("mother-brain").split(128,64)[0];
+        TextureRegion[] kingHippoRegion   = atlas.findRegion("king-hippo").split(64, 128)[0];
+        TextureRegion[] ganonRegion       = atlas.findRegion("ganon").split(32, 64)[0];
+        TextureRegion[] draculaRegion     = atlas.findRegion("dracula").split(32, 64)[0];
+        TextureRegion[] luigiRegion       = atlas.findRegion("luigi").split(32, 64)[0];
+        TextureRegion[] drWilyRegion      = atlas.findRegion("dr-wily").split(32, 64)[0];
+//        draculaRegion.flip(true, false);
+//        luigiRegion.flip(true, false);
+//        drWilyRegion.flip(true, false);
 
-        motherBrainAnimation = new Animation(0.15f, motherBrainRegion);
-        kingHippoAnimation   = new Animation(0.15f, kingHippoRegion);
-        ganonAnimation       = new Animation(0.15f, ganonRegion);
-        draculaAnimation     = new Animation(0.15f, draculaRegion);
-        luigiAnimation       = new Animation(0.15f, luigiRegion);
-        drWilyAnimation      = new Animation(0.15f, drWilyRegion);
+        float chantSpeed = .3f;
+        motherBrainAnimation = new Animation(chantSpeed, motherBrainRegion);
+        motherBrainAnimation.setPlayMode(Animation.PlayMode.LOOP);
+
+        kingHippoAnimation   = new Animation(chantSpeed, kingHippoRegion);
+        kingHippoAnimation.setPlayMode(Animation.PlayMode.LOOP);
+
+        ganonAnimation       = new Animation(chantSpeed, ganonRegion);
+        ganonAnimation.setPlayMode(Animation.PlayMode.LOOP);
+
+        draculaAnimation     = new Animation(chantSpeed, draculaRegion);
+        draculaAnimation.setPlayMode(Animation.PlayMode.LOOP);
+
+        luigiAnimation       = new Animation(chantSpeed, luigiRegion);
+        luigiAnimation.setPlayMode(Animation.PlayMode.LOOP);
+
+        drWilyAnimation      = new Animation(chantSpeed, drWilyRegion);
+        drWilyAnimation.setPlayMode(Animation.PlayMode.LOOP);
+
 
         soundManager = new SoundManager();
 

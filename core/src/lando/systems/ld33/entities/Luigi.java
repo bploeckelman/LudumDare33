@@ -8,7 +8,7 @@ import lando.systems.ld33.utils.Assets;
 /**
  * Brian Ploeckelman created on 8/23/2015.
  */
-public class Luigi extends EntityBase {
+public class Luigi extends ChanterBase {
 
     public Luigi(World w, Vector2 p) {
         super(w);
