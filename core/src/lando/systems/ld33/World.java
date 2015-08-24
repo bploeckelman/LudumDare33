@@ -480,6 +480,7 @@ public class World {
                 break;
             case INTO_THE_FACTORY:
                 Gdx.gl.glClearColor(0.25f, 0.25f, 0.25f, 1);
+                score = new Score("F-B");
                 loadMap("maps/level-factoryintro.tmx");
                 Assets.soundManager.playMusic(SoundManager.MusicOptions.ZELDA_BK);
                 player = new PlayerGoomba(this, new Vector2(97, 2));
@@ -498,7 +499,7 @@ public class World {
                 break;
             case DEEP_FACTORY:
                 Gdx.gl.glClearColor(0.25f, 0.25f, 0.25f, 1f);
-
+                score = new Score("F-A");
                 loadMap("maps/level-factory.tmx");
 
                 player = new PlayerGoomba(this, new Vector2(97, 2));
@@ -569,7 +570,7 @@ public class World {
                 break;
             case OVERWORLD_FIRST:
                 Gdx.gl.glClearColor(Assets.BLUE_SKY_R - 0.1f, Assets.BLUE_SKY_G - 0.1f, Assets.BLUE_SKY_B - 0.1f, 1f);
-                score = new Score("F-C");
+                score = new Score("F-E");
 
                 loadMap("maps/level2.tmx");
                 Assets.soundManager.playMusic(SoundManager.MusicOptions.MARIO_MAJOR_BK);
@@ -598,7 +599,7 @@ public class World {
                 break;
             case UNDERWORLD:
                 Gdx.gl.glClearColor(Assets.UNDERGROUND_R, Assets.UNDERGROUND_G, Assets.UNDERGROUND_B, 1f);
-                score = new Score("F-D");
+                score = new Score("F-F");
 
                 loadMap("maps/level3.tmx");
 
@@ -622,13 +623,19 @@ public class World {
             case SHROOM_LAND:
                 Gdx.gl.glClearColor(Assets.NIGHT_SKY_R + 0.2f, Assets.NIGHT_SKY_G + 0.2f, Assets.NIGHT_SKY_B + 0.2f, 1f);
 
-                score = new Score("F-E");
+                score = new Score("F-D");
 
                 loadMap("maps/level4.tmx");
 
                 Assets.soundManager.playMusic(SoundManager.MusicOptions.MARIO_MAJOR_BK);
 
-                // TODO: spawn them marios
+                new MarioSmart(this, new Vector2(72, 7));
+                new MarioSmart(this, new Vector2(34, 10));
+                new MarioSmart(this, new Vector2(4, 5));
+
+                new MarioDumb(this, new Vector2(67, 6));
+                new MarioDumb(this, new Vector2(43, 5));
+
 
                 player = new PlayerGoomba(this, new Vector2(97f, 2f));
                 player.moveDelay = EntityBase.PIPEDELAY;
@@ -647,7 +654,7 @@ public class World {
             case BRIDGES_TO_FACTORY:
                 Gdx.gl.glClearColor(Assets.NIGHT_SKY_R, Assets.NIGHT_SKY_G, Assets.NIGHT_SKY_B, 1f);
 
-                score = new Score("F-F");
+                score = new Score("F-C");
 
                 loadMap("maps/level5.tmx");
 
@@ -702,7 +709,7 @@ public class World {
                         if (!dialogue.isActive()) {
                             segment++;
                             marioAI = new MarioAI(this, new Vector2(10, 2));
-                            player.moveDelay = 4f;
+                            player.moveDelay = 6f;
                         }
                         break;
                     case 2:
@@ -914,6 +921,7 @@ public class World {
                         if (!dialogue.isActive()){
                             segment++;
                             marioAI = new MarioAI(this, new Vector2(10, 2));
+                            player.moveDelay = 6;
                         }
                         break;
                     case 2:

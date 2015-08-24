@@ -75,7 +75,7 @@ public class PlayerGoomba extends EntityBase {
         world.addScore(100);
         world.shake.shake(1f);
         state = State.Smashed;
-        moveDelay = 2;
+        moveDelay = Math.max(2, moveDelay);
         addThought("OOF");
         Assets.soundManager.playSound(SoundManager.SoundOptions.GOOMBA_SQUASH);
     }
