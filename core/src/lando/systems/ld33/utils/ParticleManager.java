@@ -4,6 +4,7 @@ package lando.systems.ld33.utils;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
@@ -39,6 +40,20 @@ public class ParticleManager {
             float x = pos.x + .3f + (MathUtils.random()/3f);
             part.init(new Vector2(x, pos.y), new Vector2(MathUtils.cosDeg(dir) * speed, MathUtils.sinDeg(dir) * speed ), new Vector2(0,-2f),
                     new Color(1,0,0,1), new Color(1,0,0,.1f), .02f + (MathUtils.random() / 20f), 2);
+            activeParticles.add(part);
+        }
+    }
+
+    public void addSparkles(Rectangle rect) {
+        for (int i = 0; i < 50; i++){
+            Color c = new Color(1, MathUtils.random(), 0, 1);
+            Particle part = particlePool.obtain();
+            float speed = MathUtils.random();
+            float dir = MathUtils.random(360);
+            float vX = MathUtils.cosDeg(dir);
+            float vY = MathUtils.sinDeg(dir);
+            part.init(new Vector2(rect.x + rect.width/2 + vX/2 - (1/16f), rect.y + rect.height/2 + vY/2), new Vector2(vX * speed, vY * speed), new Vector2(0,0),
+                    c, new Color(c.r,c.g,c.b,.1f), .1f, .7f, Assets.sparkleTexture);
             activeParticles.add(part);
         }
     }

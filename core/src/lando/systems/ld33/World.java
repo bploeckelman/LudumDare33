@@ -1057,6 +1057,7 @@ public class World {
                         }
                         break;
                     case 3:
+                        particles.addSparkles(player.getBounds()); //sparkle all the time until you can move again
                         if (player.moveDelay <= 0){
                             cameraLock = true;
                             segment++;

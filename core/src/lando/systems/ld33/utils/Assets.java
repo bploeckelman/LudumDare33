@@ -28,6 +28,8 @@ public class Assets {
     public static Texture marioTilesetTexture;
     public static Texture titleScreenTexture;
 
+    public static TextureRegion sparkleTexture;
+
     public static TextureRegion     testTextureRegion;
     public static TextureRegion     deadQuestionBlockRegion;
     public static TextureRegion[][] mushrooms;
@@ -111,6 +113,8 @@ public class Assets {
         testTextureRegion = new TextureRegion(testTexture, testTexture.getWidth(), testTexture.getHeight());
         marioTilesetTexture = new Texture("maps/mario-tileset.png");
         titleScreenTexture = new Texture("title-screen.png");
+
+        sparkleTexture = atlas.findRegion("sparkle");
 
         thoughtBubble = new NinePatch(atlas.findRegion("thought"), 4, 5, 4, 9);
         //thoughtBubble.scale(1/16f, 1/16f);

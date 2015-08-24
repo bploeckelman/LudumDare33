@@ -1,7 +1,9 @@
 package lando.systems.ld33.utils;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
 
@@ -18,6 +20,7 @@ public class Particle implements Pool.Poolable{
     float scale;
     float timeToLive;
     float totalTTL;
+    TextureRegion texture;
 
     public Particle(){
         pos = new Vector2();
@@ -35,6 +38,11 @@ public class Particle implements Pool.Poolable{
     }
 
     public void init(Vector2 p ,Vector2 v, Vector2 a, Color iC, Color fC, float s, float t) {
+        init(p, v, a, iC, fC, s, t, new TextureRegion(Assets.whiteTexture));
+
+    }
+
+    public void init(Vector2 p ,Vector2 v, Vector2 a, Color iC, Color fC, float s, float t, TextureRegion tex) {
         pos = p;
         vel = v;
         accel = a;
@@ -43,6 +51,7 @@ public class Particle implements Pool.Poolable{
         scale = s;
         timeToLive = t;
         totalTTL = t;
+        texture = tex;
     }
 
     public void update(float dt){
@@ -52,8 +61,8 @@ public class Particle implements Pool.Poolable{
     }
 
     public void render(SpriteBatch batch){
-        batch.setColor(finalColor.cpy().lerp(initalColor, timeToLive/totalTTL));
-        batch.draw(Assets.whiteTexture, pos.x, pos.y, scale, scale);
+        batch.setColor(finalColor.cpy().lerp(initalColor, timeToLive / totalTTL));
+        batch.draw(texture, pos.x, pos.y, scale, scale);
         batch.setColor(Color.WHITE);
     }
 }
