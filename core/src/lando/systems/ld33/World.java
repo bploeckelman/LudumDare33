@@ -32,6 +32,7 @@ import lando.systems.ld33.entities.items.ItemEntity;
 import lando.systems.ld33.entities.mapobjects.*;
 import lando.systems.ld33.utils.Assets;
 import lando.systems.ld33.utils.GameText;
+import lando.systems.ld33.utils.ParticleManager;
 import lando.systems.ld33.utils.SoundManager;
 
 import java.util.Iterator;
@@ -53,6 +54,7 @@ public class World {
         LEVEL2
     }
 
+    public ParticleManager            particles;
     public TiledMapTileLayer          foregroundLayer;
     public TiledMapTileLayer          backgroundLayer;
     public TiledMap                   map;
@@ -87,6 +89,7 @@ public class World {
 
     public World(OrthographicCamera cam, Phase p, SpriteBatch batch) {
         this.batch = batch;
+        particles = new ParticleManager();
         phase = p;
         endDelay = 0;
         done = false;
@@ -122,7 +125,7 @@ public class World {
 
     public void update(float dt) {
         dialogue.update(dt);
-
+        particles.update(dt);
         Iterator<EntityBase> iterator = gameEntities.iterator();
         while(iterator.hasNext()) {
             EntityBase entity = iterator.next();
@@ -171,6 +174,8 @@ public class World {
             for (ObjectBase object : mapObjects) {
                 object.render(batch);
             }
+
+            particles.render(batch);
 
             mapRenderer.renderTileLayer(foregroundLayer);
             for (EntityBase entity : gameEntities){
