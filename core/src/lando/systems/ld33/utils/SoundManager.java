@@ -32,14 +32,20 @@ public class SoundManager{
     public enum MusicOptions {
         DNUORGREDNU,
         MARIO_MAJOR,
-        MARIO_MINOR
+        MARIO_MAJOR_BK,
+        MARIO_MINOR,
+        METRIOD_BK,
+        ZELDA_BK
     }
     private enum MusicPieces {
         DNUORGREDNU,
         MARIO_MAJOR_INTRO,
         MARIO_MAJOR_LOOP,
+        MARIO_MAJOR_LOOP_BK,
         MARIO_MINOR_INTRO,
-        MARIO_MINOR_LOOP
+        MARIO_MINOR_LOOP,
+        METROID_LOOP_BK,
+        ZELDA_MYSTERIOUS_LOOP_BK
     }
 
     private HashMap<SoundOptions, Sound> soundMap = new HashMap<SoundOptions, Sound>();
@@ -69,8 +75,11 @@ public class SoundManager{
         musicMap.put(MusicPieces.DNUORGREDNU, Gdx.audio.newSound(Gdx.files.internal("sounds/music/dnuorgrednu.mp3")));
         musicMap.put(MusicPieces.MARIO_MAJOR_INTRO, Gdx.audio.newSound(Gdx.files.internal("sounds/music/mario-major-intro.mp3")));
         musicMap.put(MusicPieces.MARIO_MAJOR_LOOP, Gdx.audio.newSound(Gdx.files.internal("sounds/music/mario-major-loop.mp3")));
+        musicMap.put(MusicPieces.MARIO_MAJOR_LOOP_BK, Gdx.audio.newSound(Gdx.files.internal("sounds/music/mario-major-backwards.mp3")));
         musicMap.put(MusicPieces.MARIO_MINOR_INTRO, Gdx.audio.newSound(Gdx.files.internal("sounds/music/mario-minor-intro.mp3")));
         musicMap.put(MusicPieces.MARIO_MINOR_LOOP, Gdx.audio.newSound(Gdx.files.internal("sounds/music/mario-minor-loop.mp3")));
+        musicMap.put(MusicPieces.METROID_LOOP_BK, Gdx.audio.newSound(Gdx.files.internal("sounds/music/metriod-tourian-loop-bk.mp3")));
+        musicMap.put(MusicPieces.ZELDA_MYSTERIOUS_LOOP_BK, Gdx.audio.newSound(Gdx.files.internal("sounds/music/zelda-mysterious-loop-backwards.mp3")));
     }
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -110,8 +119,8 @@ public class SoundManager{
         switch (musicOption) {
 
             case DNUORGREDNU:
-                currentLoopID = musicMap.get(MusicPieces.DNUORGREDNU).loop();
                 currentLoopSound = musicMap.get(MusicPieces.DNUORGREDNU);
+                currentLoopID = currentLoopSound.loop();
                 break;
 
             case MARIO_MAJOR:
@@ -130,6 +139,11 @@ public class SoundManager{
                         .start(LudumDare33.tween);
                 break;
 
+            case MARIO_MAJOR_BK:
+                currentLoopSound = musicMap.get(MusicPieces.MARIO_MAJOR_LOOP_BK);
+                currentLoopID = currentLoopSound.loop();
+                break;
+
             case MARIO_MINOR:
                 musicMap.get(MusicPieces.MARIO_MINOR_INTRO).play();
                 Tween.call(new TweenCallback() {
@@ -144,6 +158,16 @@ public class SoundManager{
                 })
                         .delay(3.2f)
                         .start(LudumDare33.tween);
+                break;
+
+            case METRIOD_BK:
+                currentLoopSound = musicMap.get(MusicPieces.METROID_LOOP_BK);
+                currentLoopID = currentLoopSound.loop();
+                break;
+
+            case ZELDA_BK:
+                currentLoopSound = musicMap.get(MusicPieces.ZELDA_MYSTERIOUS_LOOP_BK);
+                currentLoopID = currentLoopSound.loop();
                 break;
 
             default:

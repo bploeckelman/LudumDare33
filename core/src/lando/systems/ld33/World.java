@@ -33,7 +33,6 @@ import lando.systems.ld33.entities.items.ItemEntity;
 import lando.systems.ld33.entities.mapobjects.*;
 import lando.systems.ld33.entities.mario.Mario;
 import lando.systems.ld33.entities.mario.MarioAI;
-import lando.systems.ld33.entities.mario.MarioDumb;
 import lando.systems.ld33.entities.mario.MarioSmart;
 import lando.systems.ld33.utils.*;
 
@@ -536,10 +535,12 @@ public class World {
                      .start(LudumDare33.tween);
                 break;
             case OVERWORLD_FIRST:
+
                 Gdx.gl.glClearColor(Assets.BLUE_SKY_R, Assets.BLUE_SKY_G, Assets.BLUE_SKY_B, 1f);
                 score = new Score("F-E");
 
                 loadMap("maps/level2.tmx");
+                Assets.soundManager.playMusic(SoundManager.MusicOptions.MARIO_MAJOR_BK);
 
                 new MarioSmart(this, new Vector2(75f, 3f));
                 new MarioSmart(this, new Vector2(47f, 3f));
@@ -767,7 +768,6 @@ public class World {
                             Tween.call(new TweenCallback() {
                                 @Override
                                 public void onEvent(int i, BaseTween<?> baseTween) {
-                                    Assets.soundManager.playMusic(SoundManager.MusicOptions.MARIO_MINOR);
                                     player.setSadMode();
                                 }
                             })
@@ -915,6 +915,7 @@ public class World {
                             Tween.call(new TweenCallback() {
                                     @Override
                                     public void onEvent(int i, BaseTween<?> baseTween) {
+                                        Assets.soundManager.playMusic(SoundManager.MusicOptions.MARIO_MINOR);
                                         loadMap("maps/inhome-bedroom-sad.tmx");
                                         player.setSadMode();
                                         player.addThought("* sigh *");
@@ -978,6 +979,7 @@ public class World {
                         // Just picked up the Mushroom
                         if (player.raged){
                             Assets.soundManager.playSound(SoundManager.SoundOptions.GOOMBA_MUSHROOM_GET);
+                            Assets.soundManager.playMusic(SoundManager.MusicOptions.MARIO_MAJOR_BK);
                             segment++;
                             player.moveDelay = 3f;
                             cameraLock = false;
