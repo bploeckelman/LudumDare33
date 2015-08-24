@@ -39,7 +39,7 @@ public class GameText {
         strings.put("injuredAgain", "Foreman:\"Injured again? Alright, head home and see your family.\"");
 
         // Heading to empty house
-        strings.put("mistyHope", strings.get("playerName") + ":\"Cheer up Billy, she'll be back. ... ... She always comes back...\"");
+        strings.put("mistyHope", strings.get("playerName") + ":\"Cheer up Billy, she'll be back. She always comes back.\"");
 
         // Empty Nest
         strings.put("ellipses", strings.get("playerName") + ":\"... ... ...\"");
@@ -82,6 +82,13 @@ public class GameText {
         strings.put("cultCenter4", "Dracula: \"Blood tastes good!\"");
         strings.put("cultCenter5", "Luigi: \"Yes Dracula, we know...\"");
         strings.put("cultCenter6", "Dr. Wily: \"Here, take this cape and join us.\"");
+
+        strings.put("cultReflection1", strings.get("playerName") + ": Is this what I've been waiting for my whole life?");
+        strings.put("cultReflection2", strings.get("playerName") + ": It could be just the thing to provide a sense of meaning... of purpose...");
+        strings.put("cultReflection3", strings.get("playerName") + ": Finally... a place to belong! A group of friends!   A family!");
+        strings.put("cultReflection4", strings.get("playerName") + ":\"... ... ...\"");
+        strings.put("cultReflection5", strings.get("playerName") + ":\"I'll do it!\"");
+        strings.put("cultReflection6", strings.get("playerName") + ":\"Hand over that cloak, let's do this thing!\"");
 
         // The End
         strings.put("theEnd1", "Developers: \"Congratulations on becoming the ultimate monster, and thanks for playing!\"");

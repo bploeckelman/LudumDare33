@@ -567,7 +567,7 @@ public class World {
                 luigi.facesRight = true;
                 drWily      = new DrWily(this, new Vector2(18, 2));
                 drWily.facesRight = true;
-                cape        = new Cape(this, new Vector2(9, 2));
+                cape        = new Cape(this, new Vector2(8, 2));
 
                 capeFloatingTween = Tween.to(cape.getBounds(), RectangleAccessor.Y, 1f)
                                         .target(4)
@@ -1014,7 +1014,7 @@ public class World {
                     case 1:
                         if (!dialogue.isActive()) {
                             segment++;
-                            player.addThought("I hope");
+                            player.addThought("Hopefully");
                         }
                         break;
                     case 2:
@@ -1348,6 +1348,19 @@ public class World {
                         }
                         break;
                     case 6:
+                        if (!dialogue.isActive()) {
+                            segment++;
+                            Array<String> messages = new Array<String>();
+                            messages.add(GameText.getText("cultReflection1"));
+                            messages.add(GameText.getText("cultReflection2"));
+                            messages.add(GameText.getText("cultReflection3"));
+                            messages.add(GameText.getText("cultReflection4"));
+                            messages.add(GameText.getText("cultReflection5"));
+                            messages.add(GameText.getText("cultReflection6"));
+                            dialogue.show(1, 10, 18, 4, messages);
+                        }
+                        break;
+                    case 7:
                         if (!dialogue.isActive()){
                             drWily.chant(false);
                             segment++;
@@ -1395,10 +1408,9 @@ public class World {
                                 }})
                                     .delay(4.5f)
                                     .start(LudumDare33.tween);
-
                         }
                         break;
-                    case 7:
+                    case 8:
                         endDelay -= dt;
                         if (endDelay < 0){
                             segment++;
@@ -1445,7 +1457,7 @@ public class World {
                                     .start(LudumDare33.tween);
                         }
                         break;
-                    case 8:
+                    case 9:
                         segment++;
                         // Let's bring down the curtain.
                         drawEndCurtain = true;
@@ -1543,13 +1555,13 @@ public class World {
 //                        // Start it up
 //                        curtainTimeline.start(LudumDare33.tween);
                         break;
-                    case 9:
+                    case 10:
                         // Wait for the curtain to be fully done.
                         if (endCurtainAnimationComplete) {
                             segment++;
                         }
                         break;
-                    case 10:
+                    case 11:
                         if (!dialogue.isActive()){
                             segment++;
                             Array<String> messages = new Array<String>();
@@ -1557,7 +1569,7 @@ public class World {
                             dialogue.show(1, 10, 18, 4, messages);
                         }
                         break;
-                    case 11:
+                    case 12:
                         if (!dialogue.isActive()){
                             segment++;
                             Array<String> messages = new Array<String>();

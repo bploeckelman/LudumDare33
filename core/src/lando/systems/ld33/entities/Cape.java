@@ -11,7 +11,7 @@ import lando.systems.ld33.utils.Assets;
 public class Cape extends EntityBase {
     public Cape(World w, Vector2 p) {
         super(w);
-        bounds = new Rectangle(p.x, p.y, 1, 1);
+        bounds = new Rectangle(p.x, p.y, 2, 1);
         standingAnimation = jumpingAnimation = smashedAnimation = walkingAnimation = Assets.goombaCloakEmpty;
     }
 }
