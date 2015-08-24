@@ -1,4 +1,4 @@
-package lando.systems.ld33.entities;
+package lando.systems.ld33.entities.mario;
 
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.equations.Back;
@@ -8,6 +8,8 @@ import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld33.LudumDare33;
 import lando.systems.ld33.World;
 import lando.systems.ld33.accessors.RectangleAccessor;
+import lando.systems.ld33.entities.EntityBase;
+import lando.systems.ld33.entities.PlayerGoomba;
 import lando.systems.ld33.entities.items.MushroomItem;
 import lando.systems.ld33.entities.mapobjects.ObjectBase;
 import lando.systems.ld33.utils.Assets;
@@ -18,7 +20,7 @@ import lando.systems.ld33.utils.SoundManager;
  */
 public class Mario extends EntityBase {
 
-    protected int dir;
+    protected float dir;
 
 
     public Mario(World w, Vector2 pos) {

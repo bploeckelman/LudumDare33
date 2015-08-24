@@ -1,4 +1,4 @@
-package lando.systems.ld33.entities;
+package lando.systems.ld33.entities.mario;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;

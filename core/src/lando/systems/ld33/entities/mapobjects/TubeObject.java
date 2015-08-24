@@ -11,7 +11,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld33.LudumDare33;
 import lando.systems.ld33.World;
-import lando.systems.ld33.entities.MarioDumb;
+import lando.systems.ld33.entities.mario.MarioDumb;
 import lando.systems.ld33.utils.Assets;
 import lando.systems.ld33.utils.SoundManager;
 

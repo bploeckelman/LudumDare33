@@ -1,5 +1,6 @@
 package lando.systems.ld33.utils;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -37,20 +38,28 @@ public class Score {
 
 
     public void render(SpriteBatch batch, OrthographicCamera cam){
-        Assets.font.draw(batch, "MARIO", 2 * 32, cam.viewportHeight - 32);
-        Assets.font.draw(batch, scoreStr, 2 * 32, cam.viewportHeight - 48);
+        drawStringShaded(batch, "MARIO", 2 * 32, cam.viewportHeight - 32);
+        drawStringShaded(batch, scoreStr, 2 * 32, cam.viewportHeight - 48);
 
         batch.draw(Assets.staticCoin, 7.5f*32, cam.viewportHeight - 64, 16, 16);
-        Assets.font.draw(batch, coinStr, 8*32, cam.viewportHeight - 48);
+        drawStringShaded(batch, coinStr, 8 * 32, cam.viewportHeight - 48);
 
-        Assets.font.draw(batch, "WORLD", 11 * 32, cam.viewportHeight - 32);
-        Assets.font.draw(batch, world, 11.5f * 32, cam.viewportHeight - 48);
+        drawStringShaded(batch, "WORLD", 11 * 32, cam.viewportHeight - 32);
+        drawStringShaded(batch, world, 11.5f * 32, cam.viewportHeight - 48);
 
-        Assets.font.draw(batch, "TIME", 15*32, cam.viewportHeight - 32);
+        drawStringShaded(batch, "TIME", 15 * 32, cam.viewportHeight - 32);
         final GlyphLayout layout = new GlyphLayout();
         String timeStr = "" + (int)time;
         layout.setText(Assets.font, timeStr);
-        Assets.font.draw(batch, timeStr, 17 * 32 - layout.width, cam.viewportHeight - 48);
+        drawStringShaded(batch, timeStr, 17 * 32 - layout.width, cam.viewportHeight - 48);
+    }
+
+    private void drawStringShaded(SpriteBatch batch, String text, float x, float y){
+        Assets.font.setColor(Color.BLACK);
+        Assets.font.draw(batch, text, x+1, y - 1);
+        Assets.font.setColor(Color.WHITE);
+        Assets.font.draw(batch, text, x, y);
+
     }
 
     public void addScore(int s){

@@ -31,6 +31,10 @@ import lando.systems.ld33.dialogue.Dialogue;
 import lando.systems.ld33.entities.*;
 import lando.systems.ld33.entities.items.ItemEntity;
 import lando.systems.ld33.entities.mapobjects.*;
+import lando.systems.ld33.entities.mario.Mario;
+import lando.systems.ld33.entities.mario.MarioAI;
+import lando.systems.ld33.entities.mario.MarioDumb;
+import lando.systems.ld33.entities.mario.MarioSmart;
 import lando.systems.ld33.utils.*;
 
 import java.util.Iterator;
@@ -92,7 +96,7 @@ public class World {
     public DrWily                     drWily;
     public Cape                       cape;
     public Tween                      repeatingTween;
-    public Mario                      fallingMario;
+    public Mario fallingMario;
     public Shake                      shake;
     public Vector2                    cameraCenter;
     public Score                      score;
@@ -220,6 +224,11 @@ public class World {
     }
 
     public void getTiles (int startX, int startY, int endX, int endY, Array<Rectangle> tiles) {
+        if (startX > endX){
+            int t = startX;
+            startX = endX;
+            endX = t;
+        }
         rectPool.freeAll(tiles);
         tiles.clear();
         for (int y = startY; y <= endY; y++) {
@@ -527,10 +536,11 @@ public class World {
 
                 loadMap("maps/level2.tmx");
 
-                new MarioDumb(this, new Vector2(75f, 3f));
-                new MarioDumb(this, new Vector2(47f, 3f));
-                new MarioDumb(this, new Vector2(17f, 10f));
-                new MarioDumb(this, new Vector2(3f, 3f));
+                new MarioSmart(this, new Vector2(75f, 3f));
+                new MarioSmart(this, new Vector2(47f, 3f));
+                new MarioSmart(this, new Vector2(17f, 10f));
+                new MarioSmart(this, new Vector2(22, 3));
+                new MarioSmart(this, new Vector2(3f, 3f));
 
                 player = new PlayerGoomba(this, new Vector2(97f, 2f));
                 player.moveDelay = EntityBase.PIPEDELAY;
