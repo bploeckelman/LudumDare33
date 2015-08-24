@@ -35,6 +35,7 @@ public class SpikeObject extends ObjectBase {
     public void hit() {
         isUsed = true;
         world.particles.addBlood(new Vector2(bounds.x, bounds.y));
+        world.shake.shake(1f);
         // TODO: launch blood spurt particle effect and kill the player?
     }
 

@@ -30,10 +30,7 @@ import lando.systems.ld33.dialogue.Dialogue;
 import lando.systems.ld33.entities.*;
 import lando.systems.ld33.entities.items.ItemEntity;
 import lando.systems.ld33.entities.mapobjects.*;
-import lando.systems.ld33.utils.Assets;
-import lando.systems.ld33.utils.GameText;
-import lando.systems.ld33.utils.ParticleManager;
-import lando.systems.ld33.utils.SoundManager;
+import lando.systems.ld33.utils.*;
 
 import java.util.Iterator;
 
@@ -86,9 +83,12 @@ public class World {
     public DrWily                     drWily;
     public Tween                      repeatingTween;
     public Mario                      fallingMario;
+    public Shake                      shake;
+    public Vector2                    cameraCenter;
 
     public World(OrthographicCamera cam, Phase p, SpriteBatch batch) {
         this.batch = batch;
+        shake = new Shake();
         particles = new ParticleManager();
         phase = p;
         endDelay = 0;
@@ -104,6 +104,7 @@ public class World {
 
         tileRects = new Array<Rectangle>();
         rectPool = Pools.get(Rectangle.class);
+        cameraCenter = new Vector2(camera.position.x, camera.position.y);
 
     }
 
@@ -149,13 +150,17 @@ public class World {
         // keep the map in view always
         if (cameraLock) {
             float playerX = player.getBounds().x;
-            if (playerX < camera.position.x - 3) camera.position.x = playerX + 3;
-            if (playerX > camera.position.x + 2) camera.position.x = playerX - 2;
+            if (playerX < cameraCenter.x - 3) cameraCenter.x = playerX + 3;
+            if (playerX > cameraCenter.x + 2) cameraCenter.x = playerX - 2;
 
 
-            camera.position.x = Math.min(cameraRightEdge, Math.max(cameraLeftEdge, camera.position.x));
+            cameraCenter.x = Math.min(cameraRightEdge, Math.max(cameraLeftEdge, cameraCenter.x));
+            camera.position.x = cameraCenter.x;
+            camera.position.y = cameraCenter.y;
         }
         camera.update();
+        shake.update(dt, camera, cameraCenter);
+
 
     }
 
@@ -193,7 +198,7 @@ public class World {
             entity.renderUI(batch, camera, uiCam);
         }
         batch.setColor(transitionColor);
-        batch.draw(Assets.blackTexture, 0,0, uiCam.viewportWidth, uiCam.viewportHeight);
+        batch.draw(Assets.blackTexture, 0, 0, uiCam.viewportWidth, uiCam.viewportHeight);
         batch.setColor(Color.WHITE);
     }
 
@@ -218,6 +223,10 @@ public class World {
 
     public boolean allowPolling(){
         return !dialogue.isActive();
+    }
+
+    public void doShake(float time){
+        shake.shake(time);
     }
 
     // ------------------------------------------------------------------------
@@ -926,6 +935,7 @@ public class World {
                                           .setCallback(new TweenCallback() {
                                               @Override
                                               public void onEvent(int i, BaseTween<?> baseTween) {
+                                                  shake.shake(.5f);
                                                   particles.addLargeBlood(new Vector2(22.5f, 8.5f));
                                               }
                                           })
@@ -1140,6 +1150,8 @@ public class World {
                 })
                 .start(LudumDare33.tween);
     }
+
+
 
     private void loadMapObjects() {
         if (map == null) return;

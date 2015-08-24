@@ -70,6 +70,7 @@ public class PlayerGoomba extends EntityBase {
     }
 
     public void stomped() {
+        world.shake.shake(1f);
         state = State.Smashed;
         moveDelay = 3;
         addThought("OOF");
