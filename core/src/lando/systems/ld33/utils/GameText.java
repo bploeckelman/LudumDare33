@@ -20,7 +20,7 @@ public class GameText {
                 + "Why don't you head on home to your family.\"");
 
         // Getting Home
-        strings.put("playerLate", strings.get("playerName") + ": \"Damn it I'm late getting home again.\"");
+        strings.put("playerLate", strings.get("playerName") + ": \"Damn it I'm late getting home again, Misty is going to be furious.\"");
 
         // See the Wife
         strings.put("wifeBitching", strings.get("wifeName") + ":\"What the hell, injured on the job again?! "
@@ -47,6 +47,9 @@ public class GameText {
 
         // Respawn
         strings.put("respawn", "Please be more careful, this is Ludum Dare so we won't make you start again.");
+
+        // Level2
+        strings.put("level2Intro", strings.get("playerName") + ":\"Well now, this is... different.\"");
 
         // Cult room
         strings.put("cultEnter", strings.get("playerName") + ":\"This is creepy...\"");

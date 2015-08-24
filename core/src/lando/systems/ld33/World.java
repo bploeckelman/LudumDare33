@@ -31,6 +31,7 @@ import lando.systems.ld33.entities.items.ItemEntity;
 import lando.systems.ld33.entities.mapobjects.*;
 import lando.systems.ld33.utils.Assets;
 import lando.systems.ld33.utils.GameText;
+import org.w3c.dom.css.Rect;
 
 import java.util.Iterator;
 
@@ -47,7 +48,8 @@ public class World {
     public enum Phase {
         DAY_ONE, HEADING_HOME, MEET_THE_WIFE, LEAVING_HOME, BACK_TO_WORK, INTO_THE_FACTORY, EMPTY_HOUSE,
         CULT_ROOM,
-        GET_MUSHROOM
+        GET_MUSHROOM,
+        LEVEL2
     }
 
     public TiledMapTileLayer          foregroundLayer;
@@ -455,6 +457,27 @@ public class World {
                 messages.add(GameText.getText("cultEnter"));
                 dialogue.show(1, 10, 18, 4, messages);
                 break;
+            case LEVEL2:
+                Gdx.gl.glClearColor(Assets.BLUE_SKY_R, Assets.BLUE_SKY_G, Assets.BLUE_SKY_B, 1f);
+
+                loadMap("maps/level2.tmx");
+
+                player = new PlayerGoomba(this, new Vector2(97f, 2f));
+                player.moveDelay = EntityBase.PIPEDELAY;
+                player.setRageMode();
+                Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
+                     .target(player.getBounds().x - 1f)
+                     .ease(Linear.INOUT)
+                     .setCallback(new TweenCallback() {
+                         @Override
+                         public void onEvent(int i, BaseTween<?> baseTween) {
+                             Array<String> messages = new Array<String>();
+                             messages.add(GameText.getText("level2Intro"));
+                             dialogue.show(1, 10, 18, 4, messages);
+                         }
+                     })
+                     .start(LudumDare33.tween);
+                break;
         }
     }
 
@@ -746,7 +769,7 @@ public class World {
                                         player.addThought("* sigh *");
                                     }
                                 })
-                                    .delay(.5f)
+                                    .delay(1f)
                                     .start(LudumDare33.tween);
 
                             Tween.to(transitionColor, ColorAccessor.A, 1f)
@@ -868,6 +891,29 @@ public class World {
             case CULT_ROOM:
                 switch (segment) {
                     // TODO: handle segment changes here
+                }
+                break;
+            case LEVEL2:
+                switch (segment) {
+                    case 0:
+                        if (player.getBounds().x < 95.5f) {
+                            player.getBounds().x = 95.5f;
+                            segment++;
+                        }
+                        break;
+                    case 1:
+                        if (player.getBounds().x < 2.1f && player.getBounds().y < 2.5f) {
+                            Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
+                                    .target(player.getBounds().x - 1f)
+                                    .ease(Linear.INOUT)
+                                    .setCallback(new TweenCallback() {
+                                        @Override
+                                        public void onEvent(int i, BaseTween<?> baseTween) {
+                                            World.this.fadeOut();
+                                        }
+                                    })
+                                    .start(LudumDare33.tween);
+                        }
                 }
                 break;
         }
