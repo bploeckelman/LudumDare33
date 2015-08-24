@@ -260,9 +260,9 @@ public class World {
         if (score != null) score.addScore(s);
     }
 
-    public void addCoin(int c){
+    public void addCoin(int c, Vector2 dist){
         if (score != null) score.addCoin(c);
-        Assets.soundManager.playSound(SoundManager.SoundOptions.COIN_GET);
+        Assets.soundManager.playSound3D(SoundManager.SoundOptions.COIN_GET, dist);
     }
 
     public void doShake(float time){

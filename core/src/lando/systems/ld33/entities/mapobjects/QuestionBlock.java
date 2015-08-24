@@ -6,6 +6,7 @@ import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.equations.Linear;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld33.LudumDare33;
 import lando.systems.ld33.World;
 import lando.systems.ld33.accessors.RectangleAccessor;
@@ -53,7 +54,10 @@ public class QuestionBlock extends ObjectBase {
         ItemEntity item;
         switch (spawnType) {
             default:
-            case COIN:       item = new CoinItem(world, bounds.x, bounds.y); world.addCoin(1 * addScore);break;
+            case COIN:       item = new CoinItem(world, bounds.x, bounds.y);
+                             Vector2 dist = new Vector2(bounds.x - world.player.getBounds().x, bounds.y - world.player.getBounds().y);
+                             world.addCoin(1 * addScore, dist);
+                        break;
             case MUSHROOM:   item = new MushroomItem(world, bounds.x, bounds.y); break;
             case FIREFLOWER: item = new FireflowerItem(world, bounds.x, bounds.y); break;
             case STAR:       item = new StarItem(world, bounds.x, bounds.y); break;

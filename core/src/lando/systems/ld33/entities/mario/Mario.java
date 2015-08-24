@@ -34,7 +34,8 @@ public class Mario extends EntityBase {
     public void jump(){
         if (!grounded) return;
         velocity.y = jumpVelocity;
-        Assets.soundManager.playSound(SoundManager.SoundOptions.MARIO_JUMP);
+        Vector2 dist = new Vector2(bounds.x - world.player.getBounds().x, bounds.y - world.player.getBounds().y);
+        Assets.soundManager.playSound3D(SoundManager.SoundOptions.MARIO_JUMP, dist);
     }
 
     public void setDeadAnimations(){
@@ -82,7 +83,8 @@ public class Mario extends EntityBase {
                 }
                 else if (entity instanceof CoinItem) {
                     if (!((CoinItem) entity).bouncer) {
-                        world.addCoin(1);
+                        Vector2 dist = new Vector2(bounds.x - world.player.getBounds().x, bounds.y - world.player.getBounds().y);
+                        world.addCoin(1, dist);
                         entity.dead = true;
                     }
                 }

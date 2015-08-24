@@ -5,6 +5,8 @@ import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld33.LudumDare33;
 
 import java.util.HashMap;
@@ -100,6 +102,16 @@ public class SoundManager{
     public void playSound(SoundOptions soundOption) {
         Gdx.app.log("DEBUG", "SoundManager.playSound | soundOption='" + String.valueOf(soundOption) + "'");
         soundMap.get(soundOption).play();
+    }
+
+    public void playSound3D(SoundOptions soundOption, Vector2 pos){
+        Gdx.app.log("DEBUG", "SoundManager.playSound3d | soundOption='" + String.valueOf(soundOption) + "'");
+        float maxSoundDist = 20;
+        float v = MathUtils.clamp(1 - (pos.len()/maxSoundDist), 0, 1);
+        float pitch = 1;
+        float pan = MathUtils.clamp((pos.x * 2) /maxSoundDist, -1, 1);
+        soundMap.get(soundOption).play(v, pitch, pan);
+
     }
 
     private MusicOptions currentOption;

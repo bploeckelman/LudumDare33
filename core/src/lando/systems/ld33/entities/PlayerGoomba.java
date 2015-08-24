@@ -139,7 +139,7 @@ public class PlayerGoomba extends EntityBase {
                 }
                 else if (entity instanceof CoinItem) {
                     if (!((CoinItem) entity).bouncer) {
-                        world.addCoin(-1);
+                        world.addCoin(-1, Vector2.Zero);
                         entity.dead = true;
                     }
                 }
