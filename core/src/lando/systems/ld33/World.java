@@ -226,7 +226,7 @@ public class World {
         }
 
         //TODO this is debug
-        Assets.font.draw(batch, "X:" + (int)player.getBounds().x + " Y:" + (int) player.getBounds().y, 32, 32);
+//        Assets.font.draw(batch, "X:" + (int)player.getBounds().x + " Y:" + (int) player.getBounds().y, 32, 32);
 
         batch.setColor(transitionColor);
         batch.draw(Assets.whiteTexture, 0, 0, uiCam.viewportWidth, uiCam.viewportHeight);
@@ -420,6 +420,19 @@ public class World {
                 messages = new Array<String>();
                 messages.add(GameText.getText("impressBoss"));
                 dialogue.show(1, 10, 18, 4, messages);
+                break;
+            case HEADING_HOME_SAD:
+                Gdx.gl.glClearColor(Assets.NIGHT_SKY_R, Assets.NIGHT_SKY_G, Assets.NIGHT_SKY_B, 1f);
+                loadMap("maps/enterhome.tmx");
+
+                player = new PlayerGoomba(this, new Vector2(17, 2));
+                player.canJump = false;
+                player.canRight = false;
+                player.setWounded();
+                player.moveDelay = EntityBase.PIPEDELAY;
+
+                TweenHelper.tweenPipeTravel(player, RectangleAccessor.X, player.getBounds().x - 1f)
+                           .start(LudumDare33.tween);
                 break;
             case EMPTY_HOUSE:
                 Gdx.gl.glClearColor(0f, 0f, 0f, 1f);

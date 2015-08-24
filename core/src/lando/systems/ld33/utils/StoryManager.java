@@ -47,7 +47,7 @@ public class StoryManager {
         storySequence.add(new StoryObject(this, null, World.Phase.DEEP_FACTORY));
         storySequence.add(new StoryObject(this, null, World.Phase.CULT_ROOM));
 
-        storyIndex = 14;
+        storyIndex = 0;
         storySequence.get(storyIndex).doTransition();
     }
 
