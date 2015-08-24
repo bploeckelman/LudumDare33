@@ -265,11 +265,9 @@ public class World {
                 player.canJump = false;
                 player.canRight = false;
                 player.moveDelay = EntityBase.PIPEDELAY;
-                Assets.soundManager.playSound(SoundManager.SoundOptions.PIPE_TRAVEL);
-                Tween.to(player.getBounds(), RectangleAccessor.Y, EntityBase.PIPEDELAY)
-                     .target(player.getBounds().y + 1f)
-                        .ease(Linear.INOUT)
-                     .start(LudumDare33.tween);
+
+                TweenHelper.tweenPipeTravel(player, RectangleAccessor.Y, player.getBounds().y + 1f)
+                        .start(LudumDare33.tween);
 
                 float initY = camera.position.y;
                 float initZoom = camera.zoom;
@@ -301,10 +299,8 @@ public class World {
                 player.canRight = false;
                 player.setWounded();
                 player.moveDelay = EntityBase.PIPEDELAY;
-                Assets.soundManager.playSound(SoundManager.SoundOptions.PIPE_TRAVEL);
-                Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
-                     .target(player.getBounds().x - 1f)
-                     .ease(Linear.INOUT)
+
+                TweenHelper.tweenPipeTravel(player, RectangleAccessor.X, player.getBounds().x - 1f)
                      .start(LudumDare33.tween);
 
                 messages = new Array<String>();
@@ -608,10 +604,7 @@ public class World {
                         if (player.getBounds().x <= 5.5){
                             segment++;
                             fadeOut();
-                            Assets.soundManager.playSound(SoundManager.SoundOptions.PIPE_TRAVEL);
-                            Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
-                                    .target(3.5f)
-                                    .ease(Linear.INOUT)
+                            TweenHelper.tweenPipeTravel(player, RectangleAccessor.X, 3.5f)
                                     .start(LudumDare33.tween);
                         }
                         break;
@@ -775,10 +768,8 @@ public class World {
                             segment++;
                             player.moveDelay = EntityBase.PIPEDELAY;
                             fadeOut();
-                            Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
-                                 .target(player.getBounds().x - 1f)
-                                 .ease(Linear.INOUT)
 
+                            TweenHelper.tweenPipeTravel(player, RectangleAccessor.X, player.getBounds().x - 1f)
                                  .start(LudumDare33.tween);
                         }
                         break;
