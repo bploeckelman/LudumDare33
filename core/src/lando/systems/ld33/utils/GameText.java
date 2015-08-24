@@ -38,6 +38,9 @@ public class GameText {
         strings.put("impressBoss", strings.get("playerName") + ":\"Here we go again. Maybe I can impress the boss today!\"");
         strings.put("injuredAgain", "Foreman:\"Injured again? Alright, head home and see your family.\"");
 
+        // Heading to empty house
+        strings.put("mistyHope", strings.get("playerName") + ":\"Cheer up Billy, she'll be back. ... ... She always comes back...\"");
+
         // Empty Nest
         strings.put("ellipses", strings.get("playerName") + ":\"... ... ...\"");
         strings.put("notComingBack", strings.get("playerName") + ":\"I guess she's really not coming back this time.\"");

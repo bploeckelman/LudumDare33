@@ -55,6 +55,7 @@ public class World {
         MEET_THE_WIFE,
         LEAVING_HOME,
         BACK_TO_WORK,
+        HEADING_HOME_SAD,
         EMPTY_HOUSE,
         GET_MUSHROOM,
         OVERWORLD_FIRST,
@@ -404,6 +405,20 @@ public class World {
                 messages = new Array<String>();
                 messages.add(GameText.getText("impressBoss"));
                 dialogue.show(1, 10, 18, 4, messages);
+                break;
+            case HEADING_HOME_SAD:
+                Gdx.gl.glClearColor(Assets.NIGHT_SKY_R, Assets.NIGHT_SKY_G, Assets.NIGHT_SKY_B, 1f);
+
+                loadMap("maps/enterhome.tmx");
+
+                player = new PlayerGoomba(this, new Vector2(17, 2));
+                player.canJump = false;
+                player.canRight = false;
+                player.setWounded();
+                player.moveDelay = EntityBase.PIPEDELAY;
+
+                TweenHelper.tweenPipeTravel(player, RectangleAccessor.X, player.getBounds().x - 1f)
+                           .start(LudumDare33.tween);
                 break;
             case EMPTY_HOUSE:
                 Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
@@ -854,6 +869,38 @@ public class World {
                             TweenHelper.tweenPipeTravel(player, RectangleAccessor.X, 3.5f)
                                     .start(LudumDare33.tween);
                         }
+                }
+                break;
+            case HEADING_HOME_SAD:
+                switch (segment) {
+                    case 0:
+                        // Enter, stage right
+                        if (player.getBounds().x < 16.5f) {
+                            player.getBounds().x = 16.5f;
+                            segment++;
+
+                            Array<String> messages = new Array<String>();
+                            messages.add(GameText.getText("mistyHope"));
+                            dialogue.show(1, 10, 18, 4, messages);
+                        }
+                        break;
+                    case 1:
+                        if (!dialogue.isActive()) {
+                            segment++;
+                            player.addThought("I hope");
+                        }
+                        break;
+                    case 2:
+                        // Walking into the house
+                        if (player.getBounds().x < 10) {
+                            player.getBounds().x = 10;
+                            segment++;
+                            player.moveDelay = EntityBase.PIPEDELAY;
+                            fadeOut();
+                            TweenHelper.tweenPipeTravel(player, RectangleAccessor.X, 8f)
+                                    .start(LudumDare33.tween);
+                        }
+                        break;
                 }
                 break;
             case EMPTY_HOUSE:
