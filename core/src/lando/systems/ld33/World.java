@@ -112,7 +112,7 @@ public class World {
 
         tileRects = new Array<Rectangle>();
         rectPool = Pools.get(Rectangle.class);
-        cameraCenter = new Vector2(camera.position.x, camera.position.y);
+        cameraCenter = new Vector2(camera.position.x, 7.5f);
 
     }
 
@@ -164,7 +164,7 @@ public class World {
 
             cameraCenter.x = Math.min(cameraRightEdge, Math.max(cameraLeftEdge, cameraCenter.x));
             camera.position.x = cameraCenter.x;
-            camera.position.y = cameraCenter.y;
+            //camera.position.y = cameraCenter.y;
         }
         camera.update();
         shake.update(dt, camera, cameraCenter);
