@@ -107,6 +107,7 @@ public class PlayerGoomba extends EntityBase {
                 velocity.y += jumpVelocity;
                 state = State.Jumping;
                 grounded = false;
+                Assets.soundManager.playSound(SoundManager.SoundOptions.GOOMBA_JUMP);
             }
 
             if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {

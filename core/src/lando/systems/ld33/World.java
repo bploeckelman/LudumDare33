@@ -257,6 +257,7 @@ public class World {
                 player.canJump = false;
                 player.canRight = false;
                 player.moveDelay = EntityBase.PIPEDELAY;
+                Assets.soundManager.playSound(SoundManager.SoundOptions.PIPE_TRAVEL);
                 Tween.to(player.getBounds(), RectangleAccessor.Y, EntityBase.PIPEDELAY)
                      .target(player.getBounds().y + 1f)
                         .ease(Linear.INOUT)
@@ -292,6 +293,7 @@ public class World {
                 player.canRight = false;
                 player.setWounded();
                 player.moveDelay = EntityBase.PIPEDELAY;
+                Assets.soundManager.playSound(SoundManager.SoundOptions.PIPE_TRAVEL);
                 Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
                      .target(player.getBounds().x - 1f)
                      .ease(Linear.INOUT)
@@ -565,12 +567,16 @@ public class World {
                     case 4:
                         // Enter home pipe
                         if (player.getBounds().x <= 5.5){
+                            segment++;
                             fadeOut();
+                            Assets.soundManager.playSound(SoundManager.SoundOptions.PIPE_TRAVEL);
                             Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
                                     .target(3.5f)
                                     .ease(Linear.INOUT)
                                     .start(LudumDare33.tween);
                         }
+                        break;
+                    case 5:
                         break;
                 }
                 break;
@@ -677,20 +683,19 @@ public class World {
                                     .setCallback(new TweenCallback() {
                                         @Override
                                         public void onEvent(int i, BaseTween<?> baseTween) {
-
                                             // WAKE UP
                                             World.this.player.setSadMode();
                                             Array<String> messages = new Array<String>();
                                             messages.add(GameText.getText("tooOld"));
                                             messages.add(GameText.getText("missMisty"));
                                             dialogue.show(1, 10, 18, 4, messages);
-                                            Assets.soundManager.playMusic(SoundManager.MusicOptions.MARIO_MINOR);
                                         }
                                     })
                                     .start(LudumDare33.tween);
                             Tween.call(new TweenCallback() {
                                 @Override
                                 public void onEvent(int i, BaseTween<?> baseTween) {
+                                    Assets.soundManager.playMusic(SoundManager.MusicOptions.MARIO_MINOR);
                                     player.setSadMode();
                                 }
                             })
@@ -872,6 +877,7 @@ public class World {
                     case 2:
                         // Just picked up the Mushroom
                         if (player.raged){
+                            Assets.soundManager.playSound(SoundManager.SoundOptions.GOOMBA_MUSHROOM_GET);
                             segment++;
                             player.moveDelay = 3f;
                             cameraLock = false;
