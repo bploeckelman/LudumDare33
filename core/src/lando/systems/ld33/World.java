@@ -1280,7 +1280,6 @@ public class World {
                             messages.add(GameText.getText("cultCenter1"));
                             dialogue.show(1, 10, 18, 4, messages);
                         }
-                        segment = 5;
                         break;
                     case 1:
                         if (!dialogue.isActive()){
