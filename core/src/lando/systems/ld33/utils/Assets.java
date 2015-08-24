@@ -212,7 +212,7 @@ public class Assets {
 
         goombaSmashedAnimation  = new Animation(.15f,
                 atlas.findRegion("goomba-squished"));
-        goombaGrowAnimation = new Animation(.65f,
+        goombaGrowAnimation = new Animation(.8f,
             atlas.findRegion("goomba-sad-straight-on"),
             atlas.findRegion("goomba-straight-high"),
             atlas.findRegion("goomba-straight-rage"));

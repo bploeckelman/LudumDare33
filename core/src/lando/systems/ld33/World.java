@@ -398,6 +398,7 @@ public class World {
                 player.canRight = false;
                 player.moveDelay = EntityBase.PIPEDELAY;
                 player.setSadMode();
+                player.maxVelocity = 3f;
                 Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
                      .target(player.getBounds().x - 1f)
                      .ease(Linear.INOUT)
@@ -1033,20 +1034,25 @@ public class World {
                             Assets.soundManager.playSound(SoundManager.SoundOptions.GOOMBA_MUSHROOM_GET);
                             Assets.soundManager.playMusic(SoundManager.MusicOptions.MARIO_MAJOR_BK);
                             segment++;
-                            player.moveDelay = 3f;
+                            player.moveDelay = 4f;
                             cameraLock = false;
-                            player.smashedAnimation = Assets.goombaGrowAnimation;
+                            player.smashedAnimation = player.standingAnimation = Assets.goombaGrowAnimation;
                             player.stateTime = 0f;
-                            Tween.to(camera, CameraAccessor.XYZ, 1.5f)
-                                    .target(player.getBounds().x + .5f, player.getBounds().y + .5f, .1f)
-                                    .ease(Quad.INOUT)
-                                    .repeatYoyo(1, 0)
-                                    .setCallback(new TweenCallback() {
-                                        @Override
-                                        public void onEvent(int type, BaseTween<?> source) {
-                                            player.smashedAnimation = Assets.goombaSmashedAnimation;
-                                        }
-                                    })
+                            Timeline.createSequence()
+                                    .push(Tween.to(camera, CameraAccessor.XYZ, 2f)
+                                        .target(player.getBounds().x + .5f, player.getBounds().y + .5f, .1f)
+                                        .ease(Quad.OUT))
+                                    .pushPause(.5f)
+                                    .push(Tween.to(camera, CameraAccessor.XYZ, 1.5f)
+                                        .target(cameraCenter.x, cameraCenter.y, 1)
+                                        .ease(Quad.IN)
+                                        .setCallback(new TweenCallback() {
+                                            @Override
+                                            public void onEvent(int type, BaseTween<?> source) {
+                                                player.smashedAnimation = Assets.goombaSmashedAnimation;
+                                                player.setRageMode();
+                                            }
+                                        }))
                                     .start(LudumDare33.tween);
                         }
                         break;

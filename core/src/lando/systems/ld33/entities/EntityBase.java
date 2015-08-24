@@ -25,7 +25,7 @@ public class EntityBase {
     protected boolean facesRight;
     protected boolean grounded;
     protected State state;
-    protected float maxVelocity = 10;
+    public float maxVelocity = 10;
     protected float jumpVelocity = 35;
     protected float damping = .8f;
     protected float gravity = -2f;
