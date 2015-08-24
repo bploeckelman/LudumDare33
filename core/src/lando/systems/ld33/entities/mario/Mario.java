@@ -36,6 +36,10 @@ public class Mario extends EntityBase {
         Assets.soundManager.playSound(SoundManager.SoundOptions.MARIO_JUMP);
     }
 
+    public void setDeadAnimations(){
+        walkingAnimation = jumpingAnimation = standingAnimation = smashedAnimation = Assets.marioSmallDieAnimation;
+    }
+
     public void growBig(){
         Assets.soundManager.playSound(SoundManager.SoundOptions.MUSHROOM_GET);
         walkingAnimation = Assets.marioBigWalkAnimation;

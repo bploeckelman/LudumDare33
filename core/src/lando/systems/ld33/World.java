@@ -1033,6 +1033,7 @@ public class World {
             case INTO_THE_FACTORY:
                 if (fallingMario.dead){
                     fallingMario = new Mario(this, new Vector2(22.5f,14));
+                    fallingMario.setDeadAnimations();
                     repeatingTween = Tween.to(fallingMario.getBounds(), RectangleAccessor.Y, 2f)
                                           .target(7)
                                           .repeat(-1, 2)
