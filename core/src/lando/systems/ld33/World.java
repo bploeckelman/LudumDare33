@@ -526,8 +526,7 @@ public class World {
                 player = new PlayerGoomba(this, new Vector2(97, 2));
                 player.setRageMode();
                 player.moveDelay = EntityBase.PIPEDELAY;
-                Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
-                        .target(player.getBounds().x - 1f)
+                TweenHelper.tweenPipeTravel(player, RectangleAccessor.X, player.getBounds().x - 1f)
                         .ease(Linear.INOUT)
                         .start(LudumDare33.tween);
                 messages = new Array<String>();
@@ -545,8 +544,7 @@ public class World {
                 player = new PlayerGoomba(this, new Vector2(97, 2));
                 player.setRageMode();
                 player.moveDelay = EntityBase.PIPEDELAY;
-                Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
-                     .target(player.getBounds().x - 1f)
+                TweenHelper.tweenPipeTravel(player, RectangleAccessor.X, player.getBounds().x - 1f)
                      .ease(Linear.INOUT)
                      .start(LudumDare33.tween);
 
@@ -594,9 +592,7 @@ public class World {
                 player.canJump = true;
                 player.setNormalMode();
                 player.moveDelay = EntityBase.PIPEDELAY;
-                Tween.to(player.getBounds(), RectangleAccessor.Y, EntityBase.PIPEDELAY)
-                     .target(player.getBounds().y - 1f)
-                     .ease(Linear.INOUT)
+                TweenHelper.tweenPipeTravel(player, RectangleAccessor.Y, player.getBounds().y - 1f)
                      .setCallback(new TweenCallback() {
                          @Override
                          public void onEvent(int i, BaseTween<?> baseTween) {
@@ -624,8 +620,9 @@ public class World {
                 player = new PlayerGoomba(this, new Vector2(97f, 2f));
                 player.moveDelay = EntityBase.PIPEDELAY;
                 player.setRageMode();
-                Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
-                     .target(player.getBounds().x - 1f)
+
+                // Pipe enter
+                TweenHelper.tweenPipeTravel(player, RectangleAccessor.X, player.getBounds().x - 1f)
                      .ease(Linear.INOUT)
                      .setCallback(new TweenCallback() {
                          @Override
@@ -1248,8 +1245,8 @@ public class World {
                             player.moveDelay = EntityBase.PIPEDELAY;
                             repeatingTween.kill();
                             fadeOut();
-                            Tween.to(player.getBounds(), RectangleAccessor.Y, EntityBase.PIPEDELAY)
-                                    .target(player.getBounds().y - 1f)
+                            segment++;
+                            TweenHelper.tweenPipeTravel(player, RectangleAccessor.Y, player.getBounds().y - 1f)
                                     .ease(Linear.INOUT)
                                     .start(LudumDare33.tween);
                         }
@@ -1264,10 +1261,10 @@ public class World {
                             player.getBounds().y = 4f;
                             player.moveDelay = EntityBase.PIPEDELAY;
                             fadeOut();
-                            Tween.to(player.getBounds(), RectangleAccessor.Y, EntityBase.PIPEDELAY)
-                                    .target(player.getBounds().y - 1f)
+                            TweenHelper.tweenPipeTravel(player, RectangleAccessor.Y, player.getBounds().y - 1f)
                                     .ease(Linear.INOUT)
                                     .start(LudumDare33.tween);
+                            segment++;
                         }
                         break;
                 }
@@ -1544,8 +1541,9 @@ public class World {
                         break;
                     case 1:
                         if (player.getBounds().x < 2.1f && player.getBounds().y < 2.5f) {
-                            Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
-                                    .target(player.getBounds().x - 1f)
+                            segment++;
+                            // Pipe exit
+                            TweenHelper.tweenPipeTravel(player, RectangleAccessor.X, player.getBounds().x - 1f)
                                     .ease(Linear.INOUT)
                                     .setCallback(new TweenCallback() {
                                         @Override
@@ -1562,8 +1560,9 @@ public class World {
                     case 0:
                         if (player.getBounds().x < 5.5f && player.getBounds().y < 10.5f) {
 
-                            Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
-                                    .target(player.getBounds().x - 1f)
+                            segment++;
+                            // Pipe exit
+                            TweenHelper.tweenPipeTravel(player, RectangleAccessor.X, player.getBounds().x - 1f)
                                     .ease(Linear.INOUT)
                                     .setCallback(new TweenCallback() {
                                         @Override
@@ -1584,10 +1583,10 @@ public class World {
                         break;
                     case 1:
                         if (player.getBounds().x < 2.5f && player.getBounds().y < 2.1f) {
+                            segment++;
                             player.moveDelay = EntityBase.PIPEDELAY;
                             fadeOut();
-                            Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
-                                 .target(player.getBounds().x - 1)
+                            TweenHelper.tweenPipeTravel(player, RectangleAccessor.X, player.getBounds().x - 1)
                                  .ease(Linear.INOUT)
                                  .start(LudumDare33.tween);
                         }

@@ -157,7 +157,7 @@ public class SoundManager{
                         }
                     }
                 })
-                        .delay(2.7f)
+                        .delay(2.6f)
                         .start(LudumDare33.tween);
                 break;
 
