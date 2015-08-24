@@ -47,7 +47,8 @@ public class GameText {
         strings.put("noGoingBack", strings.get("playerName") + ":\"There is nothing left for me to go home to.  I want to use my new powers to explore, where does this other tube go?\"");
 
         //Factory
-        strings.put("intoFactory", strings.get("playerName") + ":\"What... what *is* this place?\"");
+        strings.put("intoFactory", strings.get("playerName") + ":\"What... what is this place?\"");
+        strings.put("factoryNoise", strings.get("playerName") + ":\"...and what is that shaking?\"");
         strings.put("marioScreenWTF", strings.get("playerName") + ":\"Now that is damn strange.\"");
         strings.put("marioTubesWTF", strings.get("playerName") + ":\"Just when I thought I'd seen everything.\"");
         strings.put("marioGrinderWTF", strings.get("playerName") + ":\"I think I'm going to be sick.\"");

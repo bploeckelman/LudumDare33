@@ -431,6 +431,7 @@ public class World {
                         .start(LudumDare33.tween);
                 messages = new Array<String>();
                 messages.add(GameText.getText("intoFactory"));
+                messages.add(GameText.getText("factoryNoise"));
                 dialogue.show(1, 10, 18, 4, messages);
                 fallingMario = new Mario(this, new Vector2(0,0));
                 fallingMario.dead = true;
@@ -493,11 +494,15 @@ public class World {
                 Tween.to(player.getBounds(), RectangleAccessor.Y, EntityBase.PIPEDELAY)
                      .target(player.getBounds().y - 1f)
                      .ease(Linear.INOUT)
+                     .setCallback(new TweenCallback() {
+                         @Override
+                         public void onEvent(int i, BaseTween<?> baseTween) {
+                             Array<String> messages = new Array<String>();
+                             messages.add(GameText.getText("cultEnter"));
+                             dialogue.show(1, 10, 18, 4, messages);
+                         }
+                     })
                      .start(LudumDare33.tween);
-
-                messages = new Array<String>();
-                messages.add(GameText.getText("cultEnter"));
-                dialogue.show(1, 10, 18, 4, messages);
                 break;
             case OVERWORLD_FIRST:
                 Gdx.gl.glClearColor(Assets.BLUE_SKY_R, Assets.BLUE_SKY_G, Assets.BLUE_SKY_B, 1f);
@@ -1110,6 +1115,30 @@ public class World {
                                             player.getBounds().x = -0.4f;
                                             ganon.getBounds().x = 1.4f;
                                             kingHippo.getBounds().x = 2.85f;
+
+                                            ganon.addThought("LUDUM DARE");
+                                            kingHippo.addThought("LUDUM DARE");
+                                            motherBrain.addThought("LUDUM DARE");
+                                            dracula.addThought("LUDUM DARE");
+                                            luigi.addThought("LUDUM DARE");
+                                            drWily.addThought("LUDUM DARE");
+                                            player.addThought("LUDUM DARE");
+
+                                            repeatingTween = Tween.call(new TweenCallback() {
+                                                    @Override
+                                                    public void onEvent(int i, BaseTween<?> baseTween) {
+                                                        ganon.addThought("LUDUM DARE");
+                                                        kingHippo.addThought("LUDUM DARE");
+                                                        motherBrain.addThought("LUDUM DARE");
+                                                        dracula.addThought("LUDUM DARE");
+                                                        luigi.addThought("LUDUM DARE");
+                                                        drWily.addThought("LUDUM DARE");
+                                                        player.addThought("LUDUM DARE");
+                                                    }
+                                                })
+                                                  .delay(3.5f)
+                                                  .repeat(-1, 3.5f)
+                                                  .start(LudumDare33.tween);
                                         }
                                     })
                                     .delay(1.1f)
