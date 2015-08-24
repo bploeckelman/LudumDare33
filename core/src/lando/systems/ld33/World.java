@@ -7,6 +7,7 @@ import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.equations.Expo;
 import aurelienribon.tweenengine.equations.Linear;
 import aurelienribon.tweenengine.equations.Quad;
+import aurelienribon.tweenengine.equations.Sine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -89,6 +90,7 @@ public class World {
     public Dracula                    dracula;
     public Luigi                      luigi;
     public DrWily                     drWily;
+    public Cape                       cape;
     public Tween                      repeatingTween;
     public Mario                      fallingMario;
     public Shake                      shake;
@@ -206,7 +208,7 @@ public class World {
             entity.renderUI(batch, camera, uiCam);
         }
         batch.setColor(transitionColor);
-        batch.draw(Assets.blackTexture, 0, 0, uiCam.viewportWidth, uiCam.viewportHeight);
+        batch.draw(Assets.whiteTexture, 0, 0, uiCam.viewportWidth, uiCam.viewportHeight);
         batch.setColor(Color.WHITE);
     }
 
@@ -457,6 +459,7 @@ public class World {
                 dracula     = new Dracula(this, new Vector2(13, 2));
                 luigi       = new Luigi(this, new Vector2(16, 2));
                 drWily      = new DrWily(this, new Vector2(18, 2));
+                cape        = new Cape(this, new Vector2(9, 2));
 
                 ganon.addThought("LUDUM DARE");
                 kingHippo.addThought("LUDUM DARE");
@@ -1084,51 +1087,47 @@ public class World {
                         if (!dialogue.isActive()){
                             segment++;
                             endDelay = 5;
+                            cape.moveDelay = 10000;
+                            transitionColor = new Color(1,1,1,0);
                             Timeline.createSequence()
-                                    .push( Tween.to(transitionColor, ColorAccessor.A, 1f)
-                                        .target(1)
-                                        .ease(Linear.INOUT))
+                                    .beginParallel()
+                                          .push(Tween.to(player.getBounds(), RectangleAccessor.Y, 2f)
+                                                .target(10))
+                                          .push(Tween.to(cape.getBounds(), RectangleAccessor.Y, 2f)
+                                                 .target(10))
+                                    .end()
+                                    .pushPause(.1f)
+                                    .beginParallel()
+                                        .push(Tween.to(player.getBounds(), RectangleAccessor.X, .25f)
+                                                .target(9)
+                                                .ease(Sine.INOUT)
+                                                .repeatYoyo(4, 0))
+                                        .push(Tween.to(cape.getBounds(), RectangleAccessor.X, .25f)
+                                                .target(10)
+                                                .ease(Sine.INOUT)
+                                                .repeatYoyo(4, 0))
+                                        .push(Tween.to(transitionColor, ColorAccessor.A, 1f)
+                                                .target(1))
+                                    .end()
                                     .pushPause(.5f)
                                     .push(Tween.to(transitionColor, ColorAccessor.A, 1f)
-                                        .target(0)
-                                        .ease(Linear.INOUT))
+                                            .target(0)
+                                            .ease(Linear.INOUT))
                                     .start(LudumDare33.tween);
 
                             Tween.call(new TweenCallback() {
-                                        @Override
-                                        public void onEvent(int i, BaseTween<?> baseTween) {
-                                            player.setCaped();
-                                            player.getBounds().x = -0.4f;
-                                            ganon.getBounds().x = 1.4f;
-                                            kingHippo.getBounds().x = 2.85f;
-
-                                            ganon.addThought("LUDUM DARE");
-                                            kingHippo.addThought("LUDUM DARE");
-                                            motherBrain.addThought("LUDUM DARE");
-                                            dracula.addThought("LUDUM DARE");
-                                            luigi.addThought("LUDUM DARE");
-                                            drWily.addThought("LUDUM DARE");
-                                            player.addThought("LUDUM DARE");
-
-                                            repeatingTween = Tween.call(new TweenCallback() {
-                                                    @Override
-                                                    public void onEvent(int i, BaseTween<?> baseTween) {
-                                                        ganon.addThought("LUDUM DARE");
-                                                        kingHippo.addThought("LUDUM DARE");
-                                                        motherBrain.addThought("LUDUM DARE");
-                                                        dracula.addThought("LUDUM DARE");
-                                                        luigi.addThought("LUDUM DARE");
-                                                        drWily.addThought("LUDUM DARE");
-                                                        player.addThought("LUDUM DARE");
-                                                    }
-                                                })
-                                                  .delay(3.5f)
-                                                  .repeat(-1, 3.5f)
-                                                  .start(LudumDare33.tween);
-                                        }
-                                    })
-                                    .delay(1.1f)
+                                @Override
+                                public void onEvent(int i, BaseTween<?> baseTween) {
+                                    player.setCaped();
+                                    cape.dead = true;
+                                    player.getBounds().x = -.4f;
+                                    player.getBounds().y = 2;
+                                    ganon.getBounds().x = 1.4f;
+                                    kingHippo.getBounds().x = 2.85f;
+                                }})
+                                    .delay(3.5f)
                                     .start(LudumDare33.tween);
+
                         }
                         break;
                     case 4:
@@ -1138,6 +1137,38 @@ public class World {
                             Array<String> messages = new Array<String>();
                             messages.add(GameText.getText("theEnd1"));
                             dialogue.show(1, 10, 18, 4, messages);
+                            Tween.call(new TweenCallback() {
+                                @Override
+                                public void onEvent(int i, BaseTween<?> baseTween) {
+
+
+                                    ganon.addThought("LUDUM DARE");
+                                    kingHippo.addThought("LUDUM DARE");
+                                    motherBrain.addThought("LUDUM DARE");
+                                    dracula.addThought("LUDUM DARE");
+                                    luigi.addThought("LUDUM DARE");
+                                    drWily.addThought("LUDUM DARE");
+                                    player.addThought("LUDUM DARE");
+
+                                    repeatingTween = Tween.call(new TweenCallback() {
+                                        @Override
+                                        public void onEvent(int i, BaseTween<?> baseTween) {
+                                            ganon.addThought("LUDUM DARE");
+                                            kingHippo.addThought("LUDUM DARE");
+                                            motherBrain.addThought("LUDUM DARE");
+                                            dracula.addThought("LUDUM DARE");
+                                            luigi.addThought("LUDUM DARE");
+                                            drWily.addThought("LUDUM DARE");
+                                            player.addThought("LUDUM DARE");
+                                        }
+                                    })
+                                            .delay(3.5f)
+                                            .repeat(-1, 3.5f)
+                                            .start(LudumDare33.tween);
+                                }
+                            })
+                                    .delay(1.1f)
+                                    .start(LudumDare33.tween);
                         }
                         break;
                     case 5:
