@@ -920,9 +920,16 @@ public class World {
                 if (fallingMario.dead){
                     fallingMario = new Mario(this, new Vector2(22.5f,14));
                     repeatingTween = Tween.to(fallingMario.getBounds(), RectangleAccessor.Y, 2f)
-                                          .target(6)
+                                          .target(7)
                                           .repeat(-1, 2)
                                           .ease(Expo.IN)
+                                          .setCallback(new TweenCallback() {
+                                              @Override
+                                              public void onEvent(int i, BaseTween<?> baseTween) {
+                                                  particles.addLargeBlood(new Vector2(22.5f, 8.5f));
+                                              }
+                                          })
+                                          .setCallbackTriggers(TweenCallback.END)
                                           .start(LudumDare33.tween);
                     fallingMario.moveDelay = 100000f;
                 }

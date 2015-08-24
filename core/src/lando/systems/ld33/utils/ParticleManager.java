@@ -26,6 +26,18 @@ public class ParticleManager {
 
     }
 
+    public void addLargeBlood(Vector2 pos){
+        for (int i = 0; i < 500; i ++){
+            Particle part = particlePool.obtain();
+            float speed = 1 + MathUtils.random() * 4;
+            float dir = MathUtils.random(45f, 135f);
+            float x = pos.x + .3f + (MathUtils.random()/3f);
+            part.init(new Vector2(x, pos.y), new Vector2(MathUtils.cosDeg(dir) * speed, MathUtils.sinDeg(dir) * speed ), new Vector2(0,-2f),
+                    new Color(1,0,0,1), new Color(1,0,0,.1f), .02f + (MathUtils.random() / 20f), 2);
+            activeParticles.add(part);
+        }
+    }
+
     public void addBlood(Vector2 pos){
         for (int i = 0; i < 50; i ++){
             Particle part = particlePool.obtain();
