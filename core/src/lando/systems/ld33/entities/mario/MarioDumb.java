@@ -26,11 +26,17 @@ public class MarioDumb extends Mario {
     public void update(float dt){
         super.update(dt);
 
-        if (isJumper && MathUtils.random(1000) < 2 && grounded) {
-            jump();
-        }
-        if (MathUtils.random(1000) < 10 && grounded) {
-            dir *= -1;
+        //Lets keep it simple, only do smart things on the ground
+        if (!grounded || moveDelay > 0) return;
+
+        // It's a pit
+        int startX = (int)(bounds.x +.5f);
+        int endX = (int)(bounds.x + .5f + dir);
+        int startY = (int)bounds.y -1;
+        int endY = startY + 2;
+        world.getTiles(startX, startY, endX, endY, tiles);
+        if (tiles.size == 0) {
+                dir *= -1;
         }
     }
 }
