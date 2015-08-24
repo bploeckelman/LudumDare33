@@ -105,6 +105,7 @@ public class World {
     public Vector2                    cameraCenter;
     public Score                      score;
     public float                      fireworkDelay;
+    public MarioAI                    marioAI;
 
     public World(OrthographicCamera cam, Phase p, SpriteBatch batch) {
         this.batch = batch;
@@ -673,13 +674,13 @@ public class World {
                     case 1:
                         if (!dialogue.isActive()) {
                             segment++;
-                            new MarioAI(this, new Vector2(10, 2));
+                            marioAI = new MarioAI(this, new Vector2(10, 2));
                             player.moveDelay = 4f;
                         }
                         break;
                     case 2:
                         // Just a bump on the head, released to go home for the day
-                        if (player.moveDelay <= 0){
+                        if (marioAI.dead){
                             segment++;
                             Array<String> messages = new Array<String>();
                             messages.add(GameText.getText("headHome"));
@@ -885,12 +886,12 @@ public class World {
                     case 1:
                         if (!dialogue.isActive()){
                             segment++;
-                            MarioAI mario = new MarioAI(this, new Vector2(10, 2));
+                            marioAI = new MarioAI(this, new Vector2(10, 2));
                         }
                         break;
                     case 2:
                         // Just a bump on the head, released to go home for the day
-                        if (player.moveDelay <= 0){
+                        if (marioAI.dead){
                             segment++;
                             Array<String> messages = new Array<String>();
                             messages.add(GameText.getText("injuredAgain"));
