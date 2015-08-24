@@ -98,7 +98,7 @@ public class TubeObject extends ObjectBase {
     }
 
     @Override
-    public void hit() {
+    public void hit(int addScore) {
 
     }
 

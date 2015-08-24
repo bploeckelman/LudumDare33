@@ -24,7 +24,7 @@ public class MarioScreenObject extends ObjectBase {
     }
 
     @Override
-    public void hit() {
+    public void hit(int addScore) {
 
     }
 }

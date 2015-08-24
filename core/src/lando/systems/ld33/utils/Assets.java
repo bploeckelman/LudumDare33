@@ -35,6 +35,7 @@ public class Assets {
     public static TextureRegion     tubeBg;
     public static TextureRegion     tubeBroken;
     public static NinePatch         thoughtBubble;
+    public static TextureRegion     staticCoin;
 
     public static Animation questionBlockAnimation;
     public static Animation spikesDownAnimation;
@@ -233,9 +234,12 @@ public class Assets {
         goombaCloak = new Animation(.15f, atlas.findRegion("goomba-cloak"));
 
         TextureRegion[] coinFrames = atlas.findRegion("coin").split(16, 16)[0];
-        coinAnimation = new Animation(.03f,
-            coinFrames[1], coinFrames[2], coinFrames[3], coinFrames[4]);
+
+        coinAnimation = new Animation(.2f,
+            coinFrames[0], coinFrames[1], coinFrames[2], coinFrames[3], coinFrames[4]);
         coinAnimation.setPlayMode(Animation.PlayMode.LOOP);
+
+        staticCoin = coinFrames[0];
 
         mushroomAnimation = new Animation(.15f, bigMushroom);
 

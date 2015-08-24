@@ -24,7 +24,7 @@ public abstract class ObjectBase {
 
     public abstract void update(float delta);
 
-    public abstract void hit();
+    public abstract void hit(int addScore);
 
     public void touch() {
 

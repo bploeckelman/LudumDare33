@@ -33,7 +33,7 @@ public class SpikeObject extends ObjectBase {
     }
 
     @Override
-    public void hit() {
+    public void hit(int addScore) {
         isUsed = true;
         world.particles.addBlood(new Vector2(bounds.x, bounds.y));
         world.shake.shake(1f);

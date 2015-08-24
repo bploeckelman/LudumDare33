@@ -95,6 +95,7 @@ public class World {
     public Mario                      fallingMario;
     public Shake                      shake;
     public Vector2                    cameraCenter;
+    public Score                      score;
 
     public World(OrthographicCamera cam, Phase p, SpriteBatch batch) {
         this.batch = batch;
@@ -137,6 +138,7 @@ public class World {
     public void update(float dt) {
         dialogue.update(dt);
         particles.update(dt);
+        if (score != null) score.update(dt);
         Iterator<EntityBase> iterator = gameEntities.iterator();
         while(iterator.hasNext()) {
             EntityBase entity = iterator.next();
@@ -203,10 +205,15 @@ public class World {
     }
 
     public void renderUI(SpriteBatch batch, OrthographicCamera uiCam) {
+        if (cameraLock && score != null){
+            score.render(batch, uiCam);
+        }
+
         dialogue.render(batch);
         for (EntityBase entity : gameEntities){
             entity.renderUI(batch, camera, uiCam);
         }
+
         batch.setColor(transitionColor);
         batch.draw(Assets.whiteTexture, 0, 0, uiCam.viewportWidth, uiCam.viewportHeight);
         batch.setColor(Color.WHITE);
@@ -258,6 +265,7 @@ public class World {
 
         switch (phase) {
             case DAY_ONE:
+                score = new Score("1-1");
 
                 loadMap("maps/level1.tmx");
                 cameraLock = false;
@@ -362,6 +370,8 @@ public class World {
                 break;
             case BACK_TO_WORK:
                 Gdx.gl.glClearColor(Assets.BLUE_SKY_R, Assets.BLUE_SKY_G, Assets.BLUE_SKY_B, 1f);
+                score = new Score("1-1");
+                score.reset();
 
                 loadMap("maps/level1.tmx");
 
@@ -401,6 +411,8 @@ public class World {
             case GET_MUSHROOM:
                 Gdx.gl.glClearColor(Assets.BLUE_SKY_R, Assets.BLUE_SKY_G, Assets.BLUE_SKY_B, 1);
                 loadMap("maps/level1.tmx");
+                score = new Score("1-1");
+                score.reset();
 
                 player = new PlayerGoomba(this, new Vector2(33.5f, 3f));
                 player.canJump = false;
@@ -503,6 +515,7 @@ public class World {
                 break;
             case OVERWORLD_FIRST:
                 Gdx.gl.glClearColor(Assets.BLUE_SKY_R, Assets.BLUE_SKY_G, Assets.BLUE_SKY_B, 1f);
+                score = new Score("F-E");
 
                 loadMap("maps/level2.tmx");
 
@@ -529,6 +542,7 @@ public class World {
                 break;
             case UNDERWORLD:
                 Gdx.gl.glClearColor(Assets.UNDERGROUND_R, Assets.UNDERGROUND_G, Assets.UNDERGROUND_B, 1f);
+                score = new Score("F-F");
 
                 loadMap("maps/level3.tmx");
 

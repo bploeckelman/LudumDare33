@@ -33,7 +33,7 @@ public class PlayerGoomba extends EntityBase {
     }
 
     protected void hitBlockFromBelow(ObjectBase obj){
-        obj.hit();
+        obj.hit(-1);
     }
 
     public void setNormalMode() {
@@ -70,6 +70,7 @@ public class PlayerGoomba extends EntityBase {
     }
 
     public void stomped() {
+        world.score.addScore(100);
         world.shake.shake(1f);
         state = State.Smashed;
         moveDelay = 3;

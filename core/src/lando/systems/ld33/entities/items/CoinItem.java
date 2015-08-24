@@ -39,7 +39,7 @@ public class CoinItem extends ItemEntity {
 
     @Override
     public void update(float delta) {
-
+        stateTime += delta;
     }
 
     @Override
