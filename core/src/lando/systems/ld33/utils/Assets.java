@@ -166,7 +166,7 @@ public class Assets {
             atlas.findRegion("tube-mario-small").split(16, 32)[0]);
         tubeMarioSmallAnimation.setPlayMode(Animation.PlayMode.LOOP);
         tubeMarioEmbryoAnimation = new Animation(.15f,
-            atlas.findRegion("tube-mario-embryo").split(16, 32)[0]);
+            atlas.findRegion("tube-mario-embryo-spine").split(16, 32)[0]);
         tubeMarioEmbryoAnimation.setPlayMode(Animation.PlayMode.LOOP);
         tubeMarioLargeAnimation = new Animation(.15f,
             atlas.findRegion("tube-mario-large").split(16, 32)[0]);
