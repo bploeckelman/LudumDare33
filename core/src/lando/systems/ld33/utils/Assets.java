@@ -85,6 +85,10 @@ public class Assets {
     public static final float NIGHT_SKY_G = BLUE_SKY_G / 2;
     public static final float NIGHT_SKY_B = BLUE_SKY_B / 2;
 
+    public static final float UNDERGROUND_R = 32f / 255f;
+    public static final float UNDERGROUND_G = 104f / 255f;
+    public static final float UNDERGROUND_B = 120f / 255f;
+
     public static void load() {
         batch = new SpriteBatch();
         GameText.load();

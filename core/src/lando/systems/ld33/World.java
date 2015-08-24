@@ -45,10 +45,18 @@ public class World {
     public static final int   PIXELS_PER_TILE   = Config.width / SCREEN_TILES_WIDE;
 
     public enum Phase {
-        DAY_ONE, HEADING_HOME, MEET_THE_WIFE, LEAVING_HOME, BACK_TO_WORK, DEEP_FACTORY, INTO_THE_FACTORY, EMPTY_HOUSE,
-        CULT_ROOM,
+        DAY_ONE,
+        HEADING_HOME,
+        MEET_THE_WIFE,
+        LEAVING_HOME,
+        BACK_TO_WORK,
+        EMPTY_HOUSE,
         GET_MUSHROOM,
-        LEVEL2
+        OVERWORLD_FIRST,
+        UNDERWORLD,
+        INTO_THE_FACTORY,
+        DEEP_FACTORY,
+        CULT_ROOM
     }
 
     public ParticleManager            particles;
@@ -491,7 +499,7 @@ public class World {
                 messages.add(GameText.getText("cultEnter"));
                 dialogue.show(1, 10, 18, 4, messages);
                 break;
-            case LEVEL2:
+            case OVERWORLD_FIRST:
                 Gdx.gl.glClearColor(Assets.BLUE_SKY_R, Assets.BLUE_SKY_G, Assets.BLUE_SKY_B, 1f);
 
                 loadMap("maps/level2.tmx");
@@ -506,6 +514,32 @@ public class World {
                 player.setRageMode();
                 Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
                      .target(player.getBounds().x - 1f)
+                     .ease(Linear.INOUT)
+                     .setCallback(new TweenCallback() {
+                         @Override
+                         public void onEvent(int i, BaseTween<?> baseTween) {
+                             Array<String> messages = new Array<String>();
+                             messages.add(GameText.getText("level2Intro"));
+                             dialogue.show(1, 10, 18, 4, messages);
+                         }
+                     })
+                     .start(LudumDare33.tween);
+                break;
+            case UNDERWORLD:
+                Gdx.gl.glClearColor(Assets.UNDERGROUND_R, Assets.UNDERGROUND_G, Assets.UNDERGROUND_B, 1f);
+
+                loadMap("maps/level3.tmx");
+
+//                new MarioDumb(this, new Vector2(75f, 3f));
+//                new MarioDumb(this, new Vector2(47f, 3f));
+//                new MarioDumb(this, new Vector2(17f, 10f));
+//                new MarioDumb(this, new Vector2(3f, 3f));
+
+                player = new PlayerGoomba(this, new Vector2(97.5f, 7f));
+                player.moveDelay = EntityBase.PIPEDELAY;
+                player.setRageMode();
+                Tween.to(player.getBounds(), RectangleAccessor.Y, EntityBase.PIPEDELAY)
+                     .target(player.getBounds().y - 1f)
                      .ease(Linear.INOUT)
                      .setCallback(new TweenCallback() {
                          @Override
@@ -1109,7 +1143,7 @@ public class World {
                         break;
                 }
                 break;
-            case LEVEL2:
+            case OVERWORLD_FIRST:
                 switch (segment) {
                     case 0:
                         if (player.getBounds().x < 95.5f) {
@@ -1132,6 +1166,23 @@ public class World {
                         }
                 }
                 break;
+            case UNDERWORLD:
+                switch (segment) {
+                    case 0:
+                        if (player.getBounds().x < 5.5f && player.getBounds().y < 10.5f) {
+
+                            Tween.to(player.getBounds(), RectangleAccessor.X, EntityBase.PIPEDELAY)
+                                    .target(player.getBounds().x - 1f)
+                                    .ease(Linear.INOUT)
+                                    .setCallback(new TweenCallback() {
+                                        @Override
+                                        public void onEvent(int i, BaseTween<?> baseTween) {
+                                            World.this.fadeOut();
+                                        }
+                                    })
+                                    .start(LudumDare33.tween);
+                        }
+                }
         }
     }
 
