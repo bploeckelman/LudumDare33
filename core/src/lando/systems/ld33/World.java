@@ -599,9 +599,8 @@ public class World {
                      .start(LudumDare33.tween);
 
                 player = new PlayerGoomba(this, new Vector2(17.5f, 7f));
-                player.canRight = true;
-                player.canJump = true;
-                player.setNormalMode();
+                player.setRageMode();
+                player.canJump = false;
                 player.moveDelay = EntityBase.PIPEDELAY;
                 TweenHelper.tweenPipeTravel(player, RectangleAccessor.Y, player.getBounds().y - 1f)
                      .setCallback(new TweenCallback() {
@@ -1157,7 +1156,8 @@ public class World {
                         if (player.getBounds().x < 9){
                             segment++;
                             Array<String> messages = new Array<String>();
-                            messages.add(GameText.getText("noGoingBack"));
+                            messages.add(GameText.getText("noGoingBack1"));
+                            messages.add(GameText.getText("noGoingBack2"));
                             dialogue.show(1, 10, 18, 4, messages);
                         }
                         break;
@@ -1685,7 +1685,9 @@ public class World {
                         if (player.getBounds().x < 8){
                             segment++;
                             Array<String> messages = new Array<String>();
-                            messages.add(GameText.getText("atCastle"));
+                            messages.add(GameText.getText("atCastle1"));
+                            messages.add(GameText.getText("atCastle2"));
+                            messages.add(GameText.getText("atCastle3"));
                             dialogue.show(1, 10, 18, 4, messages);
                         }
                         break;

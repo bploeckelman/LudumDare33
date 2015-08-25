@@ -50,10 +50,13 @@ public class GameText {
         strings.put("gotMushroom2", strings.get("playerName") + ":\"I feel strange, but also good.\"");
         strings.put("gotMushroom3", strings.get("playerName") + ":\"The world seems so different. My feet feel so much stronger!\"");
         strings.put("gotMushroom4", strings.get("playerName") + ":\"I wonder if I can move to the right now? Maybe I can even jump!\"");
-        strings.put("noGoingBack", strings.get("playerName") + ":\"There is nothing left for me to go home to.  I want to use my new powers to explore, where does this other tube go?\"");
+        strings.put("noGoingBack1", strings.get("playerName") + ":\"There is nothing left for me to go home to.  Maybe I should use my new powers to explore.\"");
+        strings.put("noGoingBack2", strings.get("playerName") + ":\"I wonder where this other restricted tube goes?\"");
 
         //BridgeLevel
-        strings.put("atCastle", strings.get("playerName") + ": \"So this is the end of the road.");
+        strings.put("atCastle1", strings.get("playerName") + ": \"So this is the end of the road.");
+        strings.put("atCastle2", strings.get("playerName") + ": \"I wonder what's in this place.\"");
+        strings.put("atCastle3", strings.get("playerName") + ": \"Only one way to find out I suppose... Onward!\"");
 
         //Factory
         strings.put("intoFactory", strings.get("playerName") + ":\"What... what is this place?\"");
@@ -85,7 +88,7 @@ public class GameText {
 
         strings.put("cultReflection1", strings.get("playerName") + ": Is this what I've been waiting for my whole life?");
         strings.put("cultReflection2", strings.get("playerName") + ": It could be just the thing to provide a sense of meaning... of purpose...");
-        strings.put("cultReflection3", strings.get("playerName") + ": Finally... a place to belong! A group of friends!   A family!");
+        strings.put("cultReflection3", strings.get("playerName") + ": Finally... a place to belong! A group of friends!     A family!");
         strings.put("cultReflection4", strings.get("playerName") + ":\"... ... ...\"");
         strings.put("cultReflection5", strings.get("playerName") + ":\"I'll do it!\"");
         strings.put("cultReflection6", strings.get("playerName") + ":\"Hand over that cloak, let's do this thing!\"");
