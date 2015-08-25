@@ -1495,7 +1495,7 @@ public class World {
                             final TweenCallback fullCurtainCompleteTC = new TweenCallback() {
                                 @Override
                                 public void onEvent(int i, BaseTween<?> baseTween) {
-//                                endCurtainAnimationComplete = true;
+                                endCurtainAnimationComplete = true;
                                 }
                             };
                             TweenCallback fullCurtainTC = new TweenCallback() {
@@ -1601,7 +1601,7 @@ public class World {
                             segment++;
                             Array<String> messages = new Array<String>();
                             messages.add(GameText.getText("gameOver"));
-                            dialogue.show(1, 10, 18, 4, messages, false, 100, false);
+                            dialogue.show(8, 7, 4, 3, messages, false, 100, false);
                         }
                         break;
                 }
