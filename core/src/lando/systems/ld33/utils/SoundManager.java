@@ -104,12 +104,12 @@ public class SoundManager{
     // -----------------------------------------------------------------------------------------------------------------
 
     public void playSound(SoundOptions soundOption) {
-        Gdx.app.log("DEBUG", "SoundManager.playSound | soundOption='" + String.valueOf(soundOption) + "'");
+        //Gdx.app.log("DEBUG", "SoundManager.playSound | soundOption='" + String.valueOf(soundOption) + "'");
         soundMap.get(soundOption).play();
     }
 
     public void playSound3D(SoundOptions soundOption, Vector2 pos){
-        Gdx.app.log("DEBUG", "SoundManager.playSound3d | soundOption='" + String.valueOf(soundOption) + "'");
+        //Gdx.app.log("DEBUG", "SoundManager.playSound3d | soundOption='" + String.valueOf(soundOption) + "'");
         float maxSoundDist = 20;
         float v = MathUtils.clamp(1 - (pos.len()/maxSoundDist), 0, 1);
         float pitch = 1;
@@ -130,7 +130,7 @@ public class SoundManager{
 
     public void playMusic(MusicOptions musicOption) {
 
-        Gdx.app.log("DEBUG", "SoundManager.playMusic | musicOption='" + String.valueOf(musicOption) + "'");
+//        Gdx.app.log("DEBUG", "SoundManager.playMusic | musicOption='" + String.valueOf(musicOption) + "'");
 
         currentOption = musicOption;
         // Kill any currently play loop
@@ -193,7 +193,7 @@ public class SoundManager{
                 break;
 
             default:
-                Gdx.app.log("ERROR", "SoundManager.playMusic | Unrecognized music option.");
+//                Gdx.app.log("ERROR", "SoundManager.playMusic | Unrecognized music option.");
 
         }
     }

@@ -1,6 +1,7 @@
 package lando.systems.ld33.utils;
 
 import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.equations.Linear;
 import lando.systems.ld33.entities.EntityBase;
 
 /**
@@ -21,7 +22,8 @@ public class TweenHelper {
     public static Tween tweenPipeTravel(EntityBase entity, int rectangleAccessor, float target) {
         Assets.soundManager.playSound(SoundManager.SoundOptions.PIPE_TRAVEL);
         return Tween.to(entity.getBounds(), rectangleAccessor, EntityBase.PIPEDELAY)
-                .target(target);
+                .target(target)
+                .ease(Linear.INOUT);
     }
 
 }

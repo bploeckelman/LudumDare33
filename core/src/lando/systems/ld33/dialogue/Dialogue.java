@@ -262,9 +262,9 @@ public class Dialogue extends InputAdapter {
                 wrapIndex = givenLine.lastIndexOf(SPACE, wrapIndex);
                 // Catch the unexpected.
                 if (wrapIndex <= 2) {
-                    Gdx.app.log("ERROR",
-                            "Wrapping has gone horribly horribly wrong.  GivenLine='" +
-                                    givenLine + "' and text area width='" + String.valueOf(this.fontDrawWidth) + "'");
+//                    Gdx.app.log("ERROR",
+//                            "Wrapping has gone horribly horribly wrong.  GivenLine='" +
+//                                    givenLine + "' and text area width='" + String.valueOf(this.fontDrawWidth) + "'");
                     Gdx.app.exit();
                 }
                 wrappedString = givenLine.substring(0, wrapIndex);
